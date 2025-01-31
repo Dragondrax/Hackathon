@@ -9,16 +9,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-InjecaoDeDependencia.RegistrarServicos(builder.Services);
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+//InjecaoDeDependencia.RegistrarServicos(builder.Services);
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Hackathon - Pos Tech - Grupo 12" });
+    //c.AddSecurityDefinition();
+});
+
+// Adiciona os serviços de Health Checks
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.DefaultModelsExpandDepth(-1); // Disable swagger schemas at bottom
+});
+
+// Configura o endpoint para Health Check
+app.MapHealthChecks("api/health");
 
 app.UseHttpsRedirection();
 

@@ -6,7 +6,7 @@ namespace MedicalHealth.Fiap.Data.Context
     {
         public MedicalHealthContext(DbContextOptions<MedicalHealthContext> options) : base(options) { }
 
-        public DbSet<> NomeEntidade { get; set;}
+        //public DbSet<> NomeEntidade { get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MedicalHealthContext).Assembly);
