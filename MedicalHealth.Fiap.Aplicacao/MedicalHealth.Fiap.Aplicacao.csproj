@@ -8,10 +8,6 @@
 
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="Medico\" />
-    <Folder Include="Agenda\" />
-    <Folder Include="Usuario\" />
-    <Folder Include="Paciente\" />
     <Folder Include="ResponseModel\" />
     <Folder Include="RequestModel\" />
   </ItemGroup>
