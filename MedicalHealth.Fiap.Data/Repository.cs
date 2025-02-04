@@ -14,36 +14,6 @@ namespace MedicalHealth.Fiap.Data
             Db = db;
             DbSet = db.Set<T>();
         }
-        public async Task AdicionarAsync(T entidade)
-        {
-            DbSet.Add(entidade);
-            await SalvarAsync();
-        }
-
-        public async Task AdicionarRangeAsync(IEnumerable<T> entities)
-        {
-            DbSet.AddRange(entities);
-            await SalvarAsync();
-        }
-
-        public async Task AtualizarAsync(T entidade)
-        {
-            DbSet.Update(entidade);
-            await SalvarAsync();
-        }
-
-        public async Task AtualizarRangeAsync(IEnumerable<T> entidade)
-        {
-            DbSet.UpdateRange(entidade);
-            await SalvarAsync();
-        }
-
-        public async Task DeletarAsync(T entidade)
-        {
-            DbSet.Remove(entidade);
-            await SalvarAsync();
-        }
-
         public async Task<T> ObterPorIdAsync(Guid id)
         {
             return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Excluido == false);
@@ -52,18 +22,6 @@ namespace MedicalHealth.Fiap.Data
         public async Task<IEnumerable<T>> ObterTodosAsync()
         {
             return await DbSet.Where(x => x.Excluido == false).ToListAsync();
-        }
-
-        public async Task<bool> SalvarAsync()
-        {
-            var success = await Db.SaveChangesAsync() > 0;
-
-            if (success)
-            {
-                await Db.SaveChangesAsync();
-            }
-
-            return success;
         }
     }
 }

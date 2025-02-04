@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MedicalHealth.Fiap.Function.Persistencia.Usuario": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7230",
+      "launchBrowser": false
+    }
+  }
+}

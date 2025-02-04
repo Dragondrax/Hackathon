@@ -12,7 +12,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         public bool PrimeiroAcesso { get; private set; }
         public bool UsuarioBloqueado {  get; private set; }
         public int TentativasDeLogin { get; private set; }
-        private Usuario()
+        public Usuario()
         {
             
         }

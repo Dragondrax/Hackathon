@@ -14,7 +14,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             Aceite = aceite;
         }
 
-        private Consulta()
+        public Consulta()
         {
             
         }

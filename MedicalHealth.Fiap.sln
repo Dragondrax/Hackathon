@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.API", "MedicalHealth.Fiap.API\MedicalHealth.Fiap.API.csproj", "{9FE5B9AF-6BEB-4E88-8A74-E1629905B552}"
 EndProject
@@ -28,6 +28,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.IoC", "MedicalHealth.Fiap.IoC\MedicalHealth.Fiap.IoC.csproj", "{115816F4-0822-43DB-B349-232ED4C4C4D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Testes.Unitarios", "MedicalHealth.Fiap.Testes.Unitarios\MedicalHealth.Fiap.Testes.Unitarios.csproj", "{62408B2C-1BCD-49D1-907E-6C844FE30AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Usuario", "MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj", "{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Data.Persistencia", "MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj", "{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,14 @@ Global
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +92,7 @@ Global
 		{73C51A61-29C4-4FB8-8E83-C92A39DE6689} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{115816F4-0822-43DB-B349-232ED4C4C4D5} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9} = {AEBA43F1-92BD-4375-A9B8-A4445E2B3B86}
+		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 	EndGlobalSection
 EndGlobal

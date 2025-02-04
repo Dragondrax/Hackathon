@@ -8,7 +8,7 @@
         public string Email { get; private set; }
         public List<AgendaMedico> AgendaMedico { get; set; }
 
-        private Medico()
+        public Medico()
         {
             
         }

@@ -20,7 +20,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         public Consulta Consulta { get; private set; }
         public Guid? ConsultaId { get; private set; }
 
-        private AgendaMedico()
+        public AgendaMedico()
         {
             
         }
