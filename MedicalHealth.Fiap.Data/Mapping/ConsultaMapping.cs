@@ -18,6 +18,11 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.DataAtualizacaoRegistro).HasColumnType("TIMESTAMP");
             builder.Property(x => x.DataExclusao).HasColumnType("TIMESTAMP");
             builder.Property(x => x.Excluido).HasColumnType("BOOL");
+
+            builder.HasOne(a => a.AgendaMedico)
+                .WithOne(a => a.Consulta)
+                .HasForeignKey<Consulta>(a => a.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

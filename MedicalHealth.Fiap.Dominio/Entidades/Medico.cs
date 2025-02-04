@@ -6,6 +6,7 @@
         public string CPF { get; private set; }
         public string CRM { get; private set; }
         public string Email { get; private set; }
+        public List<AgendaMedico> AgendaMedico { get; set; }
 
         public Medico(string nome, string cpf, string crm, string email)
         {

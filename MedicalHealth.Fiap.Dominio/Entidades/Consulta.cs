@@ -6,10 +6,12 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
     {
         public double Valor { get; private set; }
         public bool? Aceite { get; private set; }
+        public AgendaMedico? AgendaMedico { get; private set; }
 
-        public Consulta(double valor)
+        public Consulta(double valor, bool? aceite)
         {
             Valor = valor;
+            Aceite = aceite;
         }
 
         public string AtualizarValor(double valor)
