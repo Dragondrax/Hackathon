@@ -5,6 +5,10 @@
         public Guid UsuarioDestinatarioId { get; private set; }
         public string Mensagem { get; private set; }
 
+        private Notificacao()
+        {
+            
+        }
         public Notificacao(Guid usuarioDestinatarioId, string mensagem)
         {
             UsuarioDestinatarioId = usuarioDestinatarioId;

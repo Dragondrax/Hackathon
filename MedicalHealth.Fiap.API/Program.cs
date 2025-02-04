@@ -1,4 +1,6 @@
+using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.IoC;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,13 @@ builder.Services.AddSwaggerGen();
 
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-//InjecaoDeDependencia.RegistrarServicos(builder.Services);
+InjecaoDeDependencia.RegistrarServicos(builder.Services);
+
+builder.Services.AddDbContext<MedicalHealthContext>(options =>
+{
+    var conexao = builder.Configuration.GetConnectionString("conexao");
+    options.UseNpgsql(conexao, x => x.MigrationsAssembly("MedicalHealth.Fiap.Data")).UseLowerCaseNamingConvention();
+});
 
 builder.Services.AddSwaggerGen(c =>
 {

@@ -14,6 +14,11 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             Aceite = aceite;
         }
 
+        private Consulta()
+        {
+            
+        }
+
         public string AtualizarValor(double valor)
         {
             if (Aceite == true)
