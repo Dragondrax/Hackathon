@@ -1,6 +1,6 @@
 ﻿namespace MedicalHealth.Fiap.SharedKernel.MensagensErro
 {
-    public static class MensagemErroMedico
+    public static class MensagemAgenda
     {
     }
 }
