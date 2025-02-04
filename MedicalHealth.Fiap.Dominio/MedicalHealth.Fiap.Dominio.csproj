@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MedicalHealth.Fiap.Infraestrutura\MedicalHealth.Fiap.Infraestrutura.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj" />
   </ItemGroup>

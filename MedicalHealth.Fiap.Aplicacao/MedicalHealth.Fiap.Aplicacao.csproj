@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
-    <Folder Include="ResponseModel\" />
-    <Folder Include="RequestModel\" />
+    <Compile Remove="DTO\**" />
+    <Compile Remove="RequestModel\**" />
+    <Compile Remove="ResponseModel\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <EmbeddedResource Remove="RequestModel\**" />
+    <EmbeddedResource Remove="ResponseModel\**" />
+    <None Remove="DTO\**" />
+    <None Remove="RequestModel\**" />
+    <None Remove="ResponseModel\**" />
   </ItemGroup>
 
   <ItemGroup>

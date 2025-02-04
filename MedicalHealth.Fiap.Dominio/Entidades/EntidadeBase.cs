@@ -17,7 +17,7 @@ namespace MedicalHealth.Fiap.Dominio
             DataRegistro = DateTime.Now;
         }
 
-        public void Excluir()
+        public void Desativar()
         {
             Excluido = true;
             DataExclusao = DateTime.Now;
