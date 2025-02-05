@@ -1,9 +1,5 @@
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository;
-using MedicalHealth.Fiap.Dominio.Entidades;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;

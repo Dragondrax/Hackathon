@@ -5,7 +5,6 @@ using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Newtonsoft.Json;
-using System.Runtime.InteropServices;
 
 namespace MedicalHealth.Fiap.Aplicacao.Agenda
 {
