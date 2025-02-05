@@ -12,6 +12,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Role).HasColumnType("SMALLINT").IsRequired();
+            builder.Property(x => x.Email).HasColumnType("VARCHAR(250)").IsRequired();
             builder.Property(x => x.Senha).HasColumnType("VARCHAR(500)").IsRequired();
             builder.Property(x => x.PrimeiroAcesso).HasColumnType("BOOL").IsRequired();
             builder.Property(x => x.UsuarioBloqueado).HasColumnType("BOOL").IsRequired();
