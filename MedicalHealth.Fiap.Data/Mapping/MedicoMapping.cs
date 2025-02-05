@@ -1,4 +1,5 @@
 ﻿using MedicalHealth.Fiap.Dominio.Entidades;
+using MedicalHealth.Fiap.Dominio.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.CPF).HasColumnType("VARCHAR(12)").IsRequired();
             builder.Property(x => x.CRM).HasColumnType("VARCHAR(14)").IsRequired();
             builder.Property(x => x.Email).HasColumnType("VARCHAR(250)").IsRequired();
+            builder.Property(x => x.SnAtivo).HasColumnType("BOOL").IsRequired();
 
             builder.Property(x => x.DataRegistro).HasColumnType("TIMESTAMP").IsRequired();
             builder.Property(x => x.DataAtualizacaoRegistro).HasColumnType("TIMESTAMP");

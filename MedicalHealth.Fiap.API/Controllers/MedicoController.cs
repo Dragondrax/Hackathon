@@ -1,11 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MedicalHealth.Fiap.Dominio.Enum;
+using MedicalHealth.Fiap.Dominio.Interfaces;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicoController : ControllerBase
+    public class MedicoController(IMedicoService medicoService) : ControllerBase
     {
+        private readonly IMedicoService _medicoService = medicoService;
+
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovoMedico([FromQuery] string novoMedico)
         {
@@ -18,16 +24,30 @@ namespace MedicalHealth.Fiap.API.Controllers
         }
 
         [HttpGet("BuscarPorCRM")]
-        public async Task<IActionResult> BuscarMedicoPorCRM([FromQuery] string crm)
+        public async Task<IActionResult> BuscarMedicoPorCRM([FromQuery] BuscarCRMDTO crmDTO)
         {
-            if (string.IsNullOrEmpty(crm))
-            {
-                return BadRequest("CRM é obrigatório.");
-            }
+            var resultado = await _medicoService.BuscarMedicoPorCRM(crmDTO);
 
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
+        }
 
+        [HttpGet("BuscarPorEspecialidade")]
+        public async Task<IActionResult> BuscarMedicoPorEspecialidade([FromQuery] EspecialidadeMedica especialidade)
+        {
+            var resultado = await _medicoService.BuscarMedicosPorEspecialidade(especialidade);
 
-            return Ok();
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
+
         }
     }
 }
