@@ -16,4 +16,13 @@
     <Folder Include="HTML_Email\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

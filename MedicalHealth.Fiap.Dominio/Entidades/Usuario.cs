@@ -8,6 +8,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
     {
         public UsuarioRoleEnum Role { get; private set; }
         public Guid GrupoUsuarioId { get; private set; }
+        public string Email {  get; private set; }
         public string Senha {  get; private set; }
         public bool PrimeiroAcesso { get; private set; }
         public bool UsuarioBloqueado {  get; private set; }
@@ -16,10 +17,11 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-        public Usuario(UsuarioRoleEnum role, Guid id, string senha)
+        public Usuario(UsuarioRoleEnum role, Guid id, string email, string senha)
         {
             Role = role;
             GrupoUsuarioId = id;
+            Email = email;
             Senha = GerarSenha.Aleatoria();
             PrimeiroAcesso = true;
         }
