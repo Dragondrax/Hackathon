@@ -14,7 +14,10 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.Data).HasColumnType("DATE").IsRequired();
             builder.Property(x => x.HorarioInicio).HasColumnType("TIME").IsRequired();
             builder.Property(x => x.HorarioFim).HasColumnType("TIME").IsRequired();
-            builder.Property(x => x.Disponivel).HasColumnType("BOOL").IsRequired(); ;
+            builder.Property(x => x.Disponivel).HasColumnType("BOOL").IsRequired();
+            builder.Property(x => x.MedicoId).HasColumnType("uuid").IsRequired();
+            builder.Property(x => x.PacienteId).HasColumnType("uuid");
+            builder.Property(x => x.ConsultaId).HasColumnType("uuid");
 
             builder.Property(x => x.DataRegistro).HasColumnType("TIMESTAMP").IsRequired();
             builder.Property(x => x.DataAtualizacaoRegistro).HasColumnType("TIMESTAMP");
