@@ -5,6 +5,7 @@ namespace MedicalHealth.Fiap.Data.Repository
 {
     public interface IAgendaMedicoRepository : IRepository<Dominio.Entidades.AgendaMedico>
     {
-        Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoEData(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId);
+        Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoDataHora(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId);
+        Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoData(DateTime data, Guid medicoId);
     }
 }

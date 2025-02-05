@@ -54,14 +54,13 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             AtualizarDataAtualizacao();
         }
 
-        public string AtualizarAgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, int intervalo, bool disponivel)
+        public string AtualizarAgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, bool disponivel)
         {
-            if (PacienteId != null) return MensagemAgenda.MENSAGEM_HORARIO_COM_PACIENTE;
+            if (PacienteId != null && Disponivel) return MensagemAgenda.MENSAGEM_HORARIO_COM_PACIENTE;
 
             Data = data;
             HorarioInicio = horarioInicio;
             HorarioFim = horarioFim;
-            Intervalo = intervalo;
             Disponivel = disponivel;
 
             AtualizarDataAtualizacao();

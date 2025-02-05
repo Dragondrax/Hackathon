@@ -25,7 +25,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.Excluido).HasColumnType("BOOL");
 
             builder.HasOne(a => a.Medico)
-                .WithMany()
+                .WithMany(a => a.AgendaMedico)
                 .HasForeignKey(a => a.MedicoId)
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -11,7 +11,14 @@ namespace MedicalHealth.Fiap.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoEData(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId)
+        public async Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoData(DateTime data, Guid medicoId)
+        {
+            return await Db.AgendaMedico.Where(x => x.Data == data &&
+                                                          x.MedicoId == medicoId &&
+                                                          x.Excluido == false).ToListAsync();
+        }
+
+        public async Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoDataHora(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId)
         {
             return await Db.AgendaMedico.Where(x => x.Data == data &&
                                                           x.HorarioInicio >= horarioInicial &&

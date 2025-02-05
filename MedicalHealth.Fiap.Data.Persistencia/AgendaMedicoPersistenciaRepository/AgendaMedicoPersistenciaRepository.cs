@@ -14,7 +14,23 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             _unitOfWork = unitOfWork;
             _context = context;
         }
-        public async Task<bool> PersistirDadosAgendaMedico(List<AgendaMedico> agendaMedico)
+
+        public async Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendaMedico)
+        {
+            await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                _context.AgendaMedico.UpdateRange(agendaMedico);
+                await _unitOfWork.CommitTransactionAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendaMedico)
         {
             await _unitOfWork.BeginTransactionAsync();
             try
@@ -25,7 +41,6 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollbackTransactionAsync();
                 return false;
             }
         }

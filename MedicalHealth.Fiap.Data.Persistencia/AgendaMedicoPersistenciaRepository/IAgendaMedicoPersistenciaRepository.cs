@@ -4,6 +4,7 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
 {
     public interface IAgendaMedicoPersistenciaRepository
     {
-        Task<bool> PersistirDadosAgendaMedico(List<AgendaMedico> agendaMedico);
+        Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendaMedico);
+        Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendaMedico);
     }
 }

@@ -15,7 +15,7 @@ namespace MedicalHealth.Fiap.API.Controllers
             _agendaService = agendaService;
         }
         [HttpPost("Criar")]
-        public async Task<IActionResult> SalvarNovaAgenda([FromBody] NovaAgendaMedicoRequestModel novaAgenda)
+        public async Task<IActionResult> SalvarNovaAgendaMedico([FromBody] NovaAgendaMedicoRequestModel novaAgenda)
         {
             if (!ModelState.IsValid)
             {
@@ -26,7 +26,45 @@ namespace MedicalHealth.Fiap.API.Controllers
 
             if (resultado.Sucesso)
                 return Ok(resultado);
-            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        [HttpPut("Atualizar")]
+        public async Task<IActionResult> AtualizarAgendaMedico([FromBody] ListaAtualizacoesRequestModel atualizarAgenda)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _agendaService.AtualizarAgendaMedico(atualizarAgenda);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        [HttpDelete("Remover")]
+        public async Task<IActionResult> RemoverAgendaMedico([FromBody] RemoverAgendaMedicoRequestModel removerAgenda)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _agendaService.ApagarAgendaMedico(removerAgenda);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == true && resultado.Mensagem.Any() && resultado.Mensagem.Count() > 1)
+                return Ok(resultado.Mensagem);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
                 return BadRequest(resultado.Mensagem);
             else
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
