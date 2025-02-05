@@ -1,4 +1,4 @@
-﻿namespace MedicalHealth.Fiap.Data.Data
+﻿namespace MedicalHealth.Fiap.Data.Persistencia
 {
     public interface IUnitOfwork : IDisposable
     {

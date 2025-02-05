@@ -1,8 +1,7 @@
-﻿
-using MedicalHealth.Fiap.Data.Context;
+﻿using MedicalHealth.Fiap.Data.Context;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace MedicalHealth.Fiap.Data.Data
+namespace MedicalHealth.Fiap.Data.Persistencia
 {
     public class UnitOfWork : IUnitOfwork
     {

@@ -1,4 +1,5 @@
 ﻿using MedicalHealth.Fiap.Data.Data;
+using MedicalHealth.Fiap.Data.Persistencia;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
