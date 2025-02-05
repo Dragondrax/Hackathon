@@ -7,9 +7,11 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
     public class PersistenciaUsuarioRepository : IPersistenciaUsuarioRepository
     {
         private readonly IUnitOfwork _unitOfWork;
-        public PersistenciaUsuarioRepository(IUnitOfwork unitOfWork)
+        private readonly MedicalHealthContext _context;
+        public PersistenciaUsuarioRepository(IUnitOfwork unitOfWork, MedicalHealthContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         public async Task PersistirDadosUsuario(Usuario usuario)
@@ -18,7 +20,7 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                Db.Update(usuario);
+                _context.Usuario.Update(usuario);
                 await _unitOfWork.BeginTransactionAsync();
             }
             catch (Exception ex) 

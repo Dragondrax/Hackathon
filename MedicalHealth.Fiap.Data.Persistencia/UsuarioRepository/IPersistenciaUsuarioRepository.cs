@@ -4,6 +4,6 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
 {
     public interface IPersistenciaUsuarioRepository
     {
-        Task CriarUsuario(Usuario usuario);
+        Task PersistirDadosUsuario(Usuario usuario);
     }
 }
