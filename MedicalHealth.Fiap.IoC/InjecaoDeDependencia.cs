@@ -12,6 +12,7 @@ using MedicalHealth.Fiap.Data.Repository.Medico;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using MedicalHealth.Fiap.Data;
 
 namespace MedicalHealth.Fiap.IoC
 {

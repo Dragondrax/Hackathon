@@ -1,6 +1,6 @@
 ﻿using MedicalHealth.Fiap.Infraestrutura.DTO;
 
-namespace MedicalHealth.Fiap.Dominio
+namespace MedicalHealth.Fiap.Aplicacao
 {
     public interface ITokenService
     {

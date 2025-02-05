@@ -1,4 +1,4 @@
-﻿using MedicalHealth.Fiap.Dominio;
+﻿using MedicalHealth.Fiap.Aplicacao;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using Microsoft.AspNetCore.Authorization;

@@ -17,7 +17,7 @@ namespace MedicalHealth.Fiap.Data.Repository.Usuario
             return await Db.Usuario.FirstOrDefaultAsync(x => x.Email == email && x.Excluido == false);
         }
 
-        public async Task<Medico?> ObterMedicoPorCRMAsync(string crm)
+        public async Task<Dominio.Entidades.Medico> ObterMedicoPorCRMAsync(string crm)
         {
             return await Db.Medico.FirstOrDefaultAsync(x => x.CRM == crm && x.Excluido == false);
         }
