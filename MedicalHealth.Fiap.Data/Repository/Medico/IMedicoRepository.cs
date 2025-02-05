@@ -1,4 +1,4 @@
-﻿using MedicalHealth.Fiap.SharedKernel.Data;
+﻿using MedicalHealth.Fiap.Data.Data;
 
 namespace MedicalHealth.Fiap.Dominio.Interfaces
 {

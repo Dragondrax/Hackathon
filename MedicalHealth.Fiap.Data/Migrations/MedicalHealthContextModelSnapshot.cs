@@ -176,10 +176,6 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("VARCHAR(500)")
                         .HasColumnName("nome");
 
-                    b.Property<bool>("SnAtivo")
-                        .HasColumnType("BOOL")
-                        .HasColumnName("snativo");
-
                     b.HasKey("Id")
                         .HasName("pk_medico");
 

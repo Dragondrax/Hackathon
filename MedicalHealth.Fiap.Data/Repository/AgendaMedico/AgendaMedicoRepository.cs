@@ -1,8 +1,7 @@
 ﻿using MedicalHealth.Fiap.Data.Context;
-using MedicalHealth.Fiap.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedicalHealth.Fiap.Data.Repository
+namespace MedicalHealth.Fiap.Data.Repository.AgendaMedico
 {
     public class AgendaMedicoRepository : Repository<Dominio.Entidades.AgendaMedico>, IAgendaMedicoRepository
     {
@@ -11,14 +10,14 @@ namespace MedicalHealth.Fiap.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoData(DateTime data, Guid medicoId)
+        public async Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaMedicoPorIdMedicoData(DateTime data, Guid medicoId)
         {
             return await Db.AgendaMedico.Where(x => x.Data == data &&
                                                           x.MedicoId == medicoId &&
                                                           x.Excluido == false).ToListAsync();
         }
 
-        public async Task<IEnumerable<AgendaMedico>> ObterAgendaMedicoPorIdMedicoDataHora(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId)
+        public async Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaMedicoPorIdMedicoDataHora(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId)
         {
             return await Db.AgendaMedico.Where(x => x.Data == data &&
                                                           x.HorarioInicio >= horarioInicial &&

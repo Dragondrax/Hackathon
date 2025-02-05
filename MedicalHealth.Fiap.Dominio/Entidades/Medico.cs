@@ -1,6 +1,4 @@
-﻿using MedicalHealth.Fiap.SharedKernel.Data;
-
-namespace MedicalHealth.Fiap.Dominio.Entidades
+﻿namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class Medico : EntidadeBase
     {

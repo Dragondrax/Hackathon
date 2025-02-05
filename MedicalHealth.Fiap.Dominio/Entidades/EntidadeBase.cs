@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MedicalHealth.Fiap.Dominio
 {
-    public class EntidadeBase : Entity
+    public class EntidadeBase
     {
         [Key]
         [JsonProperty("Id")]
