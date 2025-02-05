@@ -2,7 +2,7 @@
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Model;
 
-namespace MedicalHealth.Fiap.Dominio.Interfaces
+namespace MedicalHealth.Fiap.Aplicacao
 {
     public interface IMedicoService
     {

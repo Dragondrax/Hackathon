@@ -1,5 +1,4 @@
-﻿using MedicalHealth.Fiap.Dominio.Entidades;
-using MedicalHealth.Fiap.Dominio.Enum;
+﻿using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;

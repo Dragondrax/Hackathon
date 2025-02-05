@@ -1,36 +1,42 @@
 ﻿using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class AgendaMedico : EntidadeBase
     {
+        [JsonProperty("Data")]
         public DateTime Data { get; private set; }
+        [JsonProperty("HorarioInicio")]
         public TimeOnly HorarioInicio { get; private set; }
+        [JsonProperty("HorarioFim")]
         public TimeOnly HorarioFim { get; private set; }
 
         [NotMappedAttribute]
         public int Intervalo { get; private set; }
-
+        [JsonProperty("Disponivel")]
         public bool Disponivel { get; private set; }
         public Medico Medico { get; private set; }
         public Paciente Paciente { get; private set; }
+        [JsonProperty("MedicoId")]
         public Guid MedicoId { get; private set; }
+        [JsonProperty("PacienteId")]
         public Guid? PacienteId { get; private set; }
         public Consulta Consulta { get; private set; }
+        [JsonProperty("ConsultaId")]
         public Guid? ConsultaId { get; private set; }
 
         public AgendaMedico()
         {
             
         }
-        public AgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, int intervalo, bool disponivel, Guid medicoId)
+        public AgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, Guid medicoId)
         {
             Data = data;
             HorarioInicio = horarioInicio;
             HorarioFim = horarioFim;
-            Intervalo = intervalo;
-            Disponivel = disponivel;
+            Disponivel = true;
             MedicoId = medicoId;
         }
 
@@ -48,14 +54,13 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             AtualizarDataAtualizacao();
         }
 
-        public string AtualizarAgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, int intervalo, bool disponivel)
+        public string AtualizarAgendaMedico(DateTime data, TimeOnly horarioInicio, TimeOnly horarioFim, bool disponivel)
         {
-            if (PacienteId != null) return MensagemAgenda.MENSAGEM_HORARIO_COM_PACIENTE;
+            if (PacienteId != null && Disponivel) return MensagemAgenda.MENSAGEM_HORARIO_COM_PACIENTE;
 
             Data = data;
             HorarioInicio = horarioInicio;
             HorarioFim = horarioFim;
-            Intervalo = intervalo;
             Disponivel = disponivel;
 
             AtualizarDataAtualizacao();

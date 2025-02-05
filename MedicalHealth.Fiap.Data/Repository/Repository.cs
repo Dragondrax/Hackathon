@@ -19,6 +19,11 @@ namespace MedicalHealth.Fiap.Data.Repository
             return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Excluido == false);
         }
 
+        public async Task<IEnumerable<T>> ObterPorListaIdAsync(List<Guid> id)
+        {
+            return await DbSet.Where(x => id.Contains(x.Id) && x.Excluido == false).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> ObterTodosAsync()
         {
             return await DbSet.Where(x => x.Excluido == false).ToListAsync();

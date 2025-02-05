@@ -1,5 +1,5 @@
-﻿using MedicalHealth.Fiap.Dominio.Enum;
-using MedicalHealth.Fiap.Dominio.Interfaces;
+﻿using MedicalHealth.Fiap.Aplicacao;
+using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using Microsoft.AspNetCore.Mvc;

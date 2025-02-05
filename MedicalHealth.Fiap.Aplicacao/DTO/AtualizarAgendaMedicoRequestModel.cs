@@ -3,9 +3,14 @@ using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
 namespace MedicalHealth.Fiap.Aplicacao.DTO
 {
-    public class NovaAgendaMedicoRequestModel
+    public class ListaAtualizacoesRequestModel
     {
-        public List<DateTime> Data { get; set; }
+        public List<AtualizarAgendaMedicoRequestModel> DataHorariosParaAtualizar {  get; set; }
+    }
+    public class AtualizarAgendaMedicoRequestModel
+    {
+        public Guid Id { get; set; }
+        public DateTime Data { get; set; }
         public TimeOnly HorarioInicio { get; set; }
         public TimeOnly HorarioFim { get; set; }
         public int Intervalo { get; set; }
@@ -13,12 +18,18 @@ namespace MedicalHealth.Fiap.Aplicacao.DTO
         public Guid MedicoId { get; set; }
     }
 
-    public class NovaAgendaMedicoRequestModelValidator : AbstractValidator<NovaAgendaMedicoRequestModel>
+    public class AtualizarAgendaMedicoRequestModelValidator : AbstractValidator<AtualizarAgendaMedicoRequestModel>
     {
-        public NovaAgendaMedicoRequestModelValidator()
+        public AtualizarAgendaMedicoRequestModelValidator()
         {
+            RuleFor(x => x.Id)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(MensagemAgenda.MENSAGEM_ID_NAO_PODE_SER_NULO_OU_VAZIO);
+
             RuleFor(x => x.Data)
                 .NotNull()
+                .NotEmpty()
                 .WithMessage(MensagemAgenda.MENSAGEM_DATA_NAO_PODE_SER_NULO_OU_VAZIO);
 
             RuleFor(x => x.HorarioInicio)
