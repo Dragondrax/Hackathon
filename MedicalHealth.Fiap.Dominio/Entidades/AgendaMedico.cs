@@ -40,8 +40,9 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             MedicoId = medicoId;
         }
 
-        public void AtualizarHorarioIndisponivel(Guid pacienteId)
+        public void AtualizarHorarioIndisponivel(Guid pacienteId, Guid consultaId)
         {
+            ConsultaId = consultaId;
             PacienteId = pacienteId;
             Disponivel = false;
             AtualizarDataAtualizacao();

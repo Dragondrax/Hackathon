@@ -19,6 +19,19 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             _repository = repository;
             _enviarMensagemServiceBus = enviarMensagemServiceBus;
         }
+        public async Task<bool> AtualizarAgendaIndisponivel(Guid agendaMedicoId, Guid pacienteId, Guid consultaId)
+        {
+            var dataHorarioAgenda = await _repository.ObterPorIdAsync(agendaMedicoId);
+
+            dataHorarioAgenda.AtualizarHorarioIndisponivel(pacienteId, consultaId);
+
+            var dataHorarioList = new List<AgendaMedico>();
+            dataHorarioList.Add(dataHorarioAgenda);
+
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(dataHorarioList));
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return true;
+        }
         public async Task<ResponseModel> SalvarNovaAgendaParaOMedico(NovaAgendaMedicoRequestModel novaAgendaMedico)
         {
             var validacao = new NovaAgendaMedicoRequestModelValidator().Validate(novaAgendaMedico);
