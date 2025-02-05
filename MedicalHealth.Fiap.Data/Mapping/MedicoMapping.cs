@@ -17,6 +17,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.CRM).HasColumnType("VARCHAR(14)").IsRequired();
             builder.Property(x => x.Email).HasColumnType("VARCHAR(250)").IsRequired();
             builder.Property(x => x.SnAtivo).HasColumnType("BOOL").IsRequired();
+            builder.Property(x => x.ValorConsulta).HasColumnType("DECIMAL").IsRequired();
 
             builder.Property(x => x.DataRegistro).HasColumnType("TIMESTAMP").IsRequired();
             builder.Property(x => x.DataAtualizacaoRegistro).HasColumnType("TIMESTAMP");

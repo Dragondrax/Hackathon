@@ -6,6 +6,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
     {
         public double Valor { get; private set; }
         public bool? Aceite { get; private set; }
+        public string? Justificativa { get; private set; }
         public AgendaMedico? AgendaMedico { get; private set; }
 
         public Consulta(double valor, bool? aceite)
@@ -18,7 +19,10 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-
+        public void InformarJustificativa(string justificativa)
+        {
+            Justificativa = justificativa;
+        }
         public string AtualizarValor(double valor)
         {
             if (Aceite == true)
