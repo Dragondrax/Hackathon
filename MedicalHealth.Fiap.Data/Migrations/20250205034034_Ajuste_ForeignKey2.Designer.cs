@@ -3,6 +3,7 @@ using System;
 using MedicalHealth.Fiap.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MedicalHealth.Fiap.Data.Migrations
 {
     [DbContext(typeof(MedicalHealthContext))]
-    partial class MedicalHealthContextModelSnapshot : ModelSnapshot
+    [Migration("20250205034034_Ajuste_ForeignKey2")]
+    partial class Ajuste_ForeignKey2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,11 +285,6 @@ namespace MedicalHealth.Fiap.Data.Migrations
                     b.Property<DateTime>("DataRegistro")
                         .HasColumnType("TIMESTAMP")
                         .HasColumnName("dataregistro");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(250)")
-                        .HasColumnName("email");
 
                     b.Property<bool>("Excluido")
                         .HasColumnType("BOOL")
