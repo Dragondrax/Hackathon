@@ -7,15 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTO\**" />
     <Compile Remove="RequestModel\**" />
     <Compile Remove="ResponseModel\**" />
-    <EmbeddedResource Remove="DTO\**" />
     <EmbeddedResource Remove="RequestModel\**" />
     <EmbeddedResource Remove="ResponseModel\**" />
-    <None Remove="DTO\**" />
     <None Remove="RequestModel\**" />
     <None Remove="ResponseModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
   </ItemGroup>
 
   <ItemGroup>
