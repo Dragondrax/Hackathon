@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MedicalHealth.Fiap.Infraestrutura.Enum;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
@@ -7,6 +8,8 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
     {
         public string Email { get; set; }
         public string Senha { get; set; }
+        public Roles TipoUsuario { get; set; }
+        public string CRM { get; set; }
     }
 
     public class AutenticarUsuarioDTOValidator : AbstractValidator<AutenticarUsuarioDTO>
@@ -15,7 +18,7 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage(MensagemUsuario .MENSAGEM_EMAIL_NAO_PODE_SER_VAZIO)
+                .WithMessage(MensagemUsuario.MENSAGEM_EMAIL_NAO_PODE_SER_VAZIO)
                 .NotNull()
                 .WithMessage(MensagemUsuario.MENSAGEM_EMAIL_NAO_PODE_SER_VAZIO)
                 .EmailAddress()
