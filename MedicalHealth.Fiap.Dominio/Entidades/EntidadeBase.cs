@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MedicalHealth.Fiap.SharedKernel.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicalHealth.Fiap.Dominio
 {
-    public class EntidadeBase
+    public class EntidadeBase : Entity
     {
         [Key]
         public Guid Id { get; private set; }
