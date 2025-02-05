@@ -16,4 +16,12 @@
     <Folder Include="HTML_Email\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

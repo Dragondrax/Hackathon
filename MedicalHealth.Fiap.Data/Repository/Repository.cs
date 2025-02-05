@@ -3,7 +3,7 @@ using MedicalHealth.Fiap.Data.Data;
 using MedicalHealth.Fiap.Dominio;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedicalHealth.Fiap.Data
+namespace MedicalHealth.Fiap.Data.Repository
 {
     public abstract class Repository<T> : IRepository<T> where T : EntidadeBase, new()
     {
@@ -22,6 +22,34 @@ namespace MedicalHealth.Fiap.Data
         public async Task<IEnumerable<T>> ObterTodosAsync()
         {
             return await DbSet.Where(x => x.Excluido == false).ToListAsync();
+        }
+
+        public async Task AdicionarAsync(T entidade)
+        {
+            DbSet.Add(entidade);
+            await SalvarAsync();
+        }
+
+        public async Task AtualizarAsync(T entidade)
+        {
+            DbSet.Update(entidade);
+            await SalvarAsync();
+        }
+
+        public async void Dispose()
+        {
+            Db?.Dispose();
+        }
+
+        public async Task RemoverAsync(T entidade)
+        {
+            DbSet.Update(entidade);
+            await SalvarAsync();
+        }
+
+        public async Task<bool> SalvarAsync()
+        {
+            return await Db.CommitAsync();
         }
     }
 }
