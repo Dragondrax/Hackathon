@@ -20,5 +20,17 @@ namespace MedicalHealth.Fiap.Data.Repository.Medico
         {
             return await Db.Medico.Where(x => x.EspecialidadeMedica == especialidade && x.Excluido == false && x.SnAtivo == true).ToListAsync();
         }
+
+        public async Task<Double> ObterValorDaConsulta(Guid medicoId)
+        {
+            Dominio.Entidades.Medico medico = await Db.Medico.FirstOrDefaultAsync(x => x.Id == medicoId);
+
+            if(medico == null)
+            {
+                return 0;
+            }
+
+            return medico.ValorConsulta;
+        }
     }
 }

@@ -54,5 +54,18 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
 
         }
+
+        [HttpPost("AceiteConsultaMedica")]
+        public async Task<IActionResult> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
+        {
+            var resultado = await _medicoService.AceiteConsultaMedica(aceiteConsultaMedica);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
+        }
     }
 }

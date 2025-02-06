@@ -1,6 +1,9 @@
-﻿using MedicalHealth.Fiap.Aplicacao.DTO;
-using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
+﻿using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Dominio.Entidades;
+using MedicalHealth.Fiap.Dominio.Interfaces;
+using MedicalHealth.Fiap.Infraestrutura;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
@@ -13,11 +16,13 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
         private List<string> _mensagem = [];
         private readonly IAgendaMedicoRepository _repository;
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus;
+        private readonly IMedicoRepository _medicoRepository;
         private int QUANTIDADE_LIMITE_DE_DIAS_FUTUROS_QUE_PODE_SER_CRIADO_UMA_AGENDA = 30;
-        public AgendaMedicoService(IAgendaMedicoRepository repository, IEnviarMensagemServiceBus enviarMensagemServiceBus)
+        public AgendaMedicoService(IAgendaMedicoRepository repository, IEnviarMensagemServiceBus enviarMensagemServiceBus, IMedicoRepository medicoRepository)
         {
             _repository = repository;
             _enviarMensagemServiceBus = enviarMensagemServiceBus;
+            _medicoRepository = medicoRepository;
         }
         public async Task<bool> AtualizarAgendaIndisponivel(Guid agendaMedicoId, Guid pacienteId, Guid consultaId)
         {
@@ -28,7 +33,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             var dataHorarioList = new List<AgendaMedico>();
             dataHorarioList.Add(dataHorarioAgenda);
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(dataHorarioList));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(dataHorarioList));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return true;
         }
@@ -77,7 +82,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                 }
             }
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.criar", JsonConvert.SerializeObject(listaHorariosParaCriarAgendaMedico));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_CRIAR, JsonConvert.SerializeObject(listaHorariosParaCriarAgendaMedico));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
         }
@@ -97,7 +102,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                 agendasMedicosExcluidas.Add(agendaMedico);
             }
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(agendasMedicosExcluidas));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(agendasMedicosExcluidas));
 
             if (_mensagem.Count > 0)
             {
@@ -158,13 +163,89 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
 
             if (agendasParaAtualizar.Any())
             {
-                await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(agendasParaAtualizar));
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(agendasParaAtualizar));
                 _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
                 return new ResponseModel(_mensagem, true, agendasParaAtualizar);
             }
 
             return new ResponseModel(_mensagem, false, null);
 
+        }
+
+        public async Task<ResponseModel> BuscarAgendaPorMedico(string medicoId)
+        {
+            if (!Guid.TryParse(medicoId, out Guid guidValido) || guidValido == Guid.Empty)
+            {
+                _mensagem.Add(MensagemAgenda.MENSAGEM_ID_NAO_PODE_SER_NULO_OU_VAZIO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            IEnumerable<Dominio.Entidades.AgendaMedico> agendaMedico = await  _repository.ObterAgendaPorMedico(guidValido);
+
+            if (agendaMedico == null || !agendaMedico.Any())
+            {
+                _mensagem.Add(MensagemAgenda.MENSAGEM_MEDICO_SEM_AGENDA_DISPONIVEL);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            Double valorConsulta = await _medicoRepository.ObterValorDaConsulta(guidValido);
+
+            if(valorConsulta <= 0)
+            {
+                _mensagem.Add(MensagemAgenda.MENSAGEM_AGENDA_SEM_VALOR_DE_CONSULTA_DEFINIDO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var objeto = new
+            {
+                agendaMedico,
+                valorConsulta
+            };
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, objeto);
+        }
+
+        public async Task<ResponseModel> SalvarConsulta(ConsultaSalvarDTO consultaDTO, Guid pacienteId)
+        {
+            var validacao = new ConsultaSalvarDTOValidator().Validate(consultaDTO);
+
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            Consulta consulta = new(consultaDTO.Valor, null);
+
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.consulta.criar", JsonConvert.SerializeObject(consulta));
+
+            bool sucesso = await AtualizarAgendaIndisponivel(consultaDTO.AgendaMedicoId, pacienteId, consulta.Id);
+
+            if(sucesso)
+            {
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_ERRO_500);
+            return new ResponseModel(_mensagem, false, null);
+        }
+
+        public async Task<ResponseModel> AtualizarJustificativaConsulta(ConsultaAtualizarDTO consultaAtualizarDTO)
+        {
+            var validacao = new ConsultaAtualizarDTOValidator().Validate(consultaAtualizarDTO);
+
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.consulta.atualizar", JsonConvert.SerializeObject(consultaAtualizarDTO));
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, null);
         }
 
         private bool ValidaSeNaoExisteConflitoNaAtualizacaoSolicitadaPeloMedico(ListaAtualizacoesRequestModel listaAgendaMedica)
@@ -206,5 +287,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
 
             return listaHorarios;
         }
+
+
     }
 }

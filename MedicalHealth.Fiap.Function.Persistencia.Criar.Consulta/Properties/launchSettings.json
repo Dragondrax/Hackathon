@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7143",
+      "launchBrowser": false
+    }
+  }
+}
