@@ -13,6 +13,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
 
             builder.Property(x => x.Valor).HasColumnType("DECIMAL").IsRequired();
             builder.Property(x => x.Aceite).HasColumnType("BOOL");
+            builder.Property(x => x.Cancelada).HasColumnType("BOOL");
             builder.Property(x => x.Justificativa).HasColumnType("VARCHAR(500)");
 
             builder.Property(x => x.DataRegistro).HasColumnType("TIMESTAMP").IsRequired();
