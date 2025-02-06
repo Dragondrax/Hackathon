@@ -15,5 +15,13 @@
         public static string MENSAGEM_AGENDA_NAO_EXISTENTE = "Ops, não conseguimos encontrar uma agenda ativa para você!";
         public static string MENSAGEM_DIA_HORARIO_JA_OCUPADOS_NAO_PODEM_SER_EXCLUIDOS = "Ops, parece que o dia e horario selecionado já possui paciente e não pode ser excluido.";
         public static string MENSAGEM_SUCESSO_PARCIAL_EXCLUSAO_HORARIOS = "Os dias que não possuem pacientes agendados foram excluidos com sucesso!";
+        public static string MENSAGEM_MEDICO_SEM_AGENDA_DISPONIVEL = "Ops, o médico não possue agenda disponível";
+        public static string MENSAGEM_AGENDA_SEM_VALOR_DE_CONSULTA_DEFINIDO = "Ops, o médico não possui valor para consulta, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_VALOR_NAO_PODE_SER_VAZIO = "Ops, valor não pode ser vazio, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_VALOR_NAO_PODE_SER_NULO = "Ops, valor não pode ser nulo, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_AGENDA_NAO_PODE_SER_VAZIA = "Ops, agenda não pode ser vazia, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_AGENDA_NAO_PODE_SER_NULA = "Ops, agenda não pode ser nula, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_CONSULTA_NAO_PODE_SER_VAZIA = "Ops, consulta não pode ser vazia, entrar em contato pelo email medicaHealt@medical.com.br";
+        public static string MENSAGEM_CONSULTA_NAO_PODE_SER_NULA = "Ops, consulta não pode ser nula, entrar em contato pelo email medicaHealt@medical.com.br";
     }
 }

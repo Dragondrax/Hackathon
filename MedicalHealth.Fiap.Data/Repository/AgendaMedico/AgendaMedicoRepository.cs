@@ -25,5 +25,12 @@ namespace MedicalHealth.Fiap.Data.Repository.AgendaMedico
                                                           x.MedicoId == medicoId &&
                                                           x.Excluido == false).ToListAsync();
         }
+
+        public async Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaPorMedico(Guid medicoId)
+        {
+            return await Db.AgendaMedico.Where(x => x.MedicoId == medicoId &&
+                                                    x.Disponivel == true &&
+                                                    x.Excluido == false).ToListAsync();
+        }
     }
 }

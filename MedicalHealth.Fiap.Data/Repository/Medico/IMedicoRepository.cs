@@ -6,5 +6,6 @@ namespace MedicalHealth.Fiap.Dominio.Interfaces
     {
         Task<Dominio.Entidades.Medico> ObterPorCRMAsync(string crm);
         Task<List<Dominio.Entidades.Medico>> ObterPorEspecialidade(Dominio.Enum.EspecialidadeMedica especialidade);
+        Task<Double> ObterValorDaConsulta(Guid medicoId);
     }
 }

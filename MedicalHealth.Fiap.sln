@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.API", "MedicalHealth.Fiap.API\MedicalHealth.Fiap.API.csproj", "{9FE5B9AF-6BEB-4E88-8A74-E1629905B552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.API", "MedicalHealth.Fiap.API\MedicalHealth.Fiap.API.csproj", "{9FE5B9AF-6BEB-4E88-8A74-E1629905B552}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{BABFDA02-462E-405C-BAF6-8C2ACFBAB70E}"
 EndProject
@@ -15,27 +15,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{52
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{AEBA43F1-92BD-4375-A9B8-A4445E2B3B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.SharedKernel", "MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj", "{5A6B41AB-9F60-4B4B-A51D-68E4887F221E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.SharedKernel", "MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj", "{5A6B41AB-9F60-4B4B-A51D-68E4887F221E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Aplicacao", "MedicalHealth.Fiap.Aplicacao\MedicalHealth.Fiap.Aplicacao.csproj", "{A9768D34-DFBF-469B-BFA4-D9952A0A0E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Aplicacao", "MedicalHealth.Fiap.Aplicacao\MedicalHealth.Fiap.Aplicacao.csproj", "{A9768D34-DFBF-469B-BFA4-D9952A0A0E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Data", "MedicalHealth.Fiap.Data\MedicalHealth.Fiap.Data.csproj", "{B26F9F8E-2F0F-47CD-A728-03836D74E0A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Data", "MedicalHealth.Fiap.Data\MedicalHealth.Fiap.Data.csproj", "{B26F9F8E-2F0F-47CD-A728-03836D74E0A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Dominio", "MedicalHealth.Fiap.Dominio\MedicalHealth.Fiap.Dominio.csproj", "{4455706B-5C10-41C1-9AEA-918394BEAB24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Dominio", "MedicalHealth.Fiap.Dominio\MedicalHealth.Fiap.Dominio.csproj", "{4455706B-5C10-41C1-9AEA-918394BEAB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Infraestrutura", "MedicalHealth.Fiap.Infraestrutura\MedicalHealth.Fiap.Infraestrutura.csproj", "{73C51A61-29C4-4FB8-8E83-C92A39DE6689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Infraestrutura", "MedicalHealth.Fiap.Infraestrutura\MedicalHealth.Fiap.Infraestrutura.csproj", "{73C51A61-29C4-4FB8-8E83-C92A39DE6689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.IoC", "MedicalHealth.Fiap.IoC\MedicalHealth.Fiap.IoC.csproj", "{115816F4-0822-43DB-B349-232ED4C4C4D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.IoC", "MedicalHealth.Fiap.IoC\MedicalHealth.Fiap.IoC.csproj", "{115816F4-0822-43DB-B349-232ED4C4C4D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Testes.Unitarios", "MedicalHealth.Fiap.Testes.Unitarios\MedicalHealth.Fiap.Testes.Unitarios.csproj", "{62408B2C-1BCD-49D1-907E-6C844FE30AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Testes.Unitarios", "MedicalHealth.Fiap.Testes.Unitarios\MedicalHealth.Fiap.Testes.Unitarios.csproj", "{62408B2C-1BCD-49D1-907E-6C844FE30AC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Usuario", "MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj", "{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Usuario", "MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj", "{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Data.Persistencia", "MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj", "{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Data.Persistencia", "MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj", "{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico.csproj", "{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico.csproj", "{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico.csproj", "{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico.csproj", "{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta.csproj", "{E717B925-372D-4E34-92C5-8EF1FF03751E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta.csproj", "{B64BABE1-9930-405B-A09E-F613A074B1B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,14 @@ Global
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E717B925-372D-4E34-92C5-8EF1FF03751E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E717B925-372D-4E34-92C5-8EF1FF03751E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E717B925-372D-4E34-92C5-8EF1FF03751E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E717B925-372D-4E34-92C5-8EF1FF03751E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64BABE1-9930-405B-A09E-F613A074B1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64BABE1-9930-405B-A09E-F613A074B1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64BABE1-9930-405B-A09E-F613A074B1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64BABE1-9930-405B-A09E-F613A074B1B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,5 +120,10 @@ Global
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{E717B925-372D-4E34-92C5-8EF1FF03751E} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{B64BABE1-9930-405B-A09E-F613A074B1B6} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8AC7EFF-6300-4B80-88A4-AB16588BA48B}
 	EndGlobalSection
 EndGlobal

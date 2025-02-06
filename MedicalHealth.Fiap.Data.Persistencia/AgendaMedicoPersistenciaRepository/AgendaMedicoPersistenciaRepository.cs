@@ -1,6 +1,8 @@
 ﻿using MedicalHealth.Fiap.Data.CacheService;
 using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Dominio.Entidades;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository
 {
@@ -38,6 +40,7 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
                 return false;
             }
         }
@@ -59,6 +62,50 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
+                return false;
+            }
+        }
+
+        public async Task<bool> PersistirCriacaoConsulta(Consulta consulta)
+        {
+            await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                _context.Consulta.Add(consulta);
+                await _unitOfWork.CommitTransactionAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                return false;
+            }
+        }
+
+        public async Task<bool> PersistirAtualizacaoConsulta(ConsultaAtualizarDTO consultaDTO)
+        {
+            await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                Consulta consulta = await _context.Consulta.FirstOrDefaultAsync(x => x.Id == consultaDTO.ConsultaId);
+
+                if (consulta == null)
+                {
+                    await _unitOfWork.RollbackTransactionAsync();
+                    return false;
+                }
+
+                consulta.InformarJustificativa(consultaDTO.Justificativa);
+
+                _context.Update(consulta);
+                await _context.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
                 return false;
             }
         }
