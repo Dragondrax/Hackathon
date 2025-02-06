@@ -1,12 +1,14 @@
 ﻿using MedicalHealth.Fiap.Aplicacao.Agenda;
 using MedicalHealth.Fiap.Aplicacao.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous] //Mudar para Authorize
     public class AgendaController : ControllerBase
     {
         private readonly IAgendaMedicoService _agendaService;
@@ -14,6 +16,8 @@ namespace MedicalHealth.Fiap.API.Controllers
         {
             _agendaService = agendaService;
         }
+
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovaAgendaMedico([FromBody] NovaAgendaMedicoRequestModel novaAgenda)
         {
@@ -32,6 +36,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
+        //[Authorize(Roles = "Administrador,Medico")]
         [HttpPut("Atualizar")]
         public async Task<IActionResult> AtualizarAgendaMedico([FromBody] ListaAtualizacoesRequestModel atualizarAgenda)
         {
@@ -50,6 +55,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
+        //[Authorize(Roles = "Administrador,Medico")]
         [HttpDelete("Remover")]
         public async Task<IActionResult> RemoverAgendaMedico([FromBody] RemoverAgendaMedicoRequestModel removerAgenda)
         {
@@ -70,6 +76,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorData")]
         public async Task<IActionResult> BuscarAgendaData([FromQuery] string data)
         {

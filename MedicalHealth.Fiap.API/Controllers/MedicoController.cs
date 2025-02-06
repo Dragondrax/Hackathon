@@ -2,16 +2,19 @@
 using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous] //Mudar para Authorize
     public class MedicoController(IMedicoService medicoService) : ControllerBase
     {
         private readonly IMedicoService _medicoService = medicoService;
 
+        //[Authorize(Roles = "Administrador,Medico")]
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovoMedico([FromQuery] string novoMedico)
         {
@@ -23,6 +26,7 @@ namespace MedicalHealth.Fiap.API.Controllers
             return Ok();
         }
 
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorCRM")]
         public async Task<IActionResult> BuscarMedicoPorCRM([FromQuery] BuscarCRMDTO crmDTO)
         {
@@ -36,6 +40,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
         }
 
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorEspecialidade")]
         public async Task<IActionResult> BuscarMedicoPorEspecialidade([FromQuery] EspecialidadeMedica especialidade)
         {

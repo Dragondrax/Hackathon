@@ -6,6 +6,7 @@ namespace MedicalHealth.Fiap.Aplicacao
     public interface IUsuarioService
     {
         Task<ResponseModel> AutenticarUsuario(AutenticarUsuarioDTO usuarioDTO);
+        Task<ResponseModel> SalvarNovoUsuario(CriarAlteraUsuarioDTO usuarioDTO);
         Task<string> GerarHashSenhaUsuario(string senha);
     }
 }

@@ -1,16 +1,21 @@
 ﻿using MedicalHealth.Fiap.Data;
+using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.Infraestrutura.Enum;
+using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
+using MedicalHealth.Fiap.SharedKernel.Utils;
+using Newtonsoft.Json;
 using static BCrypt.Net.BCrypt;
 
 namespace MedicalHealth.Fiap.Aplicacao.Usuario
 {
-    public class UsuarioService(IUsuarioRepository usuarioRepository, ITokenService tokenService) : IUsuarioService
+    public class UsuarioService(IUsuarioRepository usuarioRepository, ITokenService tokenService, IEnviarMensagemServiceBus enviarMensagemServiceBus) : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
         private readonly ITokenService _tokenService = tokenService;
+        private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus = enviarMensagemServiceBus;
         private List<string> _mensagem = new List<string>();
 
         public async Task<ResponseModel> AutenticarUsuario(AutenticarUsuarioDTO usuarioDTO)
@@ -76,6 +81,24 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
         public Task<string> GerarHashSenhaUsuario(string senha)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ResponseModel> SalvarNovoUsuario(CriarAlteraUsuarioDTO usuarioDTO)
+        {
+            var validacao = new CriarAlteraUsuarioDTOValidator().Validate(usuarioDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var guidId = new Guid();
+
+            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, guidId, usuarioDTO.Email);
+
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_CRIAR_USUARIO, JsonConvert.SerializeObject(novoUsuario));
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, null);
         }
     }
 }

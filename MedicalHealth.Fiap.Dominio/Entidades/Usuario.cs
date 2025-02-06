@@ -17,7 +17,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-        public Usuario(UsuarioRoleEnum role, Guid id, string email, string senha)
+        public Usuario(UsuarioRoleEnum role, Guid id, string email)
         {
             Role = role;
             GrupoUsuarioId = id;

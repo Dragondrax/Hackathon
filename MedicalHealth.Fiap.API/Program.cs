@@ -1,4 +1,5 @@
 using MedicalHealth.Fiap.Data.Context;
+using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllButCredentials", builder =>
+    {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
@@ -31,9 +43,19 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
+        ValidIssuer = "API",
+        ValidAudience = "Hackathon",
     };
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("MedicoPolicy", policy => policy.RequireRole("Medico"));
+    options.AddPolicy("PacientePolicy", policy => policy.RequireRole("Paciente"));
+    options.AddPolicy("AdministradorPolicy", policy => policy.RequireRole("Administrador"));
+});
+
+
 
 InjecaoDeDependencia.RegistrarServicos(builder.Services);
 
@@ -46,7 +68,7 @@ builder.Services.AddDbContext<MedicalHealthContext>(options =>
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Hackathon - Pos Tech - Grupo 12" });
-    c.AddSecurityDefinition("", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Description = "JWT Authorization Header - Digite Bearer [espaço] e então seu token.",
         Name = "Authorization",
@@ -68,7 +90,7 @@ builder.Services.AddSwaggerGen(c =>
             },
             Array.Empty<string>()
         }
-    }); 
+    });
 });
 
 // Adiciona os serviços de Health Checks
