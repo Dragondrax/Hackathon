@@ -1,18 +1,19 @@
-﻿using MedicalHealth.Fiap.Aplicacao.Token;
-using MedicalHealth.Fiap.Aplicacao.Usuario;
-using MedicalHealth.Fiap.Data.Context;
-using MedicalHealth.Fiap.Aplicacao;
+﻿using MedicalHealth.Fiap.Aplicacao;
 using MedicalHealth.Fiap.Aplicacao.Agenda;
 using MedicalHealth.Fiap.Aplicacao.Medico;
+using MedicalHealth.Fiap.Aplicacao.Token;
+using MedicalHealth.Fiap.Aplicacao.Usuario;
+using MedicalHealth.Fiap.Data;
+using MedicalHealth.Fiap.Data.CacheService;
+using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Data.Persistencia;
-using MedicalHealth.Fiap.Data.Repository.Usuario;
-using MedicalHealth.Fiap.Dominio;
 using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Data.Repository.Medico;
+using MedicalHealth.Fiap.Data.Repository.Usuario;
 using MedicalHealth.Fiap.Dominio.Interfaces;
+using MedicalHealth.Fiap.SharedKernel.AzureRedis;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Extensions.DependencyInjection;
-using MedicalHealth.Fiap.Data;
 
 namespace MedicalHealth.Fiap.IoC
 {
@@ -32,6 +33,8 @@ namespace MedicalHealth.Fiap.IoC
             services.AddScoped<IUsuarioRepository, UsuarioRepositoy>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IConfiguracaoRedis, ConfiguracaoRedis>();
+            services.AddScoped<ICacheService, CacheService>();
         }
     }
 }

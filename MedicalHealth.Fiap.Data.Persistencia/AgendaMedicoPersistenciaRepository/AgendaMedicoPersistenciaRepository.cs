@@ -1,6 +1,6 @@
-﻿using MedicalHealth.Fiap.Data.Context;
+﻿using MedicalHealth.Fiap.Data.CacheService;
+using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Dominio.Entidades;
-using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository
 {
@@ -8,20 +8,29 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
     {
         private readonly IUnitOfwork _unitOfWork;
         private readonly MedicalHealthContext _context;
+        private readonly ICacheService _cacheService;
         public AgendaMedicoPersistenciaRepository(IUnitOfwork unitOfWork,
-                                                  MedicalHealthContext context)
+                                                  MedicalHealthContext context,
+                                                  ICacheService cacheService)
         {
             _unitOfWork = unitOfWork;
             _context = context;
+            _cacheService = cacheService;
         }
 
-        public async Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendaMedico)
+        public async Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendasMedico)
         {
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                _context.AgendaMedico.UpdateRange(agendaMedico);
+                _context.AgendaMedico.UpdateRange(agendasMedico);
                 await _unitOfWork.CommitTransactionAsync();
+
+                foreach(var agendaMedico in agendasMedico)
+                {
+                    await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -30,13 +39,19 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             }
         }
 
-        public async Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendaMedico)
+        public async Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendasMedico)
         {
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                _context.AgendaMedico.AddRange(agendaMedico);
+                _context.AgendaMedico.AddRange(agendasMedico);
                 await _unitOfWork.CommitTransactionAsync();
+
+                foreach (var agendaMedico in agendasMedico)
+                {
+                    await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
+                }
+
                 return true;
             }
             catch (Exception ex)
