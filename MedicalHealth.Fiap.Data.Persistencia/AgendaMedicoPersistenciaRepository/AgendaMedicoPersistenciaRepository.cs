@@ -28,7 +28,10 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
 
                 foreach(var agendaMedico in agendasMedico)
                 {
-                    await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
+                    if (!agendaMedico.Excluido)
+                        await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
+                    else
+                        await _cacheService.RemoveAsync($"agenda:{agendaMedico.Id}");
                 }
 
                 return true;
