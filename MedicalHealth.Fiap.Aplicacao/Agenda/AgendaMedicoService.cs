@@ -1,6 +1,6 @@
-﻿using MedicalHealth.Fiap.Aplicacao.DTO;
-using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
+﻿using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Dominio.Entidades;
+using MedicalHealth.Fiap.Infraestrutura;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;

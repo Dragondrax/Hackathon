@@ -1,5 +1,5 @@
 ﻿using MedicalHealth.Fiap.Aplicacao.Agenda;
-using MedicalHealth.Fiap.Aplicacao.DTO;
+using MedicalHealth.Fiap.Infraestrutura;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using Microsoft.AspNetCore.Mvc;
 

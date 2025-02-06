@@ -11,6 +11,11 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
         private readonly IMedicoRepository _medicoRepository = medicoRepository;
         private List<string> _mensagem = [];
 
+        public Task<ResponseModel> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ResponseModel> BuscarMedicoPorCRM(BuscarCRMDTO crmDTO)
         {
             var validacao = new BuscarCRMDTOValidator().Validate(crmDTO);
