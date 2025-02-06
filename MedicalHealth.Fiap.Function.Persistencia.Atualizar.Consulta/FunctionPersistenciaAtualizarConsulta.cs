@@ -1,12 +1,10 @@
-using System;
-using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
-using MedicalHealth.Fiap.SharedKernel.Utils;
-using Newtonsoft.Json;
 using MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.SharedKernel.Utils;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta
 {

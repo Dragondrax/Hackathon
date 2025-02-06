@@ -1,14 +1,13 @@
 ﻿using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Dominio.Entidades;
 using MedicalHealth.Fiap.Dominio.Interfaces;
-using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.Infraestrutura;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Newtonsoft.Json;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MedicalHealth.Fiap.Aplicacao.Agenda
 {
