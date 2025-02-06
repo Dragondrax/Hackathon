@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MedicalHealth.Fiap.SharedKernel.Mensagens;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
@@ -17,15 +18,15 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
         {
             RuleFor(x => x.ConsultaId)
                 .NotEmpty()
-                .WithMessage(MensagemAgenda.MENSAGEM_CONSULTA_NAO_PODE_SER_VAZIA)
+                .WithMessage(MensagemConsulta.MENSAGEM_CONSULTA_NAO_PODE_SER_VAZIA)
                 .NotNull()
-                .WithMessage(MensagemAgenda.MENSAGEM_CONSULTA_NAO_PODE_SER_NULA);
+                .WithMessage(MensagemConsulta.MENSAGEM_CONSULTA_NAO_PODE_SER_NULA);
 
             RuleFor(x => x.Justificativa)
                .NotEmpty()
-               .WithMessage(MensagemAgenda.MENSAGEM_AGENDA_NAO_PODE_SER_VAZIA)
+               .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_VAZIO)
                .NotNull()
-               .WithMessage(MensagemAgenda.MENSAGEM_AGENDA_NAO_PODE_SER_NULA);
+               .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_NULO);
 
         }
     }

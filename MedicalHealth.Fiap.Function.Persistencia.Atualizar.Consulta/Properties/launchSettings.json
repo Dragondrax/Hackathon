@@ -2,7 +2,7 @@
   "profiles": {
     "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7135",
+      "commandLineArgs": "--port 7244",
       "launchBrowser": false
     }
   }
