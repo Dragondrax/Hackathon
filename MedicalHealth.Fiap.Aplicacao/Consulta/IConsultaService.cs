@@ -7,5 +7,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Consulta
     {
         Task<ResponseModel> SalvarConsulta(ConsultaSalvarDTO consultaDTO, Guid pacienteId);
         Task<ResponseModel> AtualizarJustificativaConsulta(ConsultaAtualizarDTO consultaAtualizarDTO);
+        Task<ResponseModel> ObterConsultasPorMedico(Guid medicoId);
+        Task<ResponseModel> ObterConsultasPorPaciente(Guid pacienteId);
     }
 }

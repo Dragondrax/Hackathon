@@ -29,7 +29,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
         {
             var dataHorarioAgenda = await _repository.ObterPorIdAsync(agendaMedicoId);
 
-            dataHorarioAgenda.AtualizarHorarioIndisponivel(pacienteId, consultaId);
+            dataHorarioAgenda.AtualizarHorarioIndisponivel();
 
             var dataHorarioList = new List<AgendaMedico>();
             dataHorarioList.Add(dataHorarioAgenda);
@@ -163,15 +163,13 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                     continue;
                 }
 
-                var resultadoAtualizacao = agendaParaAtualizar.AtualizarAgendaMedico(
+                agendaParaAtualizar.AtualizarAgendaMedico(
                                                 agendaMedica.Data,
                                                 agendaMedica.HorarioInicio,
                                                 agendaMedica.HorarioFim,
                                                 true);
-                if (resultadoAtualizacao == MensagemGenerica.MENSAGEM_SUCESSO)
-                    agendasParaAtualizar.Add(agendaParaAtualizar);
-                else
-                    _mensagem.Add($"Falha ao atualizar a agenda {agendaMedica.Id}: {resultadoAtualizacao}");
+
+                agendasParaAtualizar.Add(agendaParaAtualizar);
             }
 
             if (agendasParaAtualizar.Any())
@@ -222,8 +220,6 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                     HorarioFim = agendaMedico.HorarioFim,
                     Disponivel = agendaMedico.Disponivel,
                     MedicoId = agendaMedico.MedicoId,
-                    PacienteId = agendaMedico.PacienteId,
-                    ConsultaId = agendaMedico.ConsultaId,
                     ValorConsulta = valorConsulta
                 });
             }
