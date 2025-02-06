@@ -16,8 +16,6 @@ namespace MedicalHealth.Fiap.Data.Mapping
             builder.Property(x => x.HorarioFim).HasColumnType("TIME").IsRequired();
             builder.Property(x => x.Disponivel).HasColumnType("BOOL").IsRequired();
             builder.Property(x => x.MedicoId).HasColumnType("uuid").IsRequired();
-            builder.Property(x => x.PacienteId).HasColumnType("uuid");
-            builder.Property(x => x.ConsultaId).HasColumnType("uuid");
 
             builder.Property(x => x.DataRegistro).HasColumnType("TIMESTAMP").IsRequired();
             builder.Property(x => x.DataAtualizacaoRegistro).HasColumnType("TIMESTAMP");
@@ -28,17 +26,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
                 .WithMany(a => a.AgendaMedico)
                 .HasForeignKey(a => a.MedicoId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(a => a.Paciente)
-                .WithMany()
-                .HasForeignKey(a => a.PacienteId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(a => a.Consulta)
-                .WithOne(a => a.AgendaMedico)
-                .HasForeignKey<AgendaMedico>(a => a.ConsultaId)
-                .OnDelete(DeleteBehavior.Cascade);
-                
+               
         }
     }
 }

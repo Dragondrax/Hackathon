@@ -6,7 +6,6 @@ using MedicalHealth.Fiap.SharedKernel.Mensagens;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace MedicalHealth.Fiap.Aplicacao.Consulta
@@ -35,7 +34,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Consulta
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var consulta = new Dominio.Entidades.Consulta(consultaDTO.Valor);
+            var consulta = new Dominio.Entidades.Consulta(consultaDTO.Valor, consultaDTO.MedicoId, pacienteId);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.consulta.criar", JsonConvert.SerializeObject(consulta));
 
@@ -74,6 +73,34 @@ namespace MedicalHealth.Fiap.Aplicacao.Consulta
             }
 
             _mensagem.Add(MensagemConsulta.MENSAGEM_NENHUMA_CONSULTA_ENCONTRADA);
+            return new ResponseModel(_mensagem, true, null);
+        }
+
+        public async Task<ResponseModel> ObterConsultasPorMedico(Guid medicoId)
+        {
+            var consulta = await _consultaRepository.ObterConsultaPorMedicoId(medicoId);
+
+            if(consulta is null || (consulta is not null && !consulta.Any()))
+            {
+                _mensagem.Add(MensagemGenerica.MENSAGEM_REGISTRO_NAO_ENCONTRADO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, null);
+        }
+
+        public async Task<ResponseModel> ObterConsultasPorPaciente(Guid pacienteId)
+        {
+            var consulta = await _consultaRepository.ObterConsultaPorPacienteId(pacienteId);
+
+            if (consulta is null || (consulta is not null && !consulta.Any()))
+            {
+                _mensagem.Add(MensagemGenerica.MENSAGEM_REGISTRO_NAO_ENCONTRADO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
         }
     }
