@@ -1,5 +1,6 @@
 ﻿using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
+
 namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class Consulta : EntidadeBase

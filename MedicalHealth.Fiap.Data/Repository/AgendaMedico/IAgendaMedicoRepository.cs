@@ -7,5 +7,6 @@ namespace MedicalHealth.Fiap.Data.Repository.AgendaMedico
     {
         Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaMedicoPorIdMedicoDataHora(DateTime data, TimeOnly horarioInicial, TimeOnly horarioFinal, Guid medicoId);
         Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaMedicoPorIdMedicoData(DateTime data, Guid medicoId);
+        Task<IEnumerable<Dominio.Entidades.AgendaMedico>> ObterAgendaPorMedico(Guid medicoId);
     }
 }
