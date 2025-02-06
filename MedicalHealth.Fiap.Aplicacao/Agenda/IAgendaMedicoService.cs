@@ -1,5 +1,5 @@
 ﻿using MedicalHealth.Fiap.Aplicacao.DTO;
-using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.Infraestrutura;
 using MedicalHealth.Fiap.SharedKernel.Model;
 
 namespace MedicalHealth.Fiap.Aplicacao.Agenda

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
-namespace MedicalHealth.Fiap.Aplicacao.DTO
+namespace MedicalHealth.Fiap.Infraestrutura
 {
     public class ListaAtualizacoesRequestModel
     {

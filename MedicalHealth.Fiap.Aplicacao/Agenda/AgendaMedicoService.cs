@@ -1,8 +1,9 @@
-﻿using MedicalHealth.Fiap.Aplicacao.DTO;
-using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
+﻿using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Dominio.Entidades;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.Infraestrutura;
+using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
@@ -33,7 +34,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             var dataHorarioList = new List<AgendaMedico>();
             dataHorarioList.Add(dataHorarioAgenda);
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(dataHorarioList));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(dataHorarioList));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return true;
         }
@@ -82,7 +83,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                 }
             }
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.criar", JsonConvert.SerializeObject(listaHorariosParaCriarAgendaMedico));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_CRIAR, JsonConvert.SerializeObject(listaHorariosParaCriarAgendaMedico));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
         }
@@ -102,7 +103,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                 agendasMedicosExcluidas.Add(agendaMedico);
             }
 
-            await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(agendasMedicosExcluidas));
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(agendasMedicosExcluidas));
 
             if (_mensagem.Count > 0)
             {
@@ -163,7 +164,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
 
             if (agendasParaAtualizar.Any())
             {
-                await _enviarMensagemServiceBus.EnviarMensagemParaFila("persistencia.agenda_medico.atualizar", JsonConvert.SerializeObject(agendasParaAtualizar));
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(agendasParaAtualizar));
                 _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
                 return new ResponseModel(_mensagem, true, agendasParaAtualizar);
             }
