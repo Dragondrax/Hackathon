@@ -40,3 +40,5 @@ jobs:
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7FBCC251DD044B8EBA8B013CE0C2F5B2 }}
+          app-settings: |
+            AzureWebJobsStorage=${{ secrets.AZURE_WEBJOBS_STORAGE }}
