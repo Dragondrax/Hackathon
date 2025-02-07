@@ -10,7 +10,7 @@ namespace MedicalHealth.Fiap.Infraestrutura
     public class AtualizarAgendaMedicoRequestModel
     {
         public Guid Id { get; set; }
-        public DateTime Data { get; set; }
+        public DateOnly Data { get; set; }
         public TimeOnly HorarioInicio { get; set; }
         public TimeOnly HorarioFim { get; set; }
         public int Intervalo { get; set; }

@@ -1,4 +1,6 @@
-﻿using MedicalHealth.Fiap.Dominio.Enum;
+﻿using MedicalHealth.Fiap.Aplicacao.Consulta;
+using MedicalHealth.Fiap.Data.Repository.Consulta;
+using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
@@ -9,12 +11,8 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
     public class MedicoService(IMedicoRepository medicoRepository) : IMedicoService
     {
         private readonly IMedicoRepository _medicoRepository = medicoRepository;
-        private List<string> _mensagem = [];
 
-        public Task<ResponseModel> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
-        {
-            throw new NotImplementedException();
-        }
+        private List<string> _mensagem = [];
 
         public async Task<ResponseModel> BuscarMedicoPorCRM(BuscarCRMDTO crmDTO)
         {

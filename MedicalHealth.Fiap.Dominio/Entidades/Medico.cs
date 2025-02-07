@@ -1,13 +1,22 @@
-﻿namespace MedicalHealth.Fiap.Dominio.Entidades
+﻿using Newtonsoft.Json;
+
+namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class Medico : EntidadeBase
     {
+        [JsonProperty("Nome")]
         public string Nome { get; private set; }
+        [JsonProperty("CPF")]
         public string CPF { get; private set; }
+        [JsonProperty("CRM")]
         public string CRM { get; private set; }
+        [JsonProperty("Email")]
         public string Email { get; private set; }
+        [JsonProperty("SnAtivo")]
         public bool SnAtivo { get; private set; }
+        [JsonProperty("ValorConsulta")]
         public double ValorConsulta {  get; private set; }
+        [JsonProperty("EspecialidadeMedica")]
         public Enum.EspecialidadeMedica EspecialidadeMedica { get; private set; }
         public List<AgendaMedico> AgendaMedico { get; set; }
 
