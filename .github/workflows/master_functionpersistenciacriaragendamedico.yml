@@ -37,7 +37,7 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'FunctionPersistenciaCriarAgendaMedico'
+          app-name: 'FunctionPersistenciaCriarConsulta'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_244BE461E0064435B273FA9528E5DFC4 }}
