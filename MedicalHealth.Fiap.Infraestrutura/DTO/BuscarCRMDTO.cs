@@ -21,11 +21,11 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
         {
             RuleFor(x => x.Crm)
                 .NotEmpty()
-                .WithMessage(MensagemMedico.CRM_Nao_Pode_Ser_Vazio)
+                .WithMessage(MensagemMedico.CRM_NAO_PODE_SER_VAZIO)
                 .NotNull()
-                .WithMessage(MensagemMedico.CRM_Nao_Pode_Ser_Nulo)
+                .WithMessage(MensagemMedico.CRM_NAO_PODE_SER_NULO)
                 .Matches(@"^\d{4,6}-[A-Z]{2}$")
-                .WithMessage(MensagemMedico.CRM_Nao_Esta_No_Formato_Correto);
+                .WithMessage(MensagemMedico.CRM_NAO_ESTA_NO_FORMATO_CORRETO);
         }
     }
 

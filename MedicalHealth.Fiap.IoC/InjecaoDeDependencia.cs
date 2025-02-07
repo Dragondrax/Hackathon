@@ -10,6 +10,7 @@ using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Data.Persistencia;
 using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Data.Repository.Medico;
+using MedicalHealth.Fiap.Data.Repository.Paciente;
 using MedicalHealth.Fiap.Data.Repository.Usuario;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.SharedKernel.AzureRedis;
@@ -37,6 +38,7 @@ namespace MedicalHealth.Fiap.IoC
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IConfiguracaoRedis, ConfiguracaoRedis>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
         }
     }
 }

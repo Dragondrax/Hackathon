@@ -1,6 +1,5 @@
 ﻿using MedicalHealth.Fiap.Aplicacao;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
-using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +51,20 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return BadRequest(resultado.Mensagem);
             else
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [HttpGet("BuscarPorEmail")]
+        public async Task<IActionResult> BuscarUsuarioPorEmail([FromQuery] BuscarEmailDTO emailDTO)
+        {
+            var resultado = await _usuarioService.BuscarUsuarioPorEmail(emailDTO);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
         }
     }
 }

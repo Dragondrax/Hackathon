@@ -7,7 +7,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
     public class Usuario : EntidadeBase
     {
         public UsuarioRoleEnum Role { get; private set; }
-        public Guid GrupoUsuarioId { get; private set; }
+        public Guid? GrupoUsuarioId { get; private set; }
         public string Email {  get; private set; }
         public string Senha {  get; private set; }
         public bool PrimeiroAcesso { get; private set; }
@@ -17,7 +17,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-        public Usuario(UsuarioRoleEnum role, Guid id, string email)
+        public Usuario(UsuarioRoleEnum role, Guid? id, string email)
         {
             Role = role;
             GrupoUsuarioId = id;

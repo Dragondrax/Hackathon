@@ -35,14 +35,16 @@ namespace MedicalHealth.Fiap.API.Controllers
 
         //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorEmail")]
-        public async Task<IActionResult> BuscarPacientePorEmail([FromQuery] string email)
+        public async Task<IActionResult> BuscarPacientePorEmail([FromQuery] BuscarEmailDTO emailDTO)
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                return BadRequest("O e-mail do paciente é obrigatório.");
-            }
+            var resultado = await _pacienteService.BuscarPacientePorEmail(emailDTO);
 
-            return Ok();
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
         }
     }
 }

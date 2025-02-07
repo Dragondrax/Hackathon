@@ -16,14 +16,21 @@ namespace MedicalHealth.Fiap.API.Controllers
 
         //[Authorize(Roles = "Administrador,Medico")]
         [HttpPost("Criar")]
-        public async Task<IActionResult> SalvarNovoMedico([FromQuery] string novoMedico)
+        public async Task<IActionResult> SalvarNovoMedico(CriarAlteraMedicoDTO medicoDTO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
 
-            return Ok();
+            var resultado = await _medicoService.SalvarNovoMedico(medicoDTO);
+
+            if (resultado.Sucesso)
+                return Ok();
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
         //[Authorize(Roles = "Administrador,Medico,Paciente")]

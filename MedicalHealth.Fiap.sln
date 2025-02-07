@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico.csproj", "{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta.csproj", "{E717B925-372D-4E34-92C5-8EF1FF03751E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta.csproj", "{E717B925-372D-4E34-92C5-8EF1FF03751E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta.csproj", "{B64BABE1-9930-405B-A09E-F613A074B1B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta.csproj", "{B64BABE1-9930-405B-A09E-F613A074B1B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -61,11 +61,11 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 var usuario = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email.ToLower());
 
                 if (usuario != null && Verify(usuarioDTO.Senha, usuario.Senha))
-                    {
-                        var token = await _tokenService.ObterToken(usuarioDTO);
+                {
+                    var token = await _tokenService.ObterToken(usuarioDTO);
 
-                        _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
-                        return new ResponseModel(_mensagem, true, token);
+                    _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                    return new ResponseModel(_mensagem, true, token);
                 }
             }
             else
@@ -92,13 +92,34 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var guidId = new Guid();
-
-            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, guidId, usuarioDTO.Email);
+            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, null, usuarioDTO.Email);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_CRIAR_USUARIO, JsonConvert.SerializeObject(novoUsuario));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
+
+        }
+
+        public async Task<ResponseModel> BuscarUsuarioPorEmail(BuscarEmailDTO emailDTO)
+        {
+            var validacao = new BuscarEmailDTOValidator().Validate(emailDTO);
+
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var usuario = await _usuarioRepository.ObterUsuarioPorEmailAsync(emailDTO.Email);
+
+            if (usuario == null)
+            {
+                _mensagem.Add(MensagemUsuario.MENSAGEM_USUARIO_NAO_ENCONTRADO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, usuario);
         }
     }
 }

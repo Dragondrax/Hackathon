@@ -6,5 +6,6 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
     public interface IPacienteService
     {
         Task<ResponseModel> SalvarNovoPaciente(CriaAlteraPacienteDTO pacienteDTO);
+        Task<ResponseModel> BuscarPacientePorEmail(BuscarEmailDTO emaiDTO);
     }
 }

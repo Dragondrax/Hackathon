@@ -8,5 +8,6 @@ namespace MedicalHealth.Fiap.Aplicacao
         Task<ResponseModel> AutenticarUsuario(AutenticarUsuarioDTO usuarioDTO);
         Task<ResponseModel> SalvarNovoUsuario(CriarAlteraUsuarioDTO usuarioDTO);
         Task<string> GerarHashSenhaUsuario(string senha);
+        Task<ResponseModel> BuscarUsuarioPorEmail(BuscarEmailDTO emailDTO);
     }
 }

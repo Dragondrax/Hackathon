@@ -1,25 +1,29 @@
 ﻿using FluentValidation;
+using MedicalHealth.Fiap.Infraestrutura.Enum;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using System.Text.RegularExpressions;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
 {
-    public class CriaAlteraPacienteDTO
+    public class CriarAlteraMedicoDTO
     {
         public string Nome { get; set; }
         public string CPF { get; set; }
+        public string CRM { get; set; }
         public string Email { get; set; }
+        public double ValorConsulta { get;  set; }
+        public Especialidade EspecialidadeMedica { get; set; }
     }
 
-    public class CriaAlteraPacienteDTOValidator : AbstractValidator<CriaAlteraPacienteDTO>
+    public class CriarAlteraMedicoDTOValidator : AbstractValidator<CriarAlteraMedicoDTO>
     {
-        public CriaAlteraPacienteDTOValidator()
+        public CriarAlteraMedicoDTOValidator()
         {
             RuleFor(x => x.Nome)
                 .NotEmpty()
-                .WithMessage(MensagemPaciente.MENSAGEM_NOME_NAO_PODE_SER_VAZIO)
+                .WithMessage(MensagemMedico.MENSAGEM_NOME_NAO_PODE_SER_VAZIO)
                 .NotNull()
-                .WithMessage(MensagemPaciente.MENSAGEM_NOME_NAO_PODE_SER_NULO);
+                .WithMessage(MensagemMedico.MENSAGEM_NOME_NAO_PODE_SER_NULO);
 
             RuleFor(x => x.CPF)
                 .NotEmpty()
@@ -29,13 +33,36 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
                 //.Must(ValidarCPF)
                 //.WithMessage(MensagemPaciente.MENSAGEM_CPF_INVALIDO);
 
+            RuleFor(x => x.CRM)
+                .NotEmpty()
+                .WithMessage(MensagemMedico.CRM_NAO_PODE_SER_VAZIO)
+                .NotNull()
+                .WithMessage(MensagemMedico.CRM_NAO_PODE_SER_NULO)
+                .Matches(@"^\d{4,6}-[A-Z]{2}$")
+                .WithMessage(MensagemMedico.CRM_NAO_ESTA_NO_FORMATO_CORRETO);
+
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage(MensagemPaciente.MENSAGEM_EMAIL_NAO_PODE_SER_VAZIO)
+                .WithMessage(MensagemMedico.MENSAGEM_EMAIL_NAO_PODE_SER_VAZIO)
                 .NotNull()
-                .WithMessage(MensagemPaciente.MENSAGEM_EMAIL_NAO_PODE_SER_NULO)
+                .WithMessage(MensagemMedico.MENSAGEM_EMAIL_NAO_PODE_SER_NULO)
                 .EmailAddress()
-                .WithMessage(MensagemPaciente.MENSAGEM_EMAIL_NAO_ESTA_NO_FORMATO_CORRETO);
+                .WithMessage(MensagemMedico.MENSAGEM_EMAIL_NAO_ESTA_NO_FORMATO_CORRETO);
+
+            RuleFor(x => x.ValorConsulta)
+                .NotEmpty()
+                .WithMessage(MensagemMedico.MENSAGEM_VALOR_NAO_PODE_SER_VAZIO)
+                .NotNull()
+                .WithMessage(MensagemMedico.MENSAGEM_VALOR_NAO_PODE_SER_NULO)
+                .GreaterThan(0).WithMessage(MensagemMedico.MENSAGEM_VALOR_NAO_PODE_ZERO);
+
+
+            RuleFor(x => x.EspecialidadeMedica)
+                .NotNull()
+                .WithMessage(MensagemMedico.MENSAGEM_ESPECIALIDADE_NAO_PODE_SER_NULO)
+                .IsInEnum()
+                .WithMessage(MensagemMedico.MENSAGEM_ESPECIALIDADE_NAO_EXISTE);
+
         }
 
         private bool ValidarCPF(string cpf)

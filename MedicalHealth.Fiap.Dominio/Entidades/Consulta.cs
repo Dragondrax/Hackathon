@@ -27,7 +27,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         public string AtualizarValor(double valor)
         {
             if (Aceite == true)
-                return MensagemMedico.ErroNaoPodeAtualizarValorDaConsultaAposAceite;
+                return MensagemMedico.ERRONAOPODEATUALIZARVALORDACONSULTAAPOSACEITE;
 
             Valor = valor;
             AtualizarDataAtualizacao();
