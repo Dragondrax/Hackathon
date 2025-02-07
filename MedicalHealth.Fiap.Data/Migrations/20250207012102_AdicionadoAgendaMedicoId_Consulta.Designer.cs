@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MedicalHealth.Fiap.Data.Migrations
 {
     [DbContext(typeof(MedicalHealthContext))]
-    [Migration("20250205033842_Ajuste_ForeignKey")]
-    partial class Ajuste_ForeignKey
+    [Migration("20250207012102_AdicionadoAgendaMedicoId_Consulta")]
+    partial class AdicionadoAgendaMedicoId_Consulta
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,14 +28,11 @@ namespace MedicalHealth.Fiap.Data.Migrations
             modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.AgendaMedico", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid?>("ConsultaId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("consultaid");
-
-                    b.Property<DateTime>("Data")
+                    b.Property<DateOnly>("Data")
                         .HasColumnType("DATE")
                         .HasColumnName("data");
 
@@ -71,10 +68,6 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("medicoid");
 
-                    b.Property<Guid?>("PacienteId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("pacienteid");
-
                     b.HasKey("Id")
                         .HasName("pk_agendamedico");
 
@@ -87,12 +80,21 @@ namespace MedicalHealth.Fiap.Data.Migrations
             modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.Consulta", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool?>("Aceite")
                         .HasColumnType("BOOL")
                         .HasColumnName("aceite");
+
+                    b.Property<Guid>("AgendaMedicoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("agendamedicoid");
+
+                    b.Property<bool?>("Cancelada")
+                        .HasColumnType("BOOL")
+                        .HasColumnName("cancelada");
 
                     b.Property<DateTime?>("DataAtualizacaoRegistro")
                         .HasColumnType("TIMESTAMP")
@@ -110,12 +112,33 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("BOOL")
                         .HasColumnName("excluido");
 
+                    b.Property<string>("Justificativa")
+                        .HasColumnType("VARCHAR(500)")
+                        .HasColumnName("justificativa");
+
+                    b.Property<Guid>("MedicoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("medicoid");
+
+                    b.Property<Guid>("PacienteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("pacienteid");
+
                     b.Property<double>("Valor")
                         .HasColumnType("DECIMAL")
                         .HasColumnName("valor");
 
                     b.HasKey("Id")
                         .HasName("pk_consulta");
+
+                    b.HasIndex("AgendaMedicoId")
+                        .HasDatabaseName("ix_consulta_agendamedicoid");
+
+                    b.HasIndex("MedicoId")
+                        .HasDatabaseName("ix_consulta_medicoid");
+
+                    b.HasIndex("PacienteId")
+                        .HasDatabaseName("ix_consulta_pacienteid");
 
                     b.ToTable("consulta", (string)null);
                 });
@@ -154,6 +177,10 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("VARCHAR(250)")
                         .HasColumnName("email");
 
+                    b.Property<int>("EspecialidadeMedica")
+                        .HasColumnType("integer")
+                        .HasColumnName("especialidademedica");
+
                     b.Property<bool>("Excluido")
                         .HasColumnType("BOOL")
                         .HasColumnName("excluido");
@@ -162,6 +189,14 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(500)")
                         .HasColumnName("nome");
+
+                    b.Property<bool>("SnAtivo")
+                        .HasColumnType("BOOL")
+                        .HasColumnName("snativo");
+
+                    b.Property<double>("ValorConsulta")
+                        .HasColumnType("DECIMAL")
+                        .HasColumnName("valorconsulta");
 
                     b.HasKey("Id")
                         .HasName("pk_medico");
@@ -270,6 +305,11 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("TIMESTAMP")
                         .HasColumnName("dataregistro");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(250)")
+                        .HasColumnName("email");
+
                     b.Property<bool>("Excluido")
                         .HasColumnType("BOOL")
                         .HasColumnName("excluido");
@@ -307,13 +347,6 @@ namespace MedicalHealth.Fiap.Data.Migrations
 
             modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.AgendaMedico", b =>
                 {
-                    b.HasOne("MedicalHealth.Fiap.Dominio.Entidades.Paciente", "Paciente")
-                        .WithMany("AgendaMedico")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_agendamedico_paciente_id");
-
                     b.HasOne("MedicalHealth.Fiap.Dominio.Entidades.Medico", "Medico")
                         .WithMany("AgendaMedico")
                         .HasForeignKey("MedicoId")
@@ -322,34 +355,39 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasConstraintName("fk_agendamedico_medico_medicoid");
 
                     b.Navigation("Medico");
-
-                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.Consulta", b =>
                 {
                     b.HasOne("MedicalHealth.Fiap.Dominio.Entidades.AgendaMedico", "AgendaMedico")
-                        .WithOne("Consulta")
-                        .HasForeignKey("MedicalHealth.Fiap.Dominio.Entidades.Consulta", "Id")
+                        .WithMany()
+                        .HasForeignKey("AgendaMedicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_consulta_agendamedico_id");
+                        .HasConstraintName("fk_consulta_agendamedico_agendamedicoid");
+
+                    b.HasOne("MedicalHealth.Fiap.Dominio.Entidades.Medico", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_consulta_medico_medicoid");
+
+                    b.HasOne("MedicalHealth.Fiap.Dominio.Entidades.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_consulta_paciente_pacienteid");
 
                     b.Navigation("AgendaMedico");
-                });
 
-            modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.AgendaMedico", b =>
-                {
-                    b.Navigation("Consulta")
-                        .IsRequired();
+                    b.Navigation("Medico");
+
+                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.Medico", b =>
-                {
-                    b.Navigation("AgendaMedico");
-                });
-
-            modelBuilder.Entity("MedicalHealth.Fiap.Dominio.Entidades.Paciente", b =>
                 {
                     b.Navigation("AgendaMedico");
                 });

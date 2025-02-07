@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MedicalHealth.Fiap.Data.CacheService;
 using MedicalHealth.Fiap.Data.Repository.AgendaMedico;
 using MedicalHealth.Fiap.Dominio.Entidades;
 using MedicalHealth.Fiap.Dominio.Interfaces;
@@ -19,13 +20,31 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus;
         private readonly IMedicoRepository _medicoRepository;
         private int QUANTIDADE_LIMITE_DE_DIAS_FUTUROS_QUE_PODE_SER_CRIADO_UMA_AGENDA = 30;
-        public AgendaMedicoService(IAgendaMedicoRepository repository, IEnviarMensagemServiceBus enviarMensagemServiceBus, IMedicoRepository medicoRepository)
+        private readonly ICacheService _cacheService;
+        public AgendaMedicoService(IAgendaMedicoRepository repository,
+                                   IEnviarMensagemServiceBus enviarMensagemServiceBus,
+                                   IMedicoRepository medicoRepository,
+                                   ICacheService cacheService)
         {
             _repository = repository;
             _enviarMensagemServiceBus = enviarMensagemServiceBus;
             _medicoRepository = medicoRepository;
+            _cacheService = cacheService;
         }
-        public async Task<bool> AtualizarAgendaIndisponivel(Guid agendaMedicoId, Guid pacienteId, Guid consultaId)
+        public async Task<bool> AtualizarAgendaDisponivel(Guid agendaMedicoId)
+        {
+            var dataHorarioAgenda = await _repository.ObterPorIdAsync(agendaMedicoId);
+
+            dataHorarioAgenda.AtualizarHorarioDisponivel();
+
+            var dataHorarioList = new List<AgendaMedico>();
+            dataHorarioList.Add(dataHorarioAgenda);
+
+            await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaAgendaMedico.PERSISTENCIA_AGENDA_MEDICO_ATUALIZAR, JsonConvert.SerializeObject(dataHorarioList));
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return true;
+        }
+        public async Task<bool> AtualizarAgendaIndisponivel(Guid agendaMedicoId)
         {
             var dataHorarioAgenda = await _repository.ObterPorIdAsync(agendaMedicoId);
 
@@ -51,12 +70,16 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
 
             var limiteDeCriacaoDeData = DateTime.Now.AddDays(QUANTIDADE_LIMITE_DE_DIAS_FUTUROS_QUE_PODE_SER_CRIADO_UMA_AGENDA);
 
-            if (novaAgendaMedico.Data.Order().First().Date < DateTime.Now.Date || novaAgendaMedico.Data.Order().Last().Date > limiteDeCriacaoDeData.Date)
+            DateOnly hoje = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly limite = DateOnly.FromDateTime(limiteDeCriacaoDeData);
+
+            if (novaAgendaMedico.Data.Order().First() < hoje || novaAgendaMedico.Data.Order().Last() > limite)
             {
                 _mensagem.Add(MensagemAgenda.MENSAGEM_PERIDO_DE_CRIACAO_NAO_PODE_SER_MAIOR_QUE_30_DIAS_E_ANTES_DE_HOJE);
                 return new ResponseModel(_mensagem, false, null);
             }
-                
+
+
 
             foreach (var data in novaAgendaMedico.Data)
             {
@@ -207,6 +230,21 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, agendaMedicoDTO);
         }
+        public async Task<AgendaMedico> ObterAgendaMedicoPorId(Guid id)
+        {
+            var agenda = await _cacheService.GetAsync<AgendaMedico>($"agenda:{id}");
+
+            if(agenda is null)
+            {
+                agenda = await _repository.ObterPorIdAsync(id);
+
+                if(agenda is not null)
+                    await _cacheService.SetAsync($"agenda:{agenda.Id}", agenda);
+            }
+                
+            return agenda;
+        }
+
         private IEnumerable<AgendaMedicoDTO> MapearParaAgendaMedicoDTO(IEnumerable<AgendaMedico> agendasMedico, double valorConsulta)
         {
             var agendaMedicoLista = new List<AgendaMedicoDTO>();

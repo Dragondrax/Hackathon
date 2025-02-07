@@ -7,8 +7,6 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
     public class ConsultaSalvarDTO
     {
         public double Valor { get; set; }
-        public bool? Aceite { get; set; }
-        public string? Justificativa { get; set; }
         public Guid AgendaMedicoId { get; set; }
         public Guid MedicoId { get; set; }
 
@@ -24,14 +22,6 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
                 .WithMessage(MensagemConsulta.MENSAGEM_VALOR_NAO_PODE_SER_VAZIO)
                 .NotNull()
                 .WithMessage(MensagemConsulta.MENSAGEM_VALOR_NAO_PODE_SER_NULO);
-
-            RuleFor(x => x.Justificativa)
-                .NotEmpty()
-                .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_VAZIO)
-                .NotNull()
-                .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_NULO);
-
         }
-
     }
 }

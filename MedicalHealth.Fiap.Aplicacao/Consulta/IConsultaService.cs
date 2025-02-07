@@ -5,6 +5,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Consulta
 {
     public interface IConsultaService
     {
+        Task<ResponseModel> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsulta);
         Task<ResponseModel> SalvarConsulta(ConsultaSalvarDTO consultaDTO, Guid pacienteId);
         Task<ResponseModel> AtualizarJustificativaConsulta(ConsultaAtualizarDTO consultaAtualizarDTO);
         Task<ResponseModel> ObterConsultasPorMedico(Guid medicoId);

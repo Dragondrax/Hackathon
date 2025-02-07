@@ -8,6 +8,5 @@ namespace MedicalHealth.Fiap.Aplicacao
     {
         Task<ResponseModel> BuscarMedicoPorCRM(BuscarCRMDTO crmDTO);
         Task<ResponseModel> BuscarMedicosPorEspecialidade(EspecialidadeMedica especialidadeMedica);
-        Task<ResponseModel> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica);
     }
 }

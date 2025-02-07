@@ -26,7 +26,7 @@ namespace MedicalHealth.Fiap.Data.Mapping
                 .WithMany(a => a.AgendaMedico)
                 .HasForeignKey(a => a.MedicoId)
                 .OnDelete(DeleteBehavior.Cascade);
-               
+
         }
     }
 }

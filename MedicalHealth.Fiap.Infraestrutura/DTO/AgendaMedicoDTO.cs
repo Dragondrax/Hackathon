@@ -2,7 +2,7 @@
 {
     public class AgendaMedicoDTO
     {
-        public DateTime Data { get; set; }
+        public DateOnly Data { get; set; }
         public TimeOnly HorarioInicio { get; set; }
         public TimeOnly HorarioFim { get; set; }
         public bool Disponivel { get; set; }

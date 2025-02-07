@@ -3,6 +3,7 @@
     public static class MensagemAgenda
     {
         public static string MENSAGEM_HORARIO_COM_PACIENTE = "Ops, horário com pacientes agendados não podem ser alterados!";
+        public static string MENSAGEM_HORARIO_INDISPONIVEL = "Ops, esse horário já está reservado, tente novamente mais tarde!";
         public static string MENSAGEM_DATA_NAO_PODE_SER_NULO_OU_VAZIO = "Ops, data não pode ser nulo ou vazio";
         public static string MENSAGEM_HORARIO_INICIO_NAO_PODE_SER_NULO_OU_VAZIO = "Ops, horario inicio não pode ser nulo ou vazio";
         public static string MENSAGEM_HORARIO_FIM_NAO_PODE_SER_NULO_OU_VAZIO = "Ops, horario fim não pode ser nulo ou vazio";
