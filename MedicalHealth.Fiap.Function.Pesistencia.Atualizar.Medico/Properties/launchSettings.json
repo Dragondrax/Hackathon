@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7076",
+      "launchBrowser": false
+    }
+  }
+}

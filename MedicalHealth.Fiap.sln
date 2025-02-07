@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.IoC", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Testes.Unitarios", "MedicalHealth.Fiap.Testes.Unitarios\MedicalHealth.Fiap.Testes.Unitarios.csproj", "{62408B2C-1BCD-49D1-907E-6C844FE30AC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Usuario", "MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj", "{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Data.Persistencia", "MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj", "{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico.csproj", "{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8}"
@@ -40,6 +38,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta.csproj", "{B64BABE1-9930-405B-A09E-F613A074B1B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta.csproj", "{F93A9D40-4754-430A-9108-A61533A36A92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario\MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario.csproj", "{DDCE06E4-995F-4517-A56A-E424FECE5189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario.csproj", "{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico\MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico.csproj", "{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico.csproj", "{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente\MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente.csproj", "{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente.csproj", "{EEDE6812-18CB-4536-8967-7DE54D9EFD89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +89,6 @@ Global
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,6 +109,30 @@ Global
 		{F93A9D40-4754-430A-9108-A61533A36A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F93A9D40-4754-430A-9108-A61533A36A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F93A9D40-4754-430A-9108-A61533A36A92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,12 +146,17 @@ Global
 		{73C51A61-29C4-4FB8-8E83-C92A39DE6689} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{115816F4-0822-43DB-B349-232ED4C4C4D5} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9} = {AEBA43F1-92BD-4375-A9B8-A4445E2B3B86}
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{B64BABE1-9930-405B-A09E-F613A074B1B6} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{F93A9D40-4754-430A-9108-A61533A36A92} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{DDCE06E4-995F-4517-A56A-E424FECE5189} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AC7EFF-6300-4B80-88A4-AB16588BA48B}

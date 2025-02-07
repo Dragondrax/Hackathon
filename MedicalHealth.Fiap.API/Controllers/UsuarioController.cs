@@ -15,7 +15,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus;
 
-        public UsuarioController(IUsuarioService usuarioService, IEnviarMensagemServiceBus _enviarMensagemServiceBus)
+        public UsuarioController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }        

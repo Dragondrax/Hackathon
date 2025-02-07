@@ -16,7 +16,6 @@
     <ProjectReference Include="..\MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.Data\MedicalHealth.Fiap.Data.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.Dominio\MedicalHealth.Fiap.Dominio.csproj" />
-    <ProjectReference Include="..\MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.Infraestrutura\MedicalHealth.Fiap.Infraestrutura.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.SharedKernel\MedicalHealth.Fiap.SharedKernel.csproj" />
   </ItemGroup>
