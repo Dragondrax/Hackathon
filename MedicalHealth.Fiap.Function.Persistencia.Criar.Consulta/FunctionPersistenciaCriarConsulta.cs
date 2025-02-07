@@ -1,5 +1,6 @@
 using Azure.Messaging.ServiceBus;
 using MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository;
+using MedicalHealth.Fiap.Data.Persistencia.ConsultaPersistenciaRepository;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -10,13 +11,13 @@ namespace MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta
     public class FunctionPersistenciaCriarConsulta
     {
         private readonly ILogger<FunctionPersistenciaCriarConsulta> _logger;
-        private readonly IAgendaMedicoPersistenciaRepository _agendaMedicoPersistenciaRepository;
+        private readonly IConsultaPersistenciaRepository _consultaPersistenciaRepository;
 
-        public FunctionPersistenciaCriarConsulta(ILogger<FunctionPersistenciaCriarConsulta> logger, 
-                                                 IAgendaMedicoPersistenciaRepository agendaMedicoPersistenciaRepository)
+        public FunctionPersistenciaCriarConsulta(ILogger<FunctionPersistenciaCriarConsulta> logger,
+                                                 IConsultaPersistenciaRepository consultaPersistenciaRepositor)
         {
             _logger = logger;
-            _agendaMedicoPersistenciaRepository = agendaMedicoPersistenciaRepository;
+            _consultaPersistenciaRepository = consultaPersistenciaRepositor;
         }
 
         [Function(nameof(FunctionPersistenciaCriarConsulta))]
@@ -33,7 +34,7 @@ namespace MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta
 
             var consulta = JsonConvert.DeserializeObject<Dominio.Entidades.Consulta>(json);
 
-            var success = await _agendaMedicoPersistenciaRepository.PersistirCriacaoConsulta(consulta);
+            var success = await _consultaPersistenciaRepository.PersistirCriacaoConsulta(consulta);
 
             if (success)
                 await messageActions.CompleteMessageAsync(message);

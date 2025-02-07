@@ -1,14 +1,16 @@
 ﻿using FluentValidation;
+using MedicalHealth.Fiap.SharedKernel.Mensagens;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
 {
     public class ConsultaSalvarDTO
     {
-        public double Valor { get; private set; }
-        public bool? Aceite { get; private set; }
-        public string? Justificativa { get; private set; }
-        public Guid AgendaMedicoId { get; private set; }
+        public double Valor { get; set; }
+        public bool? Aceite { get; set; }
+        public string? Justificativa { get; set; }
+        public Guid AgendaMedicoId { get; set; }
+        public Guid MedicoId { get; set; }
 
         public ConsultaSalvarDTO() { }
     }
@@ -19,21 +21,17 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
         {
             RuleFor(x => x.Valor)
                 .NotEmpty()
-                .WithMessage(MensagemAgenda.MENSAGEM_VALOR_NAO_PODE_SER_VAZIO)
+                .WithMessage(MensagemConsulta.MENSAGEM_VALOR_NAO_PODE_SER_VAZIO)
                 .NotNull()
-                .WithMessage(MensagemAgenda.MENSAGEM_VALOR_NAO_PODE_SER_NULO);
+                .WithMessage(MensagemConsulta.MENSAGEM_VALOR_NAO_PODE_SER_NULO);
 
             RuleFor(x => x.Justificativa)
                 .NotEmpty()
-                .WithMessage(MensagemAgenda.MENSAGEM_AGENDA_NAO_PODE_SER_VAZIA)
+                .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_VAZIO)
                 .NotNull()
-                .WithMessage(MensagemAgenda.MENSAGEM_AGENDA_NAO_PODE_SER_NULA);
+                .WithMessage(MensagemConsulta.MENSAGEM_JUSTIFICATIVA_NAO_PODE_SER_NULO);
 
         }
 
     }
-
-
-
-
 }

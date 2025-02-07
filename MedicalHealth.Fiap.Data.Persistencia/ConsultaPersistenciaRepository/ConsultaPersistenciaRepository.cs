@@ -1,17 +1,21 @@
 ﻿using MedicalHealth.Fiap.Data.CacheService;
 using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Dominio.Entidades;
-using MedicalHealth.Fiap.Infraestrutura.DTO;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepository
+namespace MedicalHealth.Fiap.Data.Persistencia.ConsultaPersistenciaRepository
 {
-    public class AgendaMedicoPersistenciaRepository : IAgendaMedicoPersistenciaRepository
+    public class ConsultaPersistenciaRepository : IConsultaPersistenciaRepository
     {
         private readonly IUnitOfwork _unitOfWork;
         private readonly MedicalHealthContext _context;
         private readonly ICacheService _cacheService;
-        public AgendaMedicoPersistenciaRepository(IUnitOfwork unitOfWork,
+        public ConsultaPersistenciaRepository(IUnitOfwork unitOfWork,
                                                   MedicalHealthContext context,
                                                   ICacheService cacheService)
         {
@@ -19,22 +23,15 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             _context = context;
             _cacheService = cacheService;
         }
-
-        public async Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendasMedico)
+        public async Task<bool> PersistirCriacaoConsulta(Consulta consulta)
         {
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                _context.AgendaMedico.UpdateRange(agendasMedico);
+                _context.Consulta.Add(consulta);
                 await _unitOfWork.CommitTransactionAsync();
 
-                foreach(var agendaMedico in agendasMedico)
-                {
-                    if (!agendaMedico.Excluido)
-                        await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
-                    else
-                        await _cacheService.RemoveAsync($"agenda:{agendaMedico.Id}");
-                }
+                await _cacheService.SetAsync($"consulta:{consulta.Id}", consulta);
 
                 return true;
             }
@@ -45,18 +42,15 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
             }
         }
 
-        public async Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendasMedico)
+        public async Task<bool> PersistirAtualizacaoConsulta(Consulta consulta)
         {
             await _unitOfWork.BeginTransactionAsync();
             try
             {
-                _context.AgendaMedico.AddRange(agendasMedico);
+                _context.Update(consulta);
                 await _unitOfWork.CommitTransactionAsync();
 
-                foreach (var agendaMedico in agendasMedico)
-                {
-                    await _cacheService.SetAsync($"agenda:{agendaMedico.Id}", agendaMedico);
-                }
+                await _cacheService.SetAsync($"consulta:{consulta.Id}", consulta);
 
                 return true;
             }

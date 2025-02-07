@@ -7,7 +7,5 @@ namespace MedicalHealth.Fiap.Data.Persistencia.AgendaMedicoPersistenciaRepositor
     {
         Task<bool> PersistirCriacaoAgendaMedico(List<AgendaMedico> agendaMedico);
         Task<bool> PersistirAtualizacaoAgendaMedico(List<AgendaMedico> agendaMedico);
-        Task<bool> PersistirCriacaoConsulta(Consulta consulta);
-        Task<bool> PersistirAtualizacaoConsulta(ConsultaAtualizarDTO consultaDTO);
     }
 }

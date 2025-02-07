@@ -7,13 +7,19 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
     {
         public double Valor { get; private set; }
         public bool? Aceite { get; private set; }
+        public bool? Cancelada { get; private set; }
         public string? Justificativa { get; private set; }
-        public AgendaMedico? AgendaMedico { get; private set; }
+        public Guid MedicoId { get; private set; }
+        public Guid PacienteId { get; private set; }
+        public Medico Medico { get; private set; }
+        public Paciente Paciente { get; private set; }
 
-        public Consulta(double valor, bool? aceite)
+        public Consulta(double valor, Guid medicoId, Guid pacienteId, bool? aceite = null)
         {
             Valor = valor;
             Aceite = aceite;
+            MedicoId = medicoId;
+            PacienteId = pacienteId;
         }
 
         public Consulta()
@@ -23,18 +29,8 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         public void InformarJustificativa(string justificativa)
         {
             Justificativa = justificativa;
+            Cancelada = true;
         }
-        public string AtualizarValor(double valor)
-        {
-            if (Aceite == true)
-                return MensagemMedico.ERRONAOPODEATUALIZARVALORDACONSULTAAPOSACEITE;
-
-            Valor = valor;
-            AtualizarDataAtualizacao();
-
-            return MensagemGenerica.MENSAGEM_SUCESSO;
-        }
-
         public void Excluir()
         {
             Desativar();
