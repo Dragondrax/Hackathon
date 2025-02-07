@@ -1,12 +1,6 @@
 ﻿using MedicalHealth.Fiap.Data.CacheService;
 using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Dominio.Entidades;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalHealth.Fiap.Data.Persistencia.ConsultaPersistenciaRepository
 {

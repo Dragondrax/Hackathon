@@ -1,4 +1,6 @@
-﻿using MedicalHealth.Fiap.Dominio.Enum;
+﻿using MedicalHealth.Fiap.Aplicacao.Consulta;
+using MedicalHealth.Fiap.Data.Repository.Consulta;
+using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Filas;

@@ -1,17 +1,25 @@
 ﻿using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Utils;
+using Newtonsoft.Json;
 
 namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class Usuario : EntidadeBase
     {
+        [JsonProperty("Role")]
         public UsuarioRoleEnum Role { get; private set; }
+        [JsonProperty("GrupoUsuarioId")]
         public Guid? GrupoUsuarioId { get; private set; }
+        [JsonProperty("Email")]
         public string Email {  get; private set; }
+        [JsonProperty("Senha")]
         public string Senha {  get; private set; }
+        [JsonProperty("PrimeiroAcesso")]
         public bool PrimeiroAcesso { get; private set; }
+        [JsonProperty("UsuarioBloqueado")]
         public bool UsuarioBloqueado {  get; private set; }
+        [JsonProperty("TentativasDeLogin")]
         public int TentativasDeLogin { get; private set; }
         public Usuario()
         {

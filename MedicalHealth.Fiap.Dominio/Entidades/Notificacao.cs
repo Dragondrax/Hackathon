@@ -1,8 +1,12 @@
-﻿namespace MedicalHealth.Fiap.Dominio.Entidades
+﻿using Newtonsoft.Json;
+
+namespace MedicalHealth.Fiap.Dominio.Entidades
 {
     public class Notificacao : EntidadeBase
     {
+        [JsonProperty("UsuarioDestinatarioId")]
         public Guid UsuarioDestinatarioId { get; private set; }
+        [JsonProperty("Mensagem")]
         public string Mensagem { get; private set; }
 
         public Notificacao()

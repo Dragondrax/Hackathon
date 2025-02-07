@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy dotnet core project to Azure Function App - PersistenciaCriarAgendaMedico
+name: Build and deploy dotnet core project to Azure Function App - FunctionPersistenciaCriarAgendaMedico
 
 on:
   push:
@@ -16,10 +16,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+    
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
@@ -36,13 +33,6 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_94F18F4226D543F4848ABC2DC98425D9 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_748858BDB8C042CDB686C068DC6BF4E1 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6FE18B3661C148CC9AD1F4E4DFF3AB54 }}
-
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
@@ -50,4 +40,6 @@ jobs:
           app-name: 'FunctionPersistenciaCriarAgendaMedico'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_244BE461E0064435B273FA9528E5DFC4 }}
+          app-settings: |
+            AzureWebJobsStorage=${{ secrets.AZURE_WEBJOBS_STORAGE }}

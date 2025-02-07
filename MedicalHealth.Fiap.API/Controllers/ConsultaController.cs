@@ -14,7 +14,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         {
             _consultaService = consultaService;
         }
-        [HttpPost("CriarConsulta/{pacienteId}")]
+        [HttpPost("CriarConsulta")]
         public async Task<IActionResult> CriarConsulta([FromBody] ConsultaSalvarDTO consultaDTO, [FromQuery] Guid pacienteId)
         {
             var resultado = await _consultaService.SalvarConsulta(consultaDTO, pacienteId);
@@ -68,6 +68,19 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return BadRequest(resultado.Mensagem);
             else
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        [HttpPost("AceiteConsultaMedica")]
+        public async Task<IActionResult> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
+        {
+            var resultado = await _consultaService.AceiteConsultaMedica(aceiteConsultaMedica);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any(x => string.IsNullOrEmpty(x)))
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+            else
+                return NotFound(resultado);
         }
     }
 }

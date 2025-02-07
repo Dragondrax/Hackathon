@@ -5,7 +5,7 @@ namespace MedicalHealth.Fiap.Infraestrutura
 {
     public class NovaAgendaMedicoRequestModel
     {
-        public List<DateTime> Data { get; set; }
+        public List<DateOnly> Data { get; set; }
         public TimeOnly HorarioInicio { get; set; }
         public TimeOnly HorarioFim { get; set; }
         public int Intervalo { get; set; }
