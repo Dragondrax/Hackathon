@@ -38,20 +38,19 @@ jobs:
           pwd
           ls -R
 
-
       - name: 'Resolver Dependencias FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
           dotnet restore
-          dotnet build --configuration Release --output ./output
+          dotnet build --configuration Release --output ./output/criaragendamedico
           popd
 
       - name: 'Publicar FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
-          dotnet publish --configuration Release --output ./output
+          dotnet publish --configuration Release --output ./output/criaragendamedico
           popd
 
       - name: 'Rodar Action FUNCTION_CRIAR_AGENDAMEDICO'
@@ -60,10 +59,10 @@ jobs:
         with:
           app-name: 'FunctionPersistenciaCriarAgendaMedico'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output'
+          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_38DD225916C44C9EB6239E4C35905D96 }}
 
       - name: 'Limpar Diretorio FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output'
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
