@@ -12,12 +12,12 @@ env:
   AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico'
   AZURE_FUNCTIONAPP_CRIAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta'
   AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta'
-  AZURE_FUNCTIONAPP_CRIAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.Criar.Usuario'
-  AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Usuario'
-  AZURE_FUNCTIONAPP_CRIAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.Criar.Medico'
-  AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Usuario'
-  AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.Criar.Paciente'
-  AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Paciente'
+  AZURE_FUNCTIONAPP_CRIAR_USUARIO: './MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario'
+  AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario'
+  AZURE_FUNCTIONAPP_CRIAR_MEDICO: './MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico'
+  AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico'
+  AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente'
+  AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente'
   DOTNET_VERSION: '8.0.x'
 
 jobs:
