@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - hackathonapigrupo12
 
 on:
@@ -27,19 +24,13 @@ jobs:
 
       - name: dotnet publish
         run: |
-          dotnet publish MedicalHealth.Fiap.API -c Release -o ${{env.DOTNET_ROOT}}/api
-          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Usuario -c Release -o ${{env.DOTNET_ROOT}}/usuario
-          dotnet publish MedicalHealth.Fiap.Function.Persistencia.AgendaMedico -c Release -o ${{env.DOTNET_ROOT}}/agenda
-          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta -c Release -o ${{env.DOTNET_ROOT}}/consulta
-          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico -c Release -o ${{env.DOTNET_ROOT}}/atualizar-agenda
+          dotnet publish MedicalHealth.Fiap.API -c Release -o ${{github.workspace}}/publish/api
 
-
-      - name: Upload artifact for deployment job
+      - name: Upload API artifact
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/api
-
+          name: .net-api
+          path: ${{github.workspace}}/publish/api
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,10 +40,10 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
+      - name: Download API artifact
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: .net-api
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -60,5 +51,5 @@ jobs:
         with:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F9475BF4FABB474D85960B6D0BD34886 }}
-          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: ${{github.workspace}}/publish/api
