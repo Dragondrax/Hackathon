@@ -10,6 +10,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
         Task<ResponseModel> SalvarNovaAgendaParaOMedico(NovaAgendaMedicoRequestModel novaAgendaMedico);
         Task<ResponseModel> ApagarAgendaMedico(RemoverAgendaMedicoRequestModel removerAgenda);
         Task<ResponseModel> AtualizarAgendaMedico(ListaAtualizacoesRequestModel atualizarAgendaMedico);
+        Task<ResponseModel> BuscarAgendaPorData(DateOnly data);
         Task<bool> AtualizarAgendaIndisponivel(Guid agendaMedicoId);
         Task<bool> AtualizarAgendaDisponivel(Guid agendaMedicoId);
         Task<ResponseModel> BuscarAgendaPorMedico(Guid medicoId);

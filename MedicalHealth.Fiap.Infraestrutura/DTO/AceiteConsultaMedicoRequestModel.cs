@@ -21,7 +21,6 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
 
             RuleFor(x => x.Aceite)
                 .NotNull()
-                .NotEmpty()
                 .WithMessage(MensagemConsulta.MENSAGEM_ACEITE_NAO_PODE_SER_NULO);
         }
     }

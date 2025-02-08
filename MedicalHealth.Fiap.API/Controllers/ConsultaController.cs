@@ -1,6 +1,7 @@
 ﻿using MedicalHealth.Fiap.Aplicacao.Consulta;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHealth.Fiap.API.Controllers
@@ -14,6 +15,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         {
             _consultaService = consultaService;
         }
+        [Authorize(Roles = "Administrador,Paciente")]
         [HttpPost("CriarConsulta")]
         public async Task<IActionResult> CriarConsulta([FromBody] ConsultaSalvarDTO consultaDTO, [FromQuery] Guid pacienteId)
         {
@@ -29,6 +31,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
+        [Authorize(Roles = "Administrador,Paciente")]
         [HttpPut("AtualizarJustificativaConsulta")]
         public async Task<IActionResult> AtualizarJustificativaConsulta(ConsultaAtualizarDTO consultaAtualizarDTO)
         {
@@ -45,6 +48,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         }
 
         [HttpGet("ObterConsultasPorMedico")]
+        [Authorize(Roles = "Administrador,Medico")]
         public async Task<IActionResult> ObterConsultasPorMedico(Guid medicoId)
         {
             var resultado = await _consultaService.ObterConsultasPorMedico(medicoId);
@@ -58,6 +62,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         }
 
         [HttpGet("ObterConsultasPorPaciente")]
+        [Authorize(Roles = "Administrador,Paciente")]
         public async Task<IActionResult> ObterConsultasPorPaciente(Guid pacienteId)
         {
             var resultado = await _consultaService.ObterConsultasPorPaciente(pacienteId);
@@ -71,6 +76,7 @@ namespace MedicalHealth.Fiap.API.Controllers
         }
 
         [HttpPost("AceiteConsultaMedica")]
+        [Authorize(Roles = "Administrador,Medico")]
         public async Task<IActionResult> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
         {
             var resultado = await _consultaService.AceiteConsultaMedica(aceiteConsultaMedica);

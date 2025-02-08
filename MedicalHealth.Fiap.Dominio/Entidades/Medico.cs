@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MedicalHealth.Fiap.Dominio.Enum;
+using Newtonsoft.Json;
 
 namespace MedicalHealth.Fiap.Dominio.Entidades
 {
@@ -35,13 +36,14 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             ValorConsulta = valorConsulta;
         }
 
-        public void AtualizarDados(string nome, string cpf, string crm, string email, double valorConsulta)
+        public void AtualizarDados(string nome, string cpf, string crm, string email, double valorConsulta, int especialidadeMedica)
         {
             Nome = nome;
             CPF = cpf;
             CRM = crm;
             Email = email;
             ValorConsulta = valorConsulta;
+            EspecialidadeMedica = (EspecialidadeMedica) especialidadeMedica;
             AtualizarDataAtualizacao();
         }
 

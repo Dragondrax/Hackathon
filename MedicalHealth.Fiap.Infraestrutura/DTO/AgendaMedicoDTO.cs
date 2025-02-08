@@ -2,6 +2,7 @@
 {
     public class AgendaMedicoDTO
     {
+        public Guid Id { get; set; }
         public DateOnly Data { get; set; }
         public TimeOnly HorarioInicio { get; set; }
         public TimeOnly HorarioFim { get; set; }

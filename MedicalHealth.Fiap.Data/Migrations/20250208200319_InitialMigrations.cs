@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MedicalHealth.Fiap.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,7 +74,7 @@ namespace MedicalHealth.Fiap.Data.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     role = table.Column<short>(type: "SMALLINT", nullable: false),
-                    grupousuarioid = table.Column<Guid>(type: "uuid", nullable: false),
+                    grupousuarioid = table.Column<Guid>(type: "uuid", nullable: true),
                     email = table.Column<string>(type: "VARCHAR(250)", nullable: false),
                     senha = table.Column<string>(type: "VARCHAR(500)", nullable: false),
                     primeiroacesso = table.Column<bool>(type: "BOOL", nullable: false),
@@ -127,6 +127,7 @@ namespace MedicalHealth.Fiap.Data.Migrations
                     justificativa = table.Column<string>(type: "VARCHAR(500)", nullable: true),
                     medicoid = table.Column<Guid>(type: "uuid", nullable: false),
                     pacienteid = table.Column<Guid>(type: "uuid", nullable: false),
+                    agendamedicoid = table.Column<Guid>(type: "uuid", nullable: false),
                     excluido = table.Column<bool>(type: "BOOL", nullable: false),
                     dataregistro = table.Column<DateTime>(type: "TIMESTAMP", nullable: false),
                     dataatualizacaoregistro = table.Column<DateTime>(type: "TIMESTAMP", nullable: true),
@@ -135,6 +136,12 @@ namespace MedicalHealth.Fiap.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_consulta", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_consulta_agendamedico_agendamedicoid",
+                        column: x => x.agendamedicoid,
+                        principalTable: "agendamedico",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_consulta_medico_medicoid",
                         column: x => x.medicoid,
@@ -155,6 +162,11 @@ namespace MedicalHealth.Fiap.Data.Migrations
                 column: "medicoid");
 
             migrationBuilder.CreateIndex(
+                name: "ix_consulta_agendamedicoid",
+                table: "consulta",
+                column: "agendamedicoid");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_consulta_medicoid",
                 table: "consulta",
                 column: "medicoid");
@@ -169,9 +181,6 @@ namespace MedicalHealth.Fiap.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "agendamedico");
-
-            migrationBuilder.DropTable(
                 name: "consulta");
 
             migrationBuilder.DropTable(
@@ -181,10 +190,13 @@ namespace MedicalHealth.Fiap.Data.Migrations
                 name: "usuario");
 
             migrationBuilder.DropTable(
-                name: "medico");
+                name: "agendamedico");
 
             migrationBuilder.DropTable(
                 name: "paciente");
+
+            migrationBuilder.DropTable(
+                name: "medico");
         }
     }
 }

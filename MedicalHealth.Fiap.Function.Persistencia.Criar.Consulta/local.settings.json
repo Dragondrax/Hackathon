@@ -4,7 +4,7 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ServiceBusConnection": "Endpoint=sb://hackathonservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=yaj+MSYeBGV1ufzzKw4RfuR6Yfa94ittM+ASbHHAxuc=",
-    "MedicalHealthConnection": "Host=localhost;Database=hackathon;Port=5432;Username=postgres;Password=1234;Include Error Detail=true;",
+    "MedicalHealthConnection": "Host=postgres-hackathon.postgres.database.azure.com;Database=hackathon;Port=5432;Username=postgres;Password=Teste@102030;Ssl Mode=Require;",
     "RedisConnection": "hackathon.redis.cache.windows.net:6380,password=VJgdLqxvQFpXzWlCCmy1vW6GE2i7PnkgHAzCaOm15BI=,ssl=True,abortConnect=False"
   }
 }

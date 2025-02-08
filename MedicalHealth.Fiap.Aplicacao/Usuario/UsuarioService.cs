@@ -153,16 +153,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
             return new ResponseModel(_mensagem, false, null);
         }
 
-        public async Task<ResponseModel> ExcluirUsuario(CriarAlteraUsuarioDTO usuarioDTO)
+        public async Task<ResponseModel> ExcluirUsuario(Guid usuarioId)
         {
-            var validacao = new CriarAlteraUsuarioDTOValidator().Validate(usuarioDTO);
-            if (!validacao.IsValid)
-            {
-                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
-                return new ResponseModel(_mensagem, false, null);
-            }
-
-            var usuarioParaAtualizar = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email);
+            var usuarioParaAtualizar = await _usuarioRepository.ObterPorIdAsync(usuarioId);
 
             if (usuarioParaAtualizar != null)
             {
