@@ -109,7 +109,7 @@ jobs:
           app-name: 'FunctionPersistenciaAtualizarAgendaMedico'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD  }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD }}
   
       - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_AGENDAMEDICO'
         shell: bash
@@ -142,7 +142,7 @@ jobs:
           app-name: 'FunctionPersistenciaAtualizarConsulta'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}/output/atualizarconsulta'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7  }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7 }}
   
       - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_CONSULTA'
         shell: bash
