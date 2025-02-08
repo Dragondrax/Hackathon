@@ -1,28 +1,40 @@
 ﻿using MedicalHealth.Fiap.Aplicacao;
 using MedicalHealth.Fiap.Dominio.Enum;
+using MedicalHealth.Fiap.Infraestrutura;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous] //Mudar para Authorize
     public class MedicoController(IMedicoService medicoService) : ControllerBase
     {
         private readonly IMedicoService _medicoService = medicoService;
 
+        //[Authorize(Roles = "Administrador,Medico")]
         [HttpPost("Criar")]
-        public async Task<IActionResult> SalvarNovoMedico([FromQuery] string novoMedico)
+        public async Task<IActionResult> SalvarNovoMedico(CriarAlteraMedicoDTO medicoDTO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
 
-            return Ok();
+            var resultado = await _medicoService.SalvarNovoMedico(medicoDTO);
+
+            if (resultado.Sucesso)
+                return Ok();
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorCRM")]
         public async Task<IActionResult> BuscarMedicoPorCRM([FromQuery] BuscarCRMDTO crmDTO)
         {
@@ -36,6 +48,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
         }
 
+        //[Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorEspecialidade")]
         public async Task<IActionResult> BuscarMedicoPorEspecialidade([FromQuery] EspecialidadeMedica especialidade)
         {
@@ -48,6 +61,46 @@ namespace MedicalHealth.Fiap.API.Controllers
             else
                 return NotFound(resultado);
 
+        }
+
+        //[Authorize(Roles = "Administrador,Medico")]
+        [HttpPut("Atualizar")]
+        public async Task<IActionResult> AtualizarAgendaMedico([FromBody] CriarAlteraMedicoDTO atualizarMedicoDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _medicoService.AtualizarMedico(atualizarMedicoDTO);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        //[Authorize(Roles = "Administrador,Medico")]
+        [HttpDelete("Remover")]
+        public async Task<IActionResult> RemoverAgendaMedico([FromBody] CriarAlteraMedicoDTO removerMedicoDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _medicoService.ExcluirMedico(removerMedicoDTO);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == true && resultado.Mensagem.Any() && resultado.Mensagem.Count() > 1)
+                return Ok(resultado.Mensagem);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
     }
 }

@@ -39,6 +39,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta", "MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta\MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta.csproj", "{E0415293-27BA-4461-8AD7-3B79CD27E623}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario\MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario.csproj", "{DDCE06E4-995F-4517-A56A-E424FECE5189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario.csproj", "{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico\MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico.csproj", "{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico.csproj", "{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente", "MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente\MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente.csproj", "{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente", "MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente\MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente.csproj", "{EEDE6812-18CB-4536-8967-7DE54D9EFD89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +109,30 @@ Global
 		{E0415293-27BA-4461-8AD7-3B79CD27E623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0415293-27BA-4461-8AD7-3B79CD27E623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0415293-27BA-4461-8AD7-3B79CD27E623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCE06E4-995F-4517-A56A-E424FECE5189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +151,12 @@ Global
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{B64BABE1-9930-405B-A09E-F613A074B1B6} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{E0415293-27BA-4461-8AD7-3B79CD27E623} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{DDCE06E4-995F-4517-A56A-E424FECE5189} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{82A39ADB-012E-4AC3-87DD-FDBDE92128C6} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{D8BF0FCA-773E-44EB-A4FD-57F9F0BAE9BC} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{C0E72B60-2BA4-4C52-80E5-7E6CCFDB8D04} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{EFCAA5E5-46C3-47A8-BE6B-8B0DB6BDAA86} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
+		{EEDE6812-18CB-4536-8967-7DE54D9EFD89} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AC7EFF-6300-4B80-88A4-AB16588BA48B}

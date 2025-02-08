@@ -10,7 +10,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         [JsonProperty("Role")]
         public UsuarioRoleEnum Role { get; private set; }
         [JsonProperty("GrupoUsuarioId")]
-        public Guid GrupoUsuarioId { get; private set; }
+        public Guid? GrupoUsuarioId { get; private set; }
         [JsonProperty("Email")]
         public string Email {  get; private set; }
         [JsonProperty("Senha")]
@@ -25,13 +25,19 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-        public Usuario(UsuarioRoleEnum role, Guid id, string email, string senha)
+        public Usuario(UsuarioRoleEnum role, Guid? id, string email, string senha)
         {
             Role = role;
             GrupoUsuarioId = id;
             Email = email;
-            Senha = GerarSenha.Aleatoria();
+            Senha = senha;
             PrimeiroAcesso = true;
+        }
+
+        public void Atualizar(string email, string senha)
+        {
+            Email = email;
+            Senha = senha;
         }
 
         public void AtualizarSenhaPrimeiroAcesso(string senha)
@@ -59,6 +65,11 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
                 
 
             return MensagemUsuario.USUARIO_BLOQUEADO;
+        }
+
+        public void Excluir()
+        {
+            Desativar();
         }
 
         public void LoginSucesso()

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7295",
+      "launchBrowser": false
+    }
+  }
+}

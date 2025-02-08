@@ -30,7 +30,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Token
             {
                 claimsIdentity = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, usuarioDTO.CRM),
+                    new Claim(ClaimTypes.NameIdentifier, usuarioDTO.Email),
                     new Claim(ClaimTypes.Role, role)
                 });
             }
@@ -59,39 +59,16 @@ namespace MedicalHealth.Fiap.Aplicacao.Token
             var tokenPropriedades = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddHours(8),  // Expiração do token
+                Expires = DateTime.UtcNow.AddHours(8),
+                Issuer = "API",
+                Audience = "Hackathon",
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(chaveCriptografia),
                     SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenPropriedades);
-            return tokenHandler.WriteToken(token);  // Retorna o token JWT gerado
+            return tokenHandler.WriteToken(token); 
         }
-
-        //public async Task<string> ObterToken(AutenticarUsuarioDTO usuarioDTO)
-        //{
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-
-        //    var chaveCriptografia = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("SecretJWT")!);
-
-        //    var tokenPropriedades = new SecurityTokenDescriptor()
-        //    {
-        //        Subject = new ClaimsIdentity(new Claim[]
-        //        {
-        //            new(ClaimTypes.Name, usuarioDTO.Email),
-        //        }),
-        //        Expires = DateTime.UtcNow.AddHours(8),
-
-        //        SigningCredentials = new SigningCredentials(
-        //            new SymmetricSecurityKey(chaveCriptografia),
-        //            SecurityAlgorithms.HmacSha256Signature)
-        //    };
-
-        //    var token = tokenHandler.CreateToken(tokenPropriedades);
-
-
-        //    return tokenHandler.WriteToken(token);
-        //}
     }
 }
