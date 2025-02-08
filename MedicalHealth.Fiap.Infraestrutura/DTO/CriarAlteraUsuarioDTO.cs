@@ -6,7 +6,6 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
 {
     public class CriarAlteraUsuarioDTO
     {
-        public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
         public Roles Role { get; set; }
@@ -23,12 +22,6 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
                 .WithMessage(MensagemUsuario.MENSAGEM_EMAIL_NAO_PODE_SER_NULO)
                 .EmailAddress()
                 .WithMessage(MensagemUsuario.MENSAGEM_EMAIL_NAO_ESTA_NO_FORMATO_CORRETO);
-
-            RuleFor(x => x.Nome)
-                .NotEmpty()
-                .WithMessage(MensagemUsuario.MENSAGEM_NOME_NAO_PODE_SER_VAZIO)
-                .NotNull()
-                .WithMessage(MensagemUsuario.MENSAGEM_NOME_NAO_PODE_SER_NULO);
 
             RuleFor(x => x.Role)
                 .NotNull()
