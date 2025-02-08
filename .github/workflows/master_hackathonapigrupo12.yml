@@ -26,7 +26,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/api
+        run: |
+          dotnet publish MedicalHealth.Fiap.API -c Release -o ${{env.DOTNET_ROOT}}/api
+          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Usuario -c Release -o ${{env.DOTNET_ROOT}}/usuario
+          dotnet publish MedicalHealth.Fiap.Function.Persistencia.AgendaMedico -c Release -o ${{env.DOTNET_ROOT}}/agenda
+          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta -c Release -o ${{env.DOTNET_ROOT}}/consulta
+          dotnet publish MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico -c Release -o ${{env.DOTNET_ROOT}}/atualizar-agenda
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
