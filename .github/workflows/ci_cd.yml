@@ -18,16 +18,15 @@ env:
   AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico'
   AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente'
   AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente'
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '8.0.x'  
 
 jobs:
-  build-and-deploy:
+  build-api:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-
+  
       - name: Configurar .NET
         uses: actions/setup-dotnet@v1
         with:
@@ -35,8 +34,84 @@ jobs:
 
       - name: Build e Publish API
         run: |
-          dotnet publish MedicalHealth.Fiap.API -c Release -o app
+          dotnet publish MedicalHealth.Fiap.API -c Release -o
+          
+      - name: Upload dos Artefatos API
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-build
+          path: ./output
+          
+  build-function-criar-agendamento:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_CRIAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/criaragendamedico
+          popd
+          
+  build-function-atualizar-agendamento:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_ATUALIZAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/atualizaragendamedico
+          popd
 
+  build-function-criar-consulta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_CRIAR_CONSULTA'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/criarconsulta
+          popd
+          
+  build-function-atualizar-consulta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_ATUALIZAR_CONSULTA'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/atualizarconsulta
+          popd
+
+  build-function-criar-usuario:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_CRIAR_USUARIO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/criarusuario
+          popd
+
+  build-function-atualizar-usuario:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Build FUNCTION_ATUALIZAR_USUARIO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/atualizarusuario
+          popd
+                
+          
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:    
       - name: Login no Azure
         uses: azure/login@v1
         with:
@@ -53,20 +128,17 @@ jobs:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
           package: app
-         
+
+    ##############################################################################
+    
+  deploy-criar-agendamento:
+    runs-on: ubuntu-latest
+    steps:    
       - name: 'Debug - List Repository Structure'
         run: |
           echo "📂 Listando arquivos no diretório atual:"
           pwd
           ls -R
-  
-      - name: 'Resolver Dependencias FUNCTION_CRIAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/criaragendamedico
-          popd
   
       - name: 'Publicar FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
@@ -86,15 +158,9 @@ jobs:
 
       ##################################################################################################################################
       ##################################################################################################################################
-
-#      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_AGENDAMEDICO'
-#        shell: bash
-#        run: |
-#          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
-#          dotnet restore
-#          dotnet build --configuration Release --output ./output/atualizaragendamedico
-#          popd
-  
+#  deploy-atualizar-agendamento:
+#    runs-on: ubuntu-latest
+#    steps:
 #      - name: 'Publicar FUNCTION_ATUALIZAR_AGENDAMEDICO'
 #        shell: bash
 #        run: |
@@ -118,15 +184,9 @@ jobs:
 
       ##################################################################################################################################
       ##################################################################################################################################  
-
-      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_CONSULTA'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizarconsulta
-          popd
-  
+  deploy-atualizar-consulta:
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Publicar FUNCTION_ATUALIZAR_CONSULTA'
         shell: bash
         run: |
@@ -149,16 +209,10 @@ jobs:
           rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizarconsulta'
 
       ##################################################################################################################################
-      ##################################################################################################################################  
-
-      - name: 'Resolver Dependencias FUNCTION_CRIAR_CONSULTA'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/criarconsulta
-          popd
-  
+      ##################################################################################################################################    
+  deploy-criar-consulta:
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Publicar FUNCTION_CRIAR_CONSULTA'
         shell: bash
         run: |
@@ -182,15 +236,10 @@ jobs:
 
       ##################################################################################################################################
       ##################################################################################################################################  
-
-      - name: 'Resolver Dependencias FUNCTION_CRIAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/criarusuario
-          popd
   
+  deploy-criar-usuario:
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Publicar FUNCTION_CRIAR_USUARIO'
         shell: bash
         run: |
@@ -213,16 +262,11 @@ jobs:
           rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}/output/criarusuario'
           
       ##################################################################################################################################
-      ##################################################################################################################################  
-
-      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizarusuario
-          popd
-  
+      ##################################################################################################################################
+      
+  deploy-atualizar-usuario:
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Publicar FUNCTION_ATUALIZAR_USUARIO'
         shell: bash
         run: |
@@ -242,7 +286,7 @@ jobs:
       - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_USUARIO'
         shell: bash
         run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}/output/atualizarusuario'
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}/output/atualizarusuario'
           
       - name: Logout do Azure
         run: az logout
