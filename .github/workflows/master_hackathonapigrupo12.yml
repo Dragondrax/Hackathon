@@ -33,7 +33,7 @@ jobs:
 
       - name: Configurar Storage no Azure (se necessário)
         run: |
-          az webapp config appsettings set --resource-group "SeuResourceGroup" --name "hackathonapigrupo12" \
+          az webapp config appsettings set --resource-group "Hackathon" --name "hackathonapigrupo12" \
           --settings AZURE_WEBJOBS_STORAGE=${{ secrets.AZURE_WEBJOBS_STORAGE }}
 
       - name: Deploy direto para o Azure Web App
