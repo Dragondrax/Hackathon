@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 env:
-  #AZURE_FUNCTIONAPP_PACKAGE_PATH  
   AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
   AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico'
   AZURE_FUNCTIONAPP_CRIAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta'
@@ -18,7 +17,7 @@ env:
   AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico'
   AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente'
   AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente'
-  DOTNET_VERSION: '8.0.x'  
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   build-api:
@@ -34,84 +33,55 @@ jobs:
 
       - name: Build e Publish API
         run: |
-          dotnet publish MedicalHealth.Fiap.API -c Release -o
+          dotnet publish MedicalHealth.Fiap.API -c Release -o ./output/api
           
       - name: Upload dos Artefatos API
         uses: actions/upload-artifact@v3
         with:
           name: api-build
-          path: ./output
-          
-  build-function-criar-agendamento:
+          path: ./output/api
+
+  build-functions:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        function: 
+          - AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO
+          - AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO
+          - AZURE_FUNCTIONAPP_CRIAR_CONSULTA
+          - AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA
+          - AZURE_FUNCTIONAPP_CRIAR_USUARIO
+          - AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO
     steps:
-      - name: 'Build FUNCTION_CRIAR_AGENDAMEDICO'
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+      
+      - name: 'Build ${{ matrix.function }}'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
+          pushd "${{ env[ matrix.function ] }}"
           dotnet restore
-          dotnet build --configuration Release --output ./output/criaragendamedico
-          popd
-          
-  build-function-atualizar-agendamento:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Build FUNCTION_ATUALIZAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizaragendamedico
+          dotnet build --configuration Release --output ./output/${{ matrix.function }}
           popd
 
-  build-function-criar-consulta:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Build FUNCTION_CRIAR_CONSULTA'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/criarconsulta
-          popd
-          
-  build-function-atualizar-consulta:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Build FUNCTION_ATUALIZAR_CONSULTA'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizarconsulta
-          popd
-
-  build-function-criar-usuario:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Build FUNCTION_CRIAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/criarusuario
-          popd
-
-  build-function-atualizar-usuario:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Build FUNCTION_ATUALIZAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizarusuario
-          popd
-                
-          
   deploy-api:
     runs-on: ubuntu-latest
-    steps:    
+    needs: build-api
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Baixar artefatos API
+        uses: actions/download-artifact@v3
+        with:
+          name: api-build
+          path: ./output/api
+      
       - name: Login no Azure
         uses: azure/login@v1
         with:
@@ -127,166 +97,52 @@ jobs:
         with:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
-          package: app
+          package: ./output/api
+      
+      - name: Logout do Azure
+        run: az logout
 
-    ##############################################################################
-    
-  deploy-criar-agendamento:
+  deploy-functions:
     runs-on: ubuntu-latest
-    steps:    
-      - name: 'Debug - List Repository Structure'
-        run: |
-          echo "📂 Listando arquivos no diretório atual:"
-          pwd
-          ls -R
-  
-      - name: 'Publicar FUNCTION_CRIAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
-          dotnet publish --configuration Release --output ./output/criaragendamedico
-          popd
-  
-      - name: 'Rodar Action FUNCTION_CRIAR_AGENDAMEDICO'
-        uses: Azure/functions-action@v1
-        id: fa-criar-agenda
-        with:
-          app-name: 'FunctionPersistenciaCriarAgendaMedico'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_38DD225916C44C9EB6239E4C35905D96 }}
-
-      ##################################################################################################################################
-      ##################################################################################################################################
-#  deploy-atualizar-agendamento:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 'Publicar FUNCTION_ATUALIZAR_AGENDAMEDICO'
-#        shell: bash
-#        run: |
-#          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
-#          dotnet publish --configuration Release --output ./output/atualizaragendamedico
-#          popd
-#      
-#      - name: 'Rodar Action FUNCTION_ATUALIZAR_AGENDAMEDICO'
-#        uses: Azure/functions-action@v1
-#        id: fa-atualizar-agenda
-#        with:
-#          app-name: 'FunctionPersistenciaAtualizarAgendaMedico'
-#          slot-name: 'Production'
-#          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
-#          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD }}
-#  
-#      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_AGENDAMEDICO'
-#        shell: bash
-#        run: |
-#          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
-
-      ##################################################################################################################################
-      ##################################################################################################################################  
-  deploy-atualizar-consulta:
-    runs-on: ubuntu-latest
+    needs: build-functions
+    strategy:
+      matrix:
+        function:
+          - AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO
+          - AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO
+          - AZURE_FUNCTIONAPP_CRIAR_CONSULTA
+          - AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA
+          - AZURE_FUNCTIONAPP_CRIAR_USUARIO
+          - AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO
     steps:
-      - name: 'Publicar FUNCTION_ATUALIZAR_CONSULTA'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
-          dotnet publish --configuration Release --output ./output/atualizarconsulta
-          popd
-      
-      - name: 'Rodar Action FUNCTION_ATUALIZAR_CONSULTA'
-        uses: Azure/functions-action@v1
-        id: fa-atualizar-consulta
-        with:
-          app-name: 'FunctionPersistenciaAtualizarConsulta'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}/output/atualizarconsulta'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7 }}
-  
-      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_CONSULTA'
-        shell: bash
-        run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizarconsulta'
+      - name: Checkout código
+        uses: actions/checkout@v4
 
-      ##################################################################################################################################
-      ##################################################################################################################################    
-  deploy-criar-consulta:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Publicar FUNCTION_CRIAR_CONSULTA'
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: 'Publicar ${{ matrix.function }}'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}'
-          dotnet publish --configuration Release --output ./output/criarconsulta
+          pushd "${{ env[matrix.function] }}"
+          dotnet publish --configuration Release --output ./output/${{ matrix.function }}
           popd
       
-      - name: 'Rodar Action FUNCTION_CRIAR_CONSULTA'
+      - name: 'Rodar Action para ${{ matrix.function }}'
         uses: Azure/functions-action@v1
-        id: fa-criar-consulta
+        id: deploy-function
         with:
-          app-name: 'FunctionPersistenciaCriarConsulta'
+          app-name: '${{ matrix.function }}'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}/output/criarconsulta'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A896A7CF00A04A1E9927857B3A8FAE7E }}
-  
-      - name: 'Limpar Diretorio FUNCTION_CRIAR_CONSULTA'
-        shell: bash
-        run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}/output/criarconsulta'
-
-      ##################################################################################################################################
-      ##################################################################################################################################  
-  
-  deploy-criar-usuario:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Publicar FUNCTION_CRIAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}'
-          dotnet publish --configuration Release --output ./output/criarusuario
-          popd
+          package: '${{ env[matrix.function] }}/output/${{ matrix.function }}'
+          publish-profile: ${{ secrets[format('AZUREAPPSERVICE_PUBLISHPROFILE_{0}', matrix.function)] }}
       
-      - name: 'Rodar Action FUNCTION_CRIAR_USUARIO'
-        uses: Azure/functions-action@v1
-        id: fa-criar-usuario
-        with:
-          app-name: 'FunctionPersistenciaCriarUsuario'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}/output/criarusuario'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6EFBA21EBAC946D68E226057B7B25234 }}
-  
-      - name: 'Limpar Diretorio FUNCTION_CRIAR_USUARIO'
+      - name: 'Limpar Diretório ${{ matrix.function }}'
         shell: bash
         run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_USUARIO }}/output/criarusuario'
-          
-      ##################################################################################################################################
-      ##################################################################################################################################
+          rm -rf "${{ env[matrix.function] }}/output/${{ matrix.function }}"
       
-  deploy-atualizar-usuario:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Publicar FUNCTION_ATUALIZAR_USUARIO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}'
-          dotnet publish --configuration Release --output ./output/atualizarusuario
-          popd
-      
-      - name: 'Rodar Action FUNCTION_ATUALIZAR_USUARIO'
-        uses: Azure/functions-action@v1
-        id: fa-atualizar-usuario
-        with:
-          app-name: 'FunctionPersistenciaAtualizarUsuario'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}/output/atualizarusuario'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_60A79874E145407A8E97BFCA08FFD84F  }}
-  
-      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_USUARIO'
-        shell: bash
-        run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO }}/output/atualizarusuario'
-          
       - name: Logout do Azure
         run: az logout
