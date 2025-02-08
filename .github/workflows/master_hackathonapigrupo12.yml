@@ -35,11 +35,21 @@ jobs:
       - name: Verificar arquivos publicados
         run: ls -la $GITHUB_WORKSPACE/publish/api
 
-      - name: Upload API artifact
+      - name: Upload API artifact para GitHub Actions
         uses: actions/upload-artifact@v4
         with:
           name: api-artifact
           path: $GITHUB_WORKSPACE/publish/api
+          if-no-files-found: error
+
+      - name: Upload API para Azure Blob Storage
+        run: |
+          az storage blob upload-batch \
+            --destination hackathon-artifacts \
+            --account-name hackathonstorage \
+            --source $GITHUB_WORKSPACE/publish/api
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,11 +62,22 @@ jobs:
       - name: Listar artefatos disponíveis antes do download
         run: ls -la $GITHUB_WORKSPACE
 
-      - name: Download API artifact
+      - name: Download API artifact do GitHub Actions
         uses: actions/download-artifact@v4
         with:
           name: api-artifact
           path: $GITHUB_WORKSPACE/publish/api
+
+      - name: Caso o artefato não seja encontrado, baixar do Azure Blob Storage
+        run: |
+          if [ ! -d "$GITHUB_WORKSPACE/publish/api" ]; then
+            az storage blob download-batch \
+              --destination $GITHUB_WORKSPACE/publish/api \
+              --source hackathon-artifacts \
+              --account-name hackathonstorage
+          fi
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
       - name: Login to Azure
         uses: azure/login@v1
