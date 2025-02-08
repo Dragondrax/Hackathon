@@ -87,34 +87,34 @@ jobs:
       ##################################################################################################################################
       ##################################################################################################################################
 
-      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
-          dotnet restore
-          dotnet build --configuration Release --output ./output/atualizaragendamedico
-          popd
+#      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_AGENDAMEDICO'
+#        shell: bash
+#        run: |
+#          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
+#          dotnet restore
+#          dotnet build --configuration Release --output ./output/atualizaragendamedico
+#          popd
   
-      - name: 'Publicar FUNCTION_ATUALIZAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
-          dotnet publish --configuration Release --output ./output/atualizaragendamedico
-          popd
-      
-      - name: 'Rodar Action FUNCTION_ATUALIZAR_AGENDAMEDICO'
-        uses: Azure/functions-action@v1
-        id: fa-atualizar-agenda
-        with:
-          app-name: 'FunctionPersistenciaAtualizarAgendaMedico'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD }}
-  
-      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_AGENDAMEDICO'
-        shell: bash
-        run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
+#      - name: 'Publicar FUNCTION_ATUALIZAR_AGENDAMEDICO'
+#        shell: bash
+#        run: |
+#          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
+#          dotnet publish --configuration Release --output ./output/atualizaragendamedico
+#          popd
+#      
+#      - name: 'Rodar Action FUNCTION_ATUALIZAR_AGENDAMEDICO'
+#        uses: Azure/functions-action@v1
+#        id: fa-atualizar-agenda
+#        with:
+#          app-name: 'FunctionPersistenciaAtualizarAgendaMedico'
+#          slot-name: 'Production'
+#          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
+#          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD }}
+#  
+#      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_AGENDAMEDICO'
+#        shell: bash
+#        run: |
+#          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
 
       ##################################################################################################################################
       ##################################################################################################################################  
