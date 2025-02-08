@@ -19,18 +19,27 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
+      - name: Limpar dependências
+        run: dotnet clean
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
       - name: dotnet publish
         run: |
-          dotnet publish MedicalHealth.Fiap.API -c Release -o ${{github.workspace}}/publish/api
+          dotnet publish ./MedicalHealth.Fiap.API/MedicalHealth.Fiap.API.csproj -c Release -o $GITHUB_WORKSPACE/publish/api
+
+      - name: Verificar arquivos publicados
+        run: ls -la $GITHUB_WORKSPACE/publish/api
 
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-api
-          path: ${{github.workspace}}/publish/api
+          path: $GITHUB_WORKSPACE/publish/api
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,4 +65,4 @@ jobs:
         with:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
-          package: ${{github.workspace}}/publish/api
+          package: $GITHUB_WORKSPACE/publish/api
