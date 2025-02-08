@@ -9,7 +9,6 @@ namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous] //Mudar para Authorize
     public class PacienteController : ControllerBase
     {
         private readonly IPacienteService _pacienteService;
@@ -17,7 +16,7 @@ namespace MedicalHealth.Fiap.API.Controllers
             => _pacienteService = pacienteService;
 
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [AllowAnonymous]
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovoPaciente([FromBody] CriarAlterarPacienteDTO pacienteDTO)
         {
@@ -34,7 +33,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [Authorize(Roles = "Administrador,Paciente")]
         [HttpGet("BuscarPorEmail")]
         public async Task<IActionResult> BuscarPacientePorEmail([FromQuery] BuscarEmailDTO emailDTO)
         {
@@ -48,7 +47,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador,Paciente")]
         [HttpPut("Atualizar")]
         public async Task<IActionResult> AtualizarPaciente([FromBody] CriarAlterarPacienteDTO atualizarPacienteDTO)
         {
@@ -67,7 +66,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador,Paciente")]
         [HttpDelete("Remover")]
         public async Task<IActionResult> RemoverPaciente([FromBody] CriarAlterarPacienteDTO removerPacienteDTO)
         {

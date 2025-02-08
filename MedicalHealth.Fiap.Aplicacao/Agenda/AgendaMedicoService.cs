@@ -31,6 +31,31 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             _medicoRepository = medicoRepository;
             _cacheService = cacheService;
         }
+        public async Task<ResponseModel> BuscarAgendaPorData(DateOnly data)
+        {
+            var agendasMedico = await _repository.ObterAgendaMedicoPorData(data);
+
+            if (agendasMedico == null || !agendasMedico.Any())
+            {
+                _mensagem.Add(MensagemAgenda.MENSAGEM_MEDICO_SEM_AGENDA_DISPONIVEL);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var idMedico = agendasMedico.Select(x => x.MedicoId);
+
+            var medico = await _medicoRepository.ObterMedicoPorListaId(idMedico);
+
+            if (medico is not null && !medico.Any())
+            {
+                _mensagem.Add(MensagemMedico.MENSAGEM_MEDICO_NAO_ENCONTRADO);
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var agendaMedicoDTO = MapearParaAgendaMedicoDTO(agendasMedico, medico);
+
+            _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+            return new ResponseModel(_mensagem, true, agendaMedicoDTO);
+        }
         public async Task<bool> AtualizarAgendaDisponivel(Guid agendaMedicoId)
         {
             var dataHorarioAgenda = await _repository.ObterPorIdAsync(agendaMedicoId);
@@ -244,7 +269,27 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
                 
             return agenda;
         }
+        private IEnumerable<AgendaMedicoDTO> MapearParaAgendaMedicoDTO(IEnumerable<AgendaMedico> agendasMedico, List<Dominio.Entidades.Medico> medicos)
+        {
+            var agendaMedicoLista = new List<AgendaMedicoDTO>();
 
+            foreach (var agendaMedico in agendasMedico)
+            {
+                var medico = medicos.FirstOrDefault(x => x.Id == agendaMedico.MedicoId);
+                agendaMedicoLista.Add(new AgendaMedicoDTO
+                {
+                    Id = agendaMedico.Id,
+                    Data = agendaMedico.Data,
+                    HorarioInicio = agendaMedico.HorarioInicio,
+                    HorarioFim = agendaMedico.HorarioFim,
+                    Disponivel = agendaMedico.Disponivel,
+                    MedicoId = agendaMedico.MedicoId,
+                    ValorConsulta = medico.ValorConsulta
+                });
+            }
+
+            return agendaMedicoLista;
+        }
         private IEnumerable<AgendaMedicoDTO> MapearParaAgendaMedicoDTO(IEnumerable<AgendaMedico> agendasMedico, double valorConsulta)
         {
             var agendaMedicoLista = new List<AgendaMedicoDTO>();
@@ -253,6 +298,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
             {
                 agendaMedicoLista.Add(new AgendaMedicoDTO
                 {
+                    Id = agendaMedico.Id,
                     Data = agendaMedico.Data,
                     HorarioInicio = agendaMedico.HorarioInicio,
                     HorarioFim = agendaMedico.HorarioFim,
@@ -318,7 +364,5 @@ namespace MedicalHealth.Fiap.Aplicacao.Agenda
 
             return listaHorarios;
         }
-
-
     }
 }

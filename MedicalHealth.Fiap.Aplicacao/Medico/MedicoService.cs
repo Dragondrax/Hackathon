@@ -94,7 +94,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
 
             if (medicoParaAtualizar != null)
             {
-                medicoParaAtualizar.AtualizarDados(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, medicoDTO.ValorConsulta);
+                medicoParaAtualizar.AtualizarDados(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, medicoDTO.ValorConsulta, (int)medicoDTO.EspecialidadeMedica);
 
                 await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_ATUALIZAR_MEDICO, JsonConvert.SerializeObject(medicoParaAtualizar));
                 _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);

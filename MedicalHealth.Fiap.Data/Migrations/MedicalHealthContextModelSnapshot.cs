@@ -311,7 +311,7 @@ namespace MedicalHealth.Fiap.Data.Migrations
                         .HasColumnType("BOOL")
                         .HasColumnName("excluido");
 
-                    b.Property<Guid>("GrupoUsuarioId")
+                    b.Property<Guid?>("GrupoUsuarioId")
                         .HasColumnType("uuid")
                         .HasColumnName("grupousuarioid");
 

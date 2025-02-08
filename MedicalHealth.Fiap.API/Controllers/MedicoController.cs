@@ -10,12 +10,11 @@ namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous] //Mudar para Authorize
     public class MedicoController(IMedicoService medicoService) : ControllerBase
     {
         private readonly IMedicoService _medicoService = medicoService;
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [AllowAnonymous]
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovoMedico(CriarAlteraMedicoDTO medicoDTO)
         {
@@ -34,7 +33,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorCRM")]
         public async Task<IActionResult> BuscarMedicoPorCRM([FromQuery] BuscarCRMDTO crmDTO)
         {
@@ -48,7 +47,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
         }
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [Authorize(Roles = "Administrador,Medico,Paciente")]
         [HttpGet("BuscarPorEspecialidade")]
         public async Task<IActionResult> BuscarMedicoPorEspecialidade([FromQuery] EspecialidadeMedica especialidade)
         {
@@ -63,7 +62,7 @@ namespace MedicalHealth.Fiap.API.Controllers
 
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador,Medico")]
         [HttpPut("Atualizar")]
         public async Task<IActionResult> AtualizarAgendaMedico([FromBody] CriarAlteraMedicoDTO atualizarMedicoDTO)
         {
@@ -82,7 +81,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador,Medico")]
         [HttpDelete("Remover")]
         public async Task<IActionResult> RemoverAgendaMedico([FromBody] CriarAlteraMedicoDTO removerMedicoDTO)
         {

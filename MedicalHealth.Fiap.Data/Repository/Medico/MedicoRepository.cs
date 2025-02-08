@@ -32,5 +32,17 @@ namespace MedicalHealth.Fiap.Data.Repository.Medico
 
             return medico.ValorConsulta;
         }
+
+        public async Task<List<Dominio.Entidades.Medico>> ObterMedicoPorListaId(IEnumerable<Guid> medicoId)
+        {
+            var medico = await Db.Medico.Where(x => medicoId.Contains(x.Id)).ToListAsync();
+
+            if (medico == null)
+            {
+                return null;
+            }
+
+            return medico;
+        }
     }
 }

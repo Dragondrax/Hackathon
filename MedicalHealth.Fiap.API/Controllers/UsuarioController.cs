@@ -10,7 +10,6 @@ namespace MedicalHealth.Fiap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous] //Mudar para Authorize
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -35,7 +34,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return BadRequest(resultado);
         }
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [Authorize(Roles = "Administrador")]
         [HttpPost("Criar")]
         public async Task<IActionResult> SalvarNovoUsuario([FromBody] CriarAlteraUsuarioDTO usuarioDTO)
         {
@@ -54,7 +53,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico,Paciente")]
+        [Authorize(Roles = "Administrador")]
         [HttpGet("BuscarPorEmail")]
         public async Task<IActionResult> BuscarUsuarioPorEmail([FromQuery] BuscarEmailDTO emailDTO)
         {
@@ -68,7 +67,7 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return NotFound(resultado);
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador")]
         [HttpPut("Atualizar")]
         public async Task<IActionResult> AtualizarUsuario([FromBody] CriarAlteraUsuarioDTO atualizarUsuarioDTO)
         {
@@ -87,16 +86,16 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
 
-        //[Authorize(Roles = "Administrador,Medico")]
+        [Authorize(Roles = "Administrador")]
         [HttpDelete("Remover")]
-        public async Task<IActionResult> RemoverUsuario([FromBody] CriarAlteraUsuarioDTO removerUsuarioDTO)
+        public async Task<IActionResult> RemoverUsuario(Guid usuarioId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var resultado = await _usuarioService.ExcluirUsuario(removerUsuarioDTO);
+            var resultado = await _usuarioService.ExcluirUsuario(usuarioId);
 
             if (resultado.Sucesso)
                 return Ok(resultado);
