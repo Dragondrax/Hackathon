@@ -1,4 +1,5 @@
-﻿using MedicalHealth.Fiap.Data.Repository.Paciente;
+﻿using FluentValidation;
+using MedicalHealth.Fiap.Data.Repository.Paciente;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
@@ -14,9 +15,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus = enviarMensagemServiceBus;
         private List<string> _mensagem = new List<string>();
 
-        public async Task<ResponseModel> SalvarNovoPaciente(CriaAlteraPacienteDTO pacienteDTO)
+        public async Task<ResponseModel> SalvarNovoPaciente(CriarAlterarPacienteDTO pacienteDTO)
         {
-            var validacao = new CriaAlteraPacienteDTOValidator().Validate(pacienteDTO);
+            var validacao = new CriarAlterarPacienteDTOValidator().Validate(pacienteDTO);
             if (!validacao.IsValid)
             {
                 _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
@@ -58,6 +59,54 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
 
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, paciente);
+        }
+
+        public async Task<ResponseModel> AtualizarPaciente(CriarAlterarPacienteDTO pacienteDTO)
+        {
+            var validacao = new CriarAlterarPacienteDTOValidator().Validate(pacienteDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var pacienteParaAtualizar = await _pacienteRepository.ObterPacientePorEmailAsync(pacienteDTO.Email);
+
+            if (pacienteParaAtualizar != null)
+            {
+                pacienteParaAtualizar.Atualizar(pacienteDTO.Nome, pacienteDTO.CPF, pacienteDTO.Email);
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaPaciente.FILA_PERSISTENCIA_ATUALIZAR_PACIENTE, JsonConvert.SerializeObject(pacienteParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemPaciente.MENSAGEM_PACIENTE_NAO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
+        }
+
+        public async Task<ResponseModel> ExcluirPaciente(CriarAlterarPacienteDTO pacienteDTO)
+        {
+            var validacao = new CriarAlterarPacienteDTOValidator().Validate(pacienteDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var pacienteParaAtualizar = await _pacienteRepository.ObterPacientePorEmailAsync(pacienteDTO.Email);
+
+            if (pacienteParaAtualizar != null)
+            {
+                pacienteParaAtualizar.Excluir();
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaPaciente.FILA_PERSISTENCIA_ATUALIZAR_PACIENTE, JsonConvert.SerializeObject(pacienteParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemPaciente.MENSAGEM_PACIENTE_NAO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
         }
     }
 }

@@ -34,6 +34,12 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             PrimeiroAcesso = true;
         }
 
+        public void Atualizar(string email, string senha)
+        {
+            Email = email;
+            Senha = senha;
+        }
+
         public void AtualizarSenhaPrimeiroAcesso(string senha)
         {
             Senha = senha;
@@ -59,6 +65,11 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
                 
 
             return MensagemUsuario.USUARIO_BLOQUEADO;
+        }
+
+        public void Excluir()
+        {
+            Desativar();
         }
 
         public void LoginSucesso()

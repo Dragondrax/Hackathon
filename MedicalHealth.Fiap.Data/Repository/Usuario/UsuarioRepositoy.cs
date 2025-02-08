@@ -1,6 +1,4 @@
 ﻿using MedicalHealth.Fiap.Data.Context;
-using MedicalHealth.Fiap.Dominio;
-using MedicalHealth.Fiap.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalHealth.Fiap.Data.Repository.Usuario

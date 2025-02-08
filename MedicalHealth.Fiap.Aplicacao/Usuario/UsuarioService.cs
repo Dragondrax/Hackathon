@@ -121,5 +121,53 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, usuario);
         }
+
+        public async Task<ResponseModel> AtualizarUsuario(CriarAlteraUsuarioDTO usuarioDTO)
+        {
+            var validacao = new CriarAlteraUsuarioDTOValidator().Validate(usuarioDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var usuarioParaAtualizar = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email);
+
+            if (usuarioParaAtualizar != null)
+            {
+                usuarioParaAtualizar.Atualizar(usuarioDTO.Email, usuarioDTO.Senha);
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_ATUALIZAR_USUARIO, JsonConvert.SerializeObject(usuarioParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemUsuario.MENSAGEM_USUARIO_NAO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
+        }
+
+        public async Task<ResponseModel> ExcluirUsuario(CriarAlteraUsuarioDTO usuarioDTO)
+        {
+            var validacao = new CriarAlteraUsuarioDTOValidator().Validate(usuarioDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var usuarioParaAtualizar = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email);
+
+            if (usuarioParaAtualizar != null)
+            {
+                usuarioParaAtualizar.Excluir();
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_ATUALIZAR_USUARIO, JsonConvert.SerializeObject(usuarioParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemUsuario.MENSAGEM_USUARIO_NAO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
+        }
     }
 }

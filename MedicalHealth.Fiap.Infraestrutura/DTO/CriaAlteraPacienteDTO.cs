@@ -4,16 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
 {
-    public class CriaAlteraPacienteDTO
+    public class CriarAlterarPacienteDTO
     {
         public string Nome { get; set; }
         public string CPF { get; set; }
         public string Email { get; set; }
     }
 
-    public class CriaAlteraPacienteDTOValidator : AbstractValidator<CriaAlteraPacienteDTO>
+    public class CriarAlterarPacienteDTOValidator : AbstractValidator<CriarAlterarPacienteDTO>
     {
-        public CriaAlteraPacienteDTOValidator()
+        public CriarAlterarPacienteDTOValidator()
         {
             RuleFor(x => x.Nome)
                 .NotEmpty()

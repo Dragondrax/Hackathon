@@ -1,6 +1,4 @@
-﻿using MedicalHealth.Fiap.Aplicacao.Consulta;
-using MedicalHealth.Fiap.Data.Repository.Consulta;
-using MedicalHealth.Fiap.Dominio.Enum;
+﻿using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Filas;
@@ -67,9 +65,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var existeMedico = await BuscarMedicoPorCRM(new BuscarCRMDTO(medicoDTO.CRM));
+            var existeMedico = _medicoRepository.ObterPorCRMAsync(medicoDTO.CRM);
 
-            if(existeMedico.Sucesso)
+            if (existeMedico == null)
             {
                 _mensagem.Add(MensagemMedico.MENSAGEM_CRM_JA_EXISTENTE);
                 return new ResponseModel(_mensagem, false, null);
@@ -80,6 +78,54 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_CRIAR_MEDICO, JsonConvert.SerializeObject(novoMedico));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
+        }
+
+        public async Task<ResponseModel> AtualizarMedico(CriarAlteraMedicoDTO medicoDTO)
+        {
+            var validacao = new CriarAlteraMedicoDTOValidator().Validate(medicoDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var medicoParaAtualizar = await _medicoRepository.ObterPorCRMAsync(medicoDTO.CRM);
+
+            if (medicoParaAtualizar != null)
+            {
+                medicoParaAtualizar.AtualizarDados(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, medicoDTO.ValorConsulta);
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_ATUALIZAR_MEDICO, JsonConvert.SerializeObject(medicoParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemMedico.MENSAGEM_NENHUM_MEDICO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
+        }
+
+        public async Task<ResponseModel> ExcluirMedico(CriarAlteraMedicoDTO medicoDTO)
+        {
+            var validacao = new CriarAlteraMedicoDTOValidator().Validate(medicoDTO);
+            if (!validacao.IsValid)
+            {
+                _mensagem = validacao.Errors.Select(x => x.ErrorMessage).ToList();
+                return new ResponseModel(_mensagem, false, null);
+            }
+
+            var medicoParaAtualizar = await _medicoRepository.ObterPorCRMAsync(medicoDTO.CRM);
+
+            if (medicoParaAtualizar != null)
+            {
+                medicoParaAtualizar.Excluir();
+
+                await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_ATUALIZAR_MEDICO, JsonConvert.SerializeObject(medicoParaAtualizar));
+                _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
+                return new ResponseModel(_mensagem, true, null);
+            }
+
+            _mensagem.Add(MensagemMedico.MENSAGEM_NENHUM_MEDICO_ENCONTRADO);
+            return new ResponseModel(_mensagem, false, null);
         }
     }
 }

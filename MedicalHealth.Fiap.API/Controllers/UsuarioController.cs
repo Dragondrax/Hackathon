@@ -1,4 +1,5 @@
 ﻿using MedicalHealth.Fiap.Aplicacao;
+using MedicalHealth.Fiap.Infraestrutura;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Utils;
@@ -65,6 +66,46 @@ namespace MedicalHealth.Fiap.API.Controllers
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
             else
                 return NotFound(resultado);
+        }
+
+        //[Authorize(Roles = "Administrador,Medico")]
+        [HttpPut("Atualizar")]
+        public async Task<IActionResult> AtualizarUsuario([FromBody] CriarAlteraUsuarioDTO atualizarUsuarioDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _usuarioService.AtualizarUsuario(atualizarUsuarioDTO);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
+        }
+
+        //[Authorize(Roles = "Administrador,Medico")]
+        [HttpDelete("Remover")]
+        public async Task<IActionResult> RemoverUsuario([FromBody] CriarAlteraUsuarioDTO removerUsuarioDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resultado = await _usuarioService.ExcluirUsuario(removerUsuarioDTO);
+
+            if (resultado.Sucesso)
+                return Ok(resultado);
+            else if (resultado.Sucesso == true && resultado.Mensagem.Any() && resultado.Mensagem.Count() > 1)
+                return Ok(resultado.Mensagem);
+            else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
+                return BadRequest(resultado.Mensagem);
+            else
+                return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }
     }
 }
