@@ -236,7 +236,7 @@ jobs:
         run: az logout
 
 ################################################################################
-# FUNCTION: ATUALIZAR CONSULTA
+# FUNCTION: ATUALIZAR CONSULTA NÃO CRIADO FUNCTION NO AZURE E DEPLOY DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
 ################################################################################
   build-function-atualizar-consulta:
     runs-on: ubuntu-latest
@@ -262,38 +262,38 @@ jobs:
           name: atualizarconsulta-artifact
           path: "${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}/output/atualizarconsulta"
 
-  deploy-function-atualizar-consulta:
-    runs-on: ubuntu-latest
-    needs: build-function-atualizar-consulta
-    steps:
-      - name: Login no Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-  
-      - name: Remover WEBSITE_RUN_FROM_PACKAGE
-        run: |
-          az webapp config appsettings delete \
-            --resource-group "HackathonFunction" \
-            --name FunctionPersistenciaAtualizarConsulta \
-            --setting-names WEBSITE_RUN_FROM_PACKAGE
-  
-      - name: Download Artefato FUNCTION_ATUALIZAR_CONSULTA
-        uses: actions/download-artifact@v4
-        with:
-          name: atualizarconsulta-artifact
-          path: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
-  
-      - name: Deploy FUNCTION_ATUALIZAR_CONSULTA
-        uses: Azure/functions-action@v1
-        with:
-          app-name: FunctionPersistenciaAtualizarConsulta
-          slot-name: Production
-          package: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7 }}
-  
-      - name: Logout do Azure
-        run: az logout
+#  deploy-function-atualizar-consulta:
+#    runs-on: ubuntu-latest
+#    needs: build-function-atualizar-consulta
+#    steps:
+#      - name: Login no Azure
+#        uses: azure/login@v1
+#        with:
+#          creds: ${{ secrets.AZURE_CREDENTIALS }}
+#  
+#      - name: Remover WEBSITE_RUN_FROM_PACKAGE
+#        run: |
+#          az webapp config appsettings delete \
+#            --resource-group "HackathonFunction" \
+#            --name FunctionPersistenciaAtualizarConsulta \
+#            --setting-names WEBSITE_RUN_FROM_PACKAGE
+#  
+#      - name: Download Artefato FUNCTION_ATUALIZAR_CONSULTA
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: atualizarconsulta-artifact
+#          path: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
+#  
+#      - name: Deploy FUNCTION_ATUALIZAR_CONSULTA
+#        uses: Azure/functions-action@v1
+#        with:
+#          app-name: FunctionPersistenciaAtualizarConsulta
+#          slot-name: Production
+#          package: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
+#          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7 }}
+#  
+#      - name: Logout do Azure
+#        run: az logout
 
 ################################################################################
 # FUNCTION: CRIAR USUÁRIO
@@ -402,7 +402,7 @@ jobs:
         run: az logout
 
 ################################################################################
-# FUNCTION: CRIAR MÉDICO NÃO CRIADO NO AZURE DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
+# FUNCTION: CRIAR MÉDICO NÃO CRIADO FUNCTION NO AZURE E DEPLOY DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
 ################################################################################
   build-function-criar-medico:
     runs-on: ubuntu-latest
@@ -455,7 +455,7 @@ jobs:
   #      run: az logout
 
 ################################################################################
-# FUNCTION: ATUALIZAR MÉDICO NÃO CRIADO NO AZURE DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
+# FUNCTION: ATUALIZAR MÉDICO NÃO CRIADO FUNCTION NO AZURE E DEPLOY DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
 ################################################################################
   build-function-atualizar-medico:
     runs-on: ubuntu-latest
