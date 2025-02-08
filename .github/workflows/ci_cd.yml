@@ -61,12 +61,12 @@ jobs:
         with:
           dotnet-version: '8.x'
       
-      - name: 'Build ${{ matrix.function }}'
+      - name: 'Build FunctionPersistenciaAtualizarConsulta'
         shell: bash
         run: |
           pushd "${{ env[ matrix.function ] }}"
           dotnet restore
-          dotnet build --configuration Release --output ./output/${{ matrix.function }}
+          dotnet build --configuration Release --output ./output/FunctionPersistenciaAtualizarConsulta
           popd
 
   deploy-api:
@@ -109,7 +109,7 @@ jobs:
       matrix:
         function:
           - AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO
-          # - AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO
+          - AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO
           - AZURE_FUNCTIONAPP_CRIAR_CONSULTA
           - AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA
           - AZURE_FUNCTIONAPP_CRIAR_USUARIO
@@ -123,26 +123,26 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: 'Publicar ${{ matrix.function }}'
+      - name: 'Publicar FunctionPersistenciaAtualizarConsulta'
         shell: bash
         run: |
           pushd "${{ env[matrix.function] }}"
-          dotnet publish --configuration Release --output ./output/${{ matrix.function }}
+          dotnet publish --configuration Release --output ./output/FunctionPersistenciaAtualizarConsulta
           popd
       
-      - name: 'Rodar Action para ${{ matrix.function }}'
+      - name: 'Rodar Action para FunctionPersistenciaAtualizarConsulta'
         uses: Azure/functions-action@v1
         id: deploy-function
         with:
-          app-name: '${{ matrix.function }}'
+          app-name: 'FunctionPersistenciaAtualizarConsulta'
           slot-name: 'Production'
-          package: '${{ env[matrix.function] }}/output/${{ matrix.function }}'
+          package: '${{ env[matrix.function] }}/output/FunctionPersistenciaAtualizarConsulta'
           publish-profile: ${{ secrets[format('AZUREAPPSERVICE_PUBLISHPROFILE_{0}', matrix.function)] }}
       
-      - name: 'Limpar Diretório ${{ matrix.function }}'
+      - name: 'Limpar Diretório FunctionPersistenciaAtualizarConsulta'
         shell: bash
         run: |
-          rm -rf "${{ env[matrix.function] }}/output/${{ matrix.function }}"
+          rm -rf "${{ env[matrix.function] }}/output/FunctionPersistenciaAtualizarConsulta"
       
       - name: Logout do Azure
         run: az logout
