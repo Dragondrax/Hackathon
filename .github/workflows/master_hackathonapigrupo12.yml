@@ -18,15 +18,15 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build and publish
+      - name: Build and publish API only
         run: |
-          dotnet publish -c Release -o $GITHUB_WORKSPACE/publish
+          dotnet publish MedicalHealth.Fiap.API -c Release -o $GITHUB_WORKSPACE/publish/api
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: api-artifact
-          path: $GITHUB_WORKSPACE/publish
+          path: $GITHUB_WORKSPACE/publish/api
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: api-artifact
-          path: $GITHUB_WORKSPACE/publish
+          path: $GITHUB_WORKSPACE/publish/api
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
@@ -45,4 +45,4 @@ jobs:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: $GITHUB_WORKSPACE/publish
+          package: $GITHUB_WORKSPACE/publish/api
