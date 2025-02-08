@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using MedicalHealth.Fiap.Data.Repository.Paciente;
+﻿using MedicalHealth.Fiap.Data.Repository.Paciente;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
 using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Newtonsoft.Json;
+using static BCrypt.Net.BCrypt;
 
 namespace MedicalHealth.Fiap.Aplicacao.Paciente
 {
@@ -14,6 +14,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
         private IPacienteRepository _pacienteRepository = pacienteRepository;
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus = enviarMensagemServiceBus;
         private List<string> _mensagem = new List<string>();
+        private const int WorkFactor = 12;
 
         public async Task<ResponseModel> SalvarNovoPaciente(CriarAlterarPacienteDTO pacienteDTO)
         {
@@ -32,11 +33,18 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoPaciente = new PersistenciaPacienteDTO(pacienteDTO.Nome, pacienteDTO.CPF, pacienteDTO.Email, pacienteDTO.Senha);
+            var hashSenha = await GerarHashSenhaUsuario(pacienteDTO.Senha);
+
+            var novoPaciente = new PersistenciaPacienteDTO(pacienteDTO.Nome, pacienteDTO.CPF, pacienteDTO.Email, hashSenha);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaPaciente.FILA_PERSISTENCIA_CRIAR_PACIENTE, JsonConvert.SerializeObject(novoPaciente));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, null);
+        }
+
+        public async Task<string> GerarHashSenhaUsuario(string senha)
+        {
+            return await Task.FromResult(HashPassword(senha, WorkFactor));
         }
 
         public async Task<ResponseModel> BuscarPacientePorEmail(BuscarEmailDTO emailDTO)

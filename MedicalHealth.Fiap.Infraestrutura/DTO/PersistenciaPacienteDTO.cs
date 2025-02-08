@@ -13,10 +13,10 @@ namespace MedicalHealth.Fiap.Infraestrutura.DTO
         [JsonProperty("Senha")]
         public string Senha { get; private set; }
 
-        public PersistenciaPacienteDTO(string nome, string cPF, string email, string senha)
+        public PersistenciaPacienteDTO(string nome, string cpf, string email, string senha)
         {
             Nome = nome;
-            CPF = cPF;
+            CPF = cpf;
             Email = email;
             Senha = senha;
         }

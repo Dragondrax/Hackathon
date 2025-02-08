@@ -9,5 +9,6 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
         Task<ResponseModel> BuscarPacientePorEmail(BuscarEmailDTO emaiDTO);
         Task<ResponseModel> AtualizarPaciente(CriarAlterarPacienteDTO pacienteDTO);
         Task<ResponseModel> ExcluirPaciente(CriarAlterarPacienteDTO pacienteDTO);
+        Task<string> GerarHashSenhaUsuario(string senha);
     }
 }

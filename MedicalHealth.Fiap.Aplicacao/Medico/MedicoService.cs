@@ -7,6 +7,7 @@ using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
 using MedicalHealth.Fiap.SharedKernel.Utils;
 using Newtonsoft.Json;
+using static BCrypt.Net.BCrypt;
 
 namespace MedicalHealth.Fiap.Aplicacao.Medico
 {
@@ -15,6 +16,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
         private readonly IMedicoRepository _medicoRepository = medicoRepository;
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus = enviarMensagemServiceBus;
         private List<string> _mensagem = [];
+        private const int WorkFactor = 12;
 
         public Task<ResponseModel> AceiteConsultaMedica(AceiteConsultaMedicoRequestModel aceiteConsultaMedica)
         {
@@ -41,6 +43,11 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
 
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
             return new ResponseModel(_mensagem, true, medico);
+        }
+
+        public async Task<string> GerarHashSenhaUsuario(string senha)
+        {
+            return await Task.FromResult(HashPassword(senha, WorkFactor));
         }
 
         public async Task<ResponseModel> BuscarMedicosPorEspecialidade(EspecialidadeMedica especialidadeMedica)
@@ -74,7 +81,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoMedico = new PersistenciaMedicoDTO(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, medicoDTO.Senha, snAtivo:true, medicoDTO.ValorConsulta, (Especialidade)medicoDTO.EspecialidadeMedica);
+            var hashSenha = await GerarHashSenhaUsuario(medicoDTO.Senha);
+
+            var novoMedico = new PersistenciaMedicoDTO(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, hashSenha, snAtivo:true, medicoDTO.ValorConsulta, (Especialidade)medicoDTO.EspecialidadeMedica);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_CRIAR_MEDICO, JsonConvert.SerializeObject(novoMedico));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
