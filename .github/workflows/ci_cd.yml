@@ -51,7 +51,7 @@ jobs:
     needs: build-api
     steps:
       - name: Download do Artefato da API
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: api-artifact
           path: ./output/api
@@ -113,7 +113,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_CRIAR_AGENDAMEDICO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: criaragendamedico-artifact
           path: "./MedicalHealth.Fiap.Function.Persistencia.AgendaMedico/output/criaragendamedico"
@@ -166,7 +166,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_ATUALIZAR_AGENDAMEDICO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: atualizaragendamedico-artifact
           path: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico/output/atualizaragendamedico"
@@ -219,7 +219,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_CRIAR_CONSULTA
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: criarconsulta-artifact
           path: "./MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta/output/criarconsulta"
@@ -276,7 +276,7 @@ jobs:
           az functionapp config appsettings delete --name FunctionPersistenciaAtualizarConsulta --resource-group Hackathon --setting-names WEBSITE_RUN_FROM_PACKAGE
 
       - name: Download Artefato FUNCTION_ATUALIZAR_CONSULTA
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: atualizarconsulta-artifact
           path: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
@@ -329,7 +329,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_CRIAR_USUARIO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: criarusuario-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Usuario/output/criarusuario"
@@ -382,7 +382,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_ATUALIZAR_USUARIO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: atualizarusuario-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Usuario/output/atualizarusuario"
@@ -435,7 +435,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_CRIAR_MEDICO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: criarmedico-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico/output/criarmedico"
@@ -488,7 +488,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_ATUALIZAR_MEDICO
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: atualizarmedico-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico/output/atualizarmedico"
@@ -541,7 +541,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_CRIAR_PACIENTE
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: criarpaciente-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente/output/criarpaciente"
@@ -594,7 +594,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Download Artefato FUNCTION_ATUALIZAR_PACIENTE
-        uses: actions/download-artifact@v3.1.2
+        uses: actions/download-artifact@v4
         with:
           name: atualizarpaciente-artifact
           path: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Paciente/output/atualizarpaciente"
