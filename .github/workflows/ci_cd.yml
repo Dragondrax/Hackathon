@@ -270,13 +270,20 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+  
+      - name: Remover WEBSITE_RUN_FROM_PACKAGE
+        run: |
+          az webapp config appsettings delete \
+            --resource-group "Hackathon" \
+            --name FunctionPersistenciaAtualizarConsulta \
+            --setting-names WEBSITE_RUN_FROM_PACKAGE
+  
       - name: Download Artefato FUNCTION_ATUALIZAR_CONSULTA
         uses: actions/download-artifact@v4
         with:
           name: atualizarconsulta-artifact
           path: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
-
+  
       - name: Deploy FUNCTION_ATUALIZAR_CONSULTA
         uses: Azure/functions-action@v1
         with:
@@ -284,7 +291,7 @@ jobs:
           slot-name: Production
           package: "./MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta/output/atualizarconsulta"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7 }}
-
+  
       - name: Logout do Azure
         run: az logout
 
@@ -421,31 +428,31 @@ jobs:
           name: criarmedico-artifact
           path: "${{ env.AZURE_FUNCTIONAPP_CRIAR_MEDICO }}/output/criarmedico"
 
-  deploy-function-criar-medico:
-    runs-on: ubuntu-latest
-    needs: build-function-criar-medico
-    steps:
-      - name: Login no Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #deploy-function-criar-medico:
+  #  runs-on: ubuntu-latest
+  #  needs: build-function-criar-medico
+  #  steps:
+  #    - name: Login no Azure
+  #      uses: azure/login@v1
+  #      with:
+  #        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Download Artefato FUNCTION_CRIAR_MEDICO
-        uses: actions/download-artifact@v4
-        with:
-          name: criarmedico-artifact
-          path: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico/output/criarmedico"
+  #    - name: Download Artefato FUNCTION_CRIAR_MEDICO
+  #      uses: actions/download-artifact@v4
+  #      with:
+  #        name: criarmedico-artifact
+  #        path: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico/output/criarmedico"
 
-      - name: Deploy FUNCTION_CRIAR_MEDICO
-        uses: Azure/functions-action@v1
-        with:
-          app-name: FunctionPersistenciaCriarMedico
-          slot-name: Production
-          package: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico/output/criarmedico"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CRIAR_MEDICO }}
+  #    - name: Deploy FUNCTION_CRIAR_MEDICO
+  #      uses: Azure/functions-action@v1
+  #      with:
+  #        app-name: FunctionPersistenciaCriarMedico
+  #        slot-name: Production
+  #        package: "./MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico/output/criarmedico"
+  #        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CRIAR_MEDICO }}
 
-      - name: Logout do Azure
-        run: az logout
+  #    - name: Logout do Azure
+  #      run: az logout
 
 ################################################################################
 # FUNCTION: ATUALIZAR MÉDICO NÃO CRIADO NO AZURE DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
@@ -474,31 +481,31 @@ jobs:
           name: atualizarmedico-artifact
           path: "${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO }}/output/atualizarmedico"
 
-  deploy-function-atualizar-medico:
-    runs-on: ubuntu-latest
-    needs: build-function-atualizar-medico
-    steps:
-      - name: Login no Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Download Artefato FUNCTION_ATUALIZAR_MEDICO
-        uses: actions/download-artifact@v4
-        with:
-          name: atualizarmedico-artifact
-          path: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico/output/atualizarmedico"
-
-      - name: Deploy FUNCTION_ATUALIZAR_MEDICO
-        uses: Azure/functions-action@v1
-        with:
-          app-name: FunctionPersistenciaAtualizarMedico
-          slot-name: Production
-          package: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico/output/atualizarmedico"
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ATUALIZAR_MEDICO }}
-
-      - name: Logout do Azure
-        run: az logout
+ # deploy-function-atualizar-medico:
+ #   runs-on: ubuntu-latest
+ #   needs: build-function-atualizar-medico
+ #   steps:
+ #     - name: Login no Azure
+ #       uses: azure/login@v1
+ #       with:
+ #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+ #
+ #     - name: Download Artefato FUNCTION_ATUALIZAR_MEDICO
+ #       uses: actions/download-artifact@v4
+ #       with:
+ #         name: atualizarmedico-artifact
+ #         path: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico/output/atualizarmedico"
+#
+ #     - name: Deploy FUNCTION_ATUALIZAR_MEDICO
+ #       uses: Azure/functions-action@v1
+ #       with:
+ #         app-name: FunctionPersistenciaAtualizarMedico
+ #         slot-name: Production
+ #         package: "./MedicalHealth.Fiap.Function.Pesistencia.Atualizar.Medico/output/atualizarmedico"
+ #         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ATUALIZAR_MEDICO }}
+#
+ #     - name: Logout do Azure
+ #       run: az logout
 
 ################################################################################
 # FUNCTION: CRIAR PACIENTE
