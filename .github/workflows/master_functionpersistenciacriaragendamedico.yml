@@ -1,4 +1,4 @@
-name: Build and deploy dotnet core project to Azure Function App - FunctionPersistenciaCriarAgendaMedico
+name: Build and deploy dotnet core project to Azure Function App
 
 on:
   push:
@@ -7,7 +7,17 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_PACKAGE_PATH  
+  AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico'
+  AZURE_FUNCTIONAPP_CRIAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta'
+  AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta'
+  #AZURE_FUNCTIONAPP_CRIAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_CRIAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
   DOTNET_VERSION: '8.0.x'
 
 jobs:
@@ -29,31 +39,31 @@ jobs:
           ls -R
 
 
-      - name: 'Resolve Project Dependencies Using Dotnet'
+      - name: 'Resolver Dependencias FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
           dotnet restore
           dotnet build --configuration Release --output ./output
           popd
 
-      - name: 'Publish Function'
+      - name: 'Publicar FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
           dotnet publish --configuration Release --output ./output
           popd
 
-      - name: 'Run Azure Functions Action'
+      - name: 'Rodar Action FUNCTION_CRIAR_AGENDAMEDICO'
         uses: Azure/functions-action@v1
         id: fa
         with:
           app-name: 'FunctionPersistenciaCriarAgendaMedico'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_38DD225916C44C9EB6239E4C35905D96 }}
 
-      - name: 'Clean old deployments'
+      - name: 'Limpar Diretorio FUNCTION_CRIAR_AGENDAMEDICO'
         shell: bash
         run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output'
