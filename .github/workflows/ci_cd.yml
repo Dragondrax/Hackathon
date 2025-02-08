@@ -118,6 +118,36 @@ jobs:
 
       ##################################################################################################################################
       ##################################################################################################################################  
+      #
+
+      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_CONSULTA'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/atualizarconsulta
+          popd
+  
+      - name: 'Publicar FUNCTION_ATUALIZAR_CONSULTA'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}'
+          dotnet publish --configuration Release --output ./output/atualizarconsulta
+          popd
+      
+      - name: 'Rodar Action FUNCTION_ATUALIZAR_CONSULTA'
+        uses: Azure/functions-action@v1
+        id: fa-atualizar-consulta
+        with:
+          app-name: 'FunctionPersistenciaAtualizarConsulta'
+          slot-name: 'Production'
+          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA }}/output/atualizarconsulta'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_272C1F31E9C84716B19BB7BA813E23F7  }}
+  
+      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_CONSULTA'
+        shell: bash
+        run: |
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizarconsulta'
 
       - name: Logout do Azure
         run: az logout
