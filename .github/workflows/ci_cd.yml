@@ -41,7 +41,7 @@ jobs:
           dotnet publish MedicalHealth.Fiap.API -c Release -o ./output/api
 
       - name: Upload do Artefato da API
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: api-artifact
           path: ./output/api
