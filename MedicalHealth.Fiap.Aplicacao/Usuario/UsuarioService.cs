@@ -17,6 +17,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
         private readonly ITokenService _tokenService = tokenService;
         private readonly IEnviarMensagemServiceBus _enviarMensagemServiceBus = enviarMensagemServiceBus;
         private List<string> _mensagem = new List<string>();
+        private const int WorkFactor = 12;
 
         public async Task<ResponseModel> AutenticarUsuario(AutenticarUsuarioDTO usuarioDTO)
         {
@@ -27,11 +28,13 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 return new ResponseModel(_mensagem, false, null);
             }
 
+            var hashSenha = await GerarHashSenhaUsuario(usuarioDTO.Senha);
+
             if (usuarioDTO.TipoUsuario == Roles.Administrador)
             {
                 var usuario = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email.ToLower());
 
-                if (usuario != null && Verify(usuarioDTO.Senha, usuario.Senha))
+                if (usuario != null && Verify(hashSenha, usuario.Senha))
                 {
                     var token = await _tokenService.ObterToken(usuarioDTO);
 
@@ -47,7 +50,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 {
                     var usuario = await _usuarioRepository.ObterUsuarioPorEmailAsync(medico.Email);
 
-                    if (medico is not null && Verify(usuarioDTO.Senha, usuario.Senha))
+                    if (medico is not null && Verify(hashSenha, usuario.Senha))
                     {
                         var token = await _tokenService.ObterToken(usuarioDTO);
 
@@ -60,7 +63,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
             {
                 var usuario = await _usuarioRepository.ObterUsuarioPorEmailAsync(usuarioDTO.Email.ToLower());
 
-                if (usuario != null && Verify(usuarioDTO.Senha, usuario.Senha))
+                if (usuario != null && Verify(hashSenha, usuario.Senha))
                 {
                     var token = await _tokenService.ObterToken(usuarioDTO);
 
@@ -78,9 +81,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
             return new ResponseModel(_mensagem, true, null);
         }
 
-        public Task<string> GerarHashSenhaUsuario(string senha)
+        public async Task<string> GerarHashSenhaUsuario(string senha)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(HashPassword(senha, WorkFactor));
         }
 
         public async Task<ResponseModel> SalvarNovoUsuario(CriarAlteraUsuarioDTO usuarioDTO)
@@ -92,7 +95,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, null, usuarioDTO.Email, usuarioDTO.Senha);
+            var hashSenha = await GerarHashSenhaUsuario(usuarioDTO.Senha);
+
+            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, null, usuarioDTO.Email, hashSenha);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_CRIAR_USUARIO, JsonConvert.SerializeObject(novoUsuario));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);
@@ -135,7 +140,9 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
 
             if (usuarioParaAtualizar != null)
             {
-                usuarioParaAtualizar.Atualizar(usuarioDTO.Email, usuarioDTO.Senha);
+                var hashSenha = await GerarHashSenhaUsuario(usuarioDTO.Senha);
+
+                usuarioParaAtualizar.Atualizar(usuarioDTO.Email, hashSenha);
 
                 await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_ATUALIZAR_USUARIO, JsonConvert.SerializeObject(usuarioParaAtualizar));
                 _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);

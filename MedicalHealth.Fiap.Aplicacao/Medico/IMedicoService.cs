@@ -12,5 +12,6 @@ namespace MedicalHealth.Fiap.Aplicacao
         Task<ResponseModel> SalvarNovoMedico(CriarAlteraMedicoDTO medicoDTO);
         Task<ResponseModel> AtualizarMedico(CriarAlteraMedicoDTO medicoDTO);
         Task<ResponseModel> ExcluirMedico(CriarAlteraMedicoDTO medicoDTO);
+        Task<string> GerarHashSenhaUsuario(string senha);
     }
 }
