@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.IoC", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Testes.Unitarios", "MedicalHealth.Fiap.Testes.Unitarios\MedicalHealth.Fiap.Testes.Unitarios.csproj", "{62408B2C-1BCD-49D1-907E-6C844FE30AC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Usuario", "MedicalHealth.Fiap.Function.Persistencia.Usuario\MedicalHealth.Fiap.Function.Persistencia.Usuario.csproj", "{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Data.Persistencia", "MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj", "{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico", "MedicalHealth.Fiap.Function.Persistencia.AgendaMedico\MedicalHealth.Fiap.Function.Persistencia.Criar.AgendaMedico.csproj", "{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8}"
@@ -79,10 +77,6 @@ Global
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,7 +110,6 @@ Global
 		{73C51A61-29C4-4FB8-8E83-C92A39DE6689} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{115816F4-0822-43DB-B349-232ED4C4C4D5} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{62408B2C-1BCD-49D1-907E-6C844FE30AC9} = {AEBA43F1-92BD-4375-A9B8-A4445E2B3B86}
-		{7F9CFE13-FFEF-4725-B3C8-035F5E6B4983} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{4E95F4CD-C2F7-4099-BE9E-302CEAA3B6A8} = {529CF6BC-1E50-4A1F-9998-E0659304EAE3}
 		{4628FF87-ECAB-43E1-8340-EC7DB0A54DB8} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
 		{A6EF9BDD-1F3C-4A9B-B70F-D8119FDDD3D5} = {FBA9DF61-AEEB-4B7B-AB56-B39EC6ED2804}
