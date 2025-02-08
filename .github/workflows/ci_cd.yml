@@ -172,7 +172,7 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa-criar-consulta
         with:
-          app-name: 'FunctionPersistenciaAtualizarConsulta'
+          app-name: 'FunctionPersistenciaCriarConsulta'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_CONSULTA }}/output/criarconsulta'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A896A7CF00A04A1E9927857B3A8FAE7E }}
