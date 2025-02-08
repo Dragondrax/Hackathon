@@ -38,7 +38,7 @@ jobs:
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
         with:
-          name: .net-api
+          name: api-artifact
           path: $GITHUB_WORKSPACE/publish/api
 
   deploy:
@@ -49,10 +49,14 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Listar artefatos disponíveis antes do download
+        run: ls -la $GITHUB_WORKSPACE
+
       - name: Download API artifact
         uses: actions/download-artifact@v4
         with:
-          name: .net-api
+          name: api-artifact
+          path: $GITHUB_WORKSPACE/publish/api
 
       - name: Login to Azure
         uses: azure/login@v1
