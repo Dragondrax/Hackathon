@@ -1,0 +1,93 @@
+name: Build and deploy dotnet core project to Azure Function App
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+env:
+  #AZURE_FUNCTIONAPP_PACKAGE_PATH  
+  AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.AgendaMedico'
+  AZURE_FUNCTIONAPP_CRIAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Criar.Consulta'
+  AZURE_FUNCTIONAPP_ATUALIZAR_CONSULTA: './MedicalHealth.Fiap.Function.Persistencia.Atualizar.Consulta'
+  #AZURE_FUNCTIONAPP_CRIAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_USUARIO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_CRIAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_MEDICO: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_CRIAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  #AZURE_FUNCTIONAPP_ATUALIZAR_PACIENTE: './MedicalHealth.Fiap.Function.Persistencia.AgendaMedico'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build e Publish API
+        run: |
+          dotnet publish MedicalHealth.Fiap.API -c Release -o app
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Configurar Storage API no Azure
+        run: |
+          az webapp config appsettings set --resource-group "Hackathon" --name "hackathonapigrupo12" \
+          --settings AZURE_WEBJOBS_STORAGE=${{ secrets.AZURE_WEBJOBS_STORAGE }}
+
+      - name: Deploy direto para o Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'hackathonapigrupo12'
+          slot-name: 'Production'
+          package: app
+         
+      - name: 'Debug - List Repository Structure'
+        run: |
+          echo "📂 Listando arquivos no diretório atual:"
+          pwd
+          ls -R
+  
+      - name: 'Resolver Dependencias FUNCTION_CRIAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/criaragendamedico
+          popd
+  
+      - name: 'Publicar FUNCTION_CRIAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}'
+          dotnet publish --configuration Release --output ./output/criaragendamedico
+          popd
+  
+      - name: 'Rodar Action FUNCTION_CRIAR_AGENDAMEDICO'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: 'FunctionPersistenciaCriarAgendaMedico'
+          slot-name: 'Production'
+          package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_38DD225916C44C9EB6239E4C35905D96 }}
+  
+      - name: 'Limpar Diretorio FUNCTION_CRIAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
+
+      - name: Logout do Azure
+        run: az logout
