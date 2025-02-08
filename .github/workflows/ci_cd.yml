@@ -274,7 +274,7 @@ jobs:
       - name: Remover WEBSITE_RUN_FROM_PACKAGE
         run: |
           az webapp config appsettings delete \
-            --resource-group "Hackathon" \
+            --resource-group "HackathonFunction" \
             --name FunctionPersistenciaAtualizarConsulta \
             --setting-names WEBSITE_RUN_FROM_PACKAGE
   
