@@ -21,6 +21,13 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: 'Debug - List Repository Structure'
+        run: |
+          echo "📂 Listando arquivos no diretório atual:"
+          pwd
+          ls -R
+
 
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
