@@ -271,10 +271,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Remover WEBSITE_RUN_FROM_PACKAGE (se aplicável)
-        run: |
-          az functionapp config appsettings delete --name FunctionPersistenciaAtualizarConsulta --resource-group Hackathon --setting-names WEBSITE_RUN_FROM_PACKAGE
-
       - name: Download Artefato FUNCTION_ATUALIZAR_CONSULTA
         uses: actions/download-artifact@v4
         with:
@@ -399,7 +395,7 @@ jobs:
         run: az logout
 
 ################################################################################
-# FUNCTION: CRIAR MÉDICO
+# FUNCTION: CRIAR MÉDICO NÃO CRIADO NO AZURE DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
 ################################################################################
   build-function-criar-medico:
     runs-on: ubuntu-latest
@@ -452,7 +448,7 @@ jobs:
         run: az logout
 
 ################################################################################
-# FUNCTION: ATUALIZAR MÉDICO
+# FUNCTION: ATUALIZAR MÉDICO NÃO CRIADO NO AZURE DEVIDO LIMITAÇÕES DE PLANO E DINHEIRO
 ################################################################################
   build-function-atualizar-medico:
     runs-on: ubuntu-latest
