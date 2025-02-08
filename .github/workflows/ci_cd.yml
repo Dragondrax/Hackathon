@@ -47,7 +47,7 @@ jobs:
           az webapp config appsettings set --resource-group "Hackathon" --name "hackathonapigrupo12" \
           --settings AZURE_WEBJOBS_STORAGE=${{ secrets.AZURE_WEBJOBS_STORAGE }}
 
-      - name: Deploy direto para o Azure Web App
+      - name: Deploy Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'hackathonapigrupo12'
@@ -77,17 +77,47 @@ jobs:
   
       - name: 'Rodar Action FUNCTION_CRIAR_AGENDAMEDICO'
         uses: Azure/functions-action@v1
-        id: fa
+        id: fa-criar-agenda
         with:
           app-name: 'FunctionPersistenciaCriarAgendaMedico'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_38DD225916C44C9EB6239E4C35905D96 }}
-  
-      - name: 'Limpar Diretorio FUNCTION_CRIAR_AGENDAMEDICO'
+
+      ##################################################################################################################################
+      ##################################################################################################################################
+
+      - name: 'Resolver Dependencias FUNCTION_ATUALIZAR_AGENDAMEDICO'
         shell: bash
         run: |
-          rm -rf '${{ env.AZURE_FUNCTIONAPP_CRIAR_AGENDAMEDICO }}/output/criaragendamedico'
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
+          dotnet restore
+          dotnet build --configuration Release --output ./output/atualizaragendamedico
+          popd
+  
+      - name: 'Publicar FUNCTION_ATUALIZAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}'
+          dotnet publish --configuration Release --output ./output/atualizaragendamedico
+          popd
+      
+      - name: 'Rodar Action FUNCTION_ATUALIZAR_AGENDAMEDICO'
+        uses: Azure/functions-action@v1
+        id: fa-atualizar-agenda
+        with:
+          app-name: 'FunctionPersistenciaAtualizarAgendaMedico'
+          slot-name: 'Production'
+          package: '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_399629F90EF5456692CF3972F1AE7ECD  }}
+  
+      - name: 'Limpar Diretorio FUNCTION_ATUALIZAR_AGENDAMEDICO'
+        shell: bash
+        run: |
+          rm -rf '${{ env.AZURE_FUNCTIONAPP_ATUALIZAR_AGENDAMEDICO }}/output/atualizaragendamedico'
+
+      ##################################################################################################################################
+      ##################################################################################################################################  
 
       - name: Logout do Azure
         run: az logout
