@@ -17,77 +17,32 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '8.x'
-          include-prerelease: true
 
-      - name: Limpar dependências
-        run: dotnet clean
-
-      - name: Restaurar dependências
-        run: dotnet restore
-
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
+      - name: Build and publish
         run: |
-          dotnet publish ./MedicalHealth.Fiap.API/MedicalHealth.Fiap.API.csproj -c Release -o $GITHUB_WORKSPACE/publish/api
+          dotnet publish -c Release -o $GITHUB_WORKSPACE/publish
 
-      - name: Verificar arquivos publicados
-        run: ls -la $GITHUB_WORKSPACE/publish/api
-
-      - name: Upload API artifact para GitHub Actions
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: api-artifact
-          path: $GITHUB_WORKSPACE/publish/api
-          if-no-files-found: error
-
-      - name: Upload API para Azure Blob Storage
-        run: |
-          az storage blob upload-batch \
-            --destination hackathon-artifacts \
-            --account-name hackathonstorage \
-            --source $GITHUB_WORKSPACE/publish/api
-        env:
-          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          path: $GITHUB_WORKSPACE/publish
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Listar artefatos disponíveis antes do download
-        run: ls -la $GITHUB_WORKSPACE
-
-      - name: Download API artifact do GitHub Actions
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: api-artifact
-          path: $GITHUB_WORKSPACE/publish/api
-
-      - name: Caso o artefato não seja encontrado, baixar do Azure Blob Storage
-        run: |
-          if [ ! -d "$GITHUB_WORKSPACE/publish/api" ]; then
-            az storage blob download-batch \
-              --destination $GITHUB_WORKSPACE/publish/api \
-              --source hackathon-artifacts \
-              --account-name hackathonstorage
-          fi
-        env:
-          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          path: $GITHUB_WORKSPACE/publish
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'hackathonapigrupo12'
           slot-name: 'Production'
-          package: $GITHUB_WORKSPACE/publish/api
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: $GITHUB_WORKSPACE/publish
