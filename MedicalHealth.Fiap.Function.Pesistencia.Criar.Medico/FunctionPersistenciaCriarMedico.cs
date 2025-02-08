@@ -6,6 +6,8 @@ using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.Dominio.Enum;
 
 namespace MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico
 {
@@ -37,10 +39,12 @@ namespace MedicalHealth.Fiap.Function.Pesistencia.Criar.Medico
 
             var json = Tratamentos.TratarBinaryDataAzureFunction(message.Body);
 
-            var medico = JsonConvert.DeserializeObject<Dominio.Entidades.Medico>(json);
-            var usuarioMedico = new Usuario(Dominio.Enum.UsuarioRoleEnum.Medico, medico.Id, medico.Email);
+            var medico = JsonConvert.DeserializeObject<PersistenciaMedicoDTO>(json);
 
-            var success = await _medicoPersistenciaRepository.PersistirCriacaoMedico(medico, usuarioMedico);
+            var novoMedico = new Dominio.Entidades.Medico(medico.Nome, medico.CPF, medico.CRM, medico.Email, (EspecialidadeMedica)medico.EspecialidadeMedica, medico.ValorConsulta);
+            var usuarioMedico = new Usuario(UsuarioRoleEnum.Medico, novoMedico.Id, novoMedico.Email, medico.Senha);
+
+            var success = await _medicoPersistenciaRepository.PersistirCriacaoMedico(novoMedico, usuarioMedico);
 
             if (success)
                 await messageActions.CompleteMessageAsync(message);

@@ -1,5 +1,4 @@
-﻿using MedicalHealth.Fiap.Data.CacheService;
-using MedicalHealth.Fiap.Data.Context;
+﻿using MedicalHealth.Fiap.Data.Context;
 using MedicalHealth.Fiap.Dominio.Entidades;
 
 namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
@@ -8,12 +7,10 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
     {
         private readonly IUnitOfwork _unitOfWork;
         private readonly MedicalHealthContext _context;
-        private readonly ICacheService _cacheService;
-        public UsuarioPersistenciaRepository(IUnitOfwork unitOfWork, MedicalHealthContext context, ICacheService cacheService) 
+        public UsuarioPersistenciaRepository(IUnitOfwork unitOfWork, MedicalHealthContext context) 
         {
             _unitOfWork = unitOfWork;
             _context = context;
-            _cacheService = cacheService;
         }
         public async Task<bool> PersistirCriacaoUsuario(Usuario usuario)
         {
@@ -22,8 +19,6 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
             {
                 _context.Usuario.Add(usuario);
                 await _unitOfWork.CommitTransactionAsync();
-
-                await _cacheService.SetAsync($"usuario:{usuario.Id}", usuario);
 
                 return true;
             }
@@ -41,8 +36,6 @@ namespace MedicalHealth.Fiap.Data.Persistencia.UsuarioRepository
             {
                 _context.Update(usuario);
                 await _unitOfWork.CommitTransactionAsync();
-
-                await _cacheService.SetAsync($"usuario:{usuario.Id}", usuario);
 
                 return true;
             }

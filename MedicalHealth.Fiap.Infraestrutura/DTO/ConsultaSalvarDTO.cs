@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MedicalHealth.Fiap.SharedKernel.Mensagens;
-using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 
 namespace MedicalHealth.Fiap.Infraestrutura.DTO
 {

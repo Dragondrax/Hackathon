@@ -62,7 +62,7 @@ namespace MedicalHealth.Fiap.API.Controllers
             if (resultado.Sucesso)
                 return Ok(resultado);
             else if (resultado.Sucesso == false && resultado.Objeto is null && resultado.Mensagem.Any())
-                return BadRequest(resultado.Mensagem);
+                return NotFound(resultado.Mensagem);
             else
                 return StatusCode(500, MensagemGenerica.MENSAGEM_ERRO_500);
         }

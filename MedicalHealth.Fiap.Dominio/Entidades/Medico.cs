@@ -30,6 +30,7 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
             CPF = cpf;
             CRM = crm;
             Email = email;
+            SnAtivo = true;
             EspecialidadeMedica = especialidadeMedica;
             ValorConsulta = valorConsulta;
         }

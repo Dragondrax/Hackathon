@@ -24,15 +24,15 @@ namespace MedicalHealth.Fiap.Aplicacao.Paciente
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var existePaciente = await BuscarPacientePorEmail(new BuscarEmailDTO(pacienteDTO.Email));
+            var existePaciente = await _pacienteRepository.ObterPacientePorEmailAsync(pacienteDTO.Email);
 
-            if (existePaciente.Sucesso)
+            if (existePaciente != null)
             {
                 _mensagem.Add(MensagemPaciente.MENSAGEM_PACIENTE_JA_EXISTENTE);
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoPaciente = new Dominio.Entidades.Paciente(pacienteDTO.Nome, pacienteDTO.CPF, pacienteDTO.Email);
+            var novoPaciente = new PersistenciaPacienteDTO(pacienteDTO.Nome, pacienteDTO.CPF, pacienteDTO.Email, pacienteDTO.Senha);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaPaciente.FILA_PERSISTENCIA_CRIAR_PACIENTE, JsonConvert.SerializeObject(novoPaciente));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);

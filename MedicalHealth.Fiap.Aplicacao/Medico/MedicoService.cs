@@ -1,6 +1,7 @@
 ﻿using MedicalHealth.Fiap.Dominio.Enum;
 using MedicalHealth.Fiap.Dominio.Interfaces;
 using MedicalHealth.Fiap.Infraestrutura.DTO;
+using MedicalHealth.Fiap.Infraestrutura.Enum;
 using MedicalHealth.Fiap.SharedKernel.Filas;
 using MedicalHealth.Fiap.SharedKernel.MensagensErro;
 using MedicalHealth.Fiap.SharedKernel.Model;
@@ -65,15 +66,15 @@ namespace MedicalHealth.Fiap.Aplicacao.Medico
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var existeMedico = _medicoRepository.ObterPorCRMAsync(medicoDTO.CRM);
+            var existeMedico = await _medicoRepository.ObterPorCRMAsync(medicoDTO.CRM);
 
-            if (existeMedico == null)
+            if (existeMedico != null)
             {
                 _mensagem.Add(MensagemMedico.MENSAGEM_CRM_JA_EXISTENTE);
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoMedico = new Dominio.Entidades.Medico(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, (EspecialidadeMedica)medicoDTO.EspecialidadeMedica, medicoDTO.ValorConsulta);
+            var novoMedico = new PersistenciaMedicoDTO(medicoDTO.Nome, medicoDTO.CPF, medicoDTO.CRM, medicoDTO.Email, medicoDTO.Senha, snAtivo:true, medicoDTO.ValorConsulta, (Especialidade)medicoDTO.EspecialidadeMedica);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaMedico.FILA_PERSISTENCIA_CRIAR_MEDICO, JsonConvert.SerializeObject(novoMedico));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);

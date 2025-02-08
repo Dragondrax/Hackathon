@@ -25,12 +25,12 @@ namespace MedicalHealth.Fiap.Dominio.Entidades
         {
             
         }
-        public Usuario(UsuarioRoleEnum role, Guid? id, string email)
+        public Usuario(UsuarioRoleEnum role, Guid? id, string email, string senha)
         {
             Role = role;
             GrupoUsuarioId = id;
             Email = email;
-            Senha = GerarSenha.Aleatoria();
+            Senha = senha;
             PrimeiroAcesso = true;
         }
 

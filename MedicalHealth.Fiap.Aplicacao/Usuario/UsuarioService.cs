@@ -92,7 +92,7 @@ namespace MedicalHealth.Fiap.Aplicacao.Usuario
                 return new ResponseModel(_mensagem, false, null);
             }
 
-            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, null, usuarioDTO.Email);
+            var novoUsuario = new Dominio.Entidades.Usuario((UsuarioRoleEnum)usuarioDTO.Role, null, usuarioDTO.Email, usuarioDTO.Senha);
 
             await _enviarMensagemServiceBus.EnviarMensagemParaFila(PersistenciaUsuario.FILA_PERSISTENCIA_CRIAR_USUARIO, JsonConvert.SerializeObject(novoUsuario));
             _mensagem.Add(MensagemGenerica.MENSAGEM_SUCESSO);

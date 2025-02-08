@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedicalHealth.Fiap.Data.Persistencia\MedicalHealth.Fiap.Data.Persistencia.csproj" />
+    <ProjectReference Include="..\MedicalHealth.Fiap.Infraestrutura\MedicalHealth.Fiap.Infraestrutura.csproj" />
     <ProjectReference Include="..\MedicalHealth.Fiap.IoC\MedicalHealth.Fiap.IoC.csproj" />
   </ItemGroup>
   <ItemGroup>

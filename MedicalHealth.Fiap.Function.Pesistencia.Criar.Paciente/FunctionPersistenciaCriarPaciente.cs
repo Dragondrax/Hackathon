@@ -6,6 +6,7 @@ using MedicalHealth.Fiap.SharedKernel.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using MedicalHealth.Fiap.Infraestrutura.DTO;
 
 namespace MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente
 {
@@ -16,8 +17,8 @@ namespace MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente
         private readonly IUsuarioPersistenciaRepository _usuarioPersistenciaRepository;
 
         public FunctionPersistenciaCriarPaciente(
-            ILogger<FunctionPersistenciaCriarPaciente> logger, 
-            IPacientePersistenciaRepository pacientePersistenciaRepository, 
+            ILogger<FunctionPersistenciaCriarPaciente> logger,
+            IPacientePersistenciaRepository pacientePersistenciaRepository,
             IUsuarioPersistenciaRepository usuarioPersistenciaRepository)
         {
             _logger = logger;
@@ -37,22 +38,17 @@ namespace MedicalHealth.Fiap.Function.Pesistencia.Criar.Paciente
 
             var json = Tratamentos.TratarBinaryDataAzureFunction(message.Body);
 
-            var paciente = JsonConvert.DeserializeObject<Dominio.Entidades.Paciente>(json);
-            var usuarioPaciente = new Usuario(Dominio.Enum.UsuarioRoleEnum.Paciente, paciente.Id, paciente.Email);
+            var paciente = JsonConvert.DeserializeObject<PersistenciaPacienteDTO>(json);
+            var novoPaciente = new Dominio.Entidades.Paciente(paciente.Nome, paciente.CPF, paciente.Email);
+            var usuarioPaciente = new Usuario(Dominio.Enum.UsuarioRoleEnum.Paciente, novoPaciente.Id, novoPaciente.Email, paciente.Senha);
 
-            var success = await _pacientePersistenciaRepository.PersistirCriacaoPaciente(paciente);
+            var success = await _pacientePersistenciaRepository.PersistirCriacaoPaciente(novoPaciente, usuarioPaciente);
 
             if (success)
-            {
-                var usuarioSucess = await _usuarioPersistenciaRepository.PersistirCriacaoUsuario(usuarioPaciente);
-
-                if (usuarioSucess)
-                    await messageActions.CompleteMessageAsync(message);
-                else
-                    await messageActions.DeadLetterMessageAsync(message);
-            }
+                await messageActions.CompleteMessageAsync(message);
             else
                 await messageActions.DeadLetterMessageAsync(message);
+
         }
     }
 }
