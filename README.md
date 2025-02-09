@@ -14,7 +14,7 @@ Todo o planejamento e desenvolvimento foi voltado ao ambiente Azure, sendo assim
 ## 📋 Arquitetura
 Em nossa arquitetura utilizamos o GitHub como o versionamento de código com integração a Azure para publicação dos projetos pelo CI/CD.
 
-Como pensamos em uma estrutura Azure, imaginando que a não teríamos restrições por conta de plano, mesmo ativando com o cartão de crédito o plano Basic, não foi possível aplicar todas as condições que colocamos aqui devido às restrições financeiras, tendo assim restrições de uso. Senado assim utilizamos os recursos disponibilizados dentro do crédito gratuito de 200 dólares com a conta mais básica ali do Azure. 
+Como pensamos em uma estrutura Azure, imaginando que a não teríamos restrições por conta de plano, mesmo ativando com o cartão de crédito o plano Basic, não foi possível aplicar todas as condições que colocamos aqui devido às restrições financeiras, tendo assim restrições de uso. Sendo assim utilizamos os recursos disponibilizados dentro do crédito gratuito de 200 dólares com a conta mais básica da Azure. 
   
 Iniciando pela nossa API temos o service que é o responsável pelo processamento de toda a nossa regra de negócio, sendo tratada nessa etapa. Assim que a regra de negócio é tratada, enviamos os dados para o Service Bus que está na Azure, onde ele ajuda a garantir que o banco não vai ser sobrecarregado, e ele controla a nossa fila de dados a persistência no banco.
 
